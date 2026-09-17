@@ -14,8 +14,8 @@ The content in this folder is project-independent and serves as a centralized kn
 
 Reference notes and summaries related to:
 
-- EN 50126
-- EN 50128
+- EN 50126-1:2017
+- EN 50716
 - EN 50129
 - IEC 60812
 - IEC 61709
