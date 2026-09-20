@@ -1,0 +1,17 @@
+%% fig01_stops
+flowchart LR
+    u[""What have I missed?""]
+    edge["Signed-in Edge profile (as you)"]
+    read["List / search / read"]
+    json[("mail_data.json")]
+    gate{"Header gate: is this the right message?"}
+    draft[/"Reply form filled in"/]
+    stop{"STOPS HERE"}
+    you["You read it and press Send"]
+    u --> edge
+    edge --> read
+    read --> json
+    edge --> gate
+    gate -->|matches| draft
+    draft --> stop
+    stop -.-> you
