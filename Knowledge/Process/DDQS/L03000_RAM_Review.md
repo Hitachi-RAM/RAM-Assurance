@@ -27,6 +27,23 @@ However, RAM is still mainly mentioned as a discipline or design consideration. 
 | Roles and references | RAMT appears in engineering plans and a RAMT Instruction is listed. | Generic Project Engineer/Solution Development Team responsibilities are defined; activity references are repeatedly marked `to be assigned`. | **Gap**: RAM authority, competence, independence and reference documents are not controlled. |
 | Tailoring | The former gated process made the applicable reviews and activities visible. | Tailoring may reduce/combine activities and merge deliverables while preserving traceability, verification and safety principles. | **Risk**: RAM minimum activities are not protected from inappropriate tailoring. |
 
+## Where to raise the comments in L03000
+
+Use the following locations in the new process when entering review comments. Where a finding affects more than one control point, raise it at the first listed location and cross-reference the other locations in the same comment.
+
+| Review finding | Exact L03000 location for the comment | Required linked update |
+| --- | --- | --- |
+| RAM-01 RAM plan and planning baseline | **DDQ-02 Plan and Coordinate Solution Development**, immediately after the activity requiring discipline-specific plans; also in **Activities and Deliverables**. | Add the RAM plan/integrated-plan requirement and list the RAM plan as a controlled output in **INPUT AND OUTPUT DETAILS**. |
+| RAM-02 RAM allocation and flow-down | **DDQ-03 Capture and Manage Requirements**, immediately after “Identify and formalise ... RAM ... requirements”; cross-reference **DDQ-05 Design Solution** for allocation to Solution Items. | Add target hierarchy, allocation, margins, assumptions, interfaces and residual-gap control to the requirements and configuration baselines. |
+| RAM-03 RAM analyses and work products | **DDQ-05 Design Solution**, after “Perform analyses and trade-offs supporting design decisions”; cross-reference **DDQ-07 Integrate, Verify & Validate Solution**. | Add the applicability-based minimum RAM analysis set and the required method, model-boundary, data-quality and uncertainty records. |
+| RAM-04 RAM verification and acceptance | **DDQ-07 Integrate, Verify & Validate Solution**, after the activities for verification methods, evidence and qualification; also in **G-TRN L03000 Design, Develop and Qualify Solution Transition Rules**. | Add RAM verification methods, acceptance criteria, evidence content and RAM entry/exit checks at applicable milestones. |
+| RAM-05 Maintainability and availability | **DDQ-05 Design Solution**, after the design trade-off activities; cross-reference **DDQ-09 Manage Obsolescence within Solution Development** for lifecycle availability and maintainability. | Add maintainability targets, maintenance concept, restoration assumptions, logistics, degraded modes and availability modelling where applicable. |
+| RAM-06 FRACAS and lifecycle feedback | **DDQ-07 Integrate, Verify & Validate Solution**, after “Identify issues ...”; cross-reference **DDQ-13 Manage Engineering Discipline** and **INPUT AND OUTPUT DETAILS** for handover. | Add the FRACAS interface, failure/field-data feedback loop, corrective-action updates and development-to-service handover outputs. |
+| RAM-07 RAM role and competence | **R.A.C.I.** section for the full L03000 process. | Add RAM Engineer/RAM Manager (or approved equivalent) and assign responsibility/accountability for planning, analyses, evidence, deviations and feedback. |
+| RAM-08 References | **DOCUMENTS TREE** and each activity’s `Reference L2 docs: to be assigned` line, especially DDQ-02, DDQ-03, DDQ-05 and DDQ-07. | Assign the RAM procedure, prediction/data guidance, FMEA/FMECA method, availability/maintainability method, FRACAS interface and evidence templates. |
+| RAM-09 Tailoring | **TAILORING GUIDELINES**, under “Tailoring of the standard process shall be justified and traceable”; cross-reference **Activities and Deliverables**. | Add RAM to the principles protected from tailoring and require applicability, exclusion justification, approval and residual coverage. |
+| RAM-10 RAM KPIs | **MEASURES** section and **G-KPI L03001 Design, Develop and Qualify Solution KPIs** in the DOCUMENTS TREE. | Add RAM completeness, target compliance, open-gap, action closure, failure recurrence and data-quality KPIs. |
+
 ## Findings and required improvements
 
 ### RAM-01 - Missing RAM management and planning baseline
