@@ -38,11 +38,13 @@ L03000 shall identify the accountable RAMS role and the interfaces between the P
 
 L03000 shall reference the dedicated SRS RAMS process as the controlling process for detailed RAM activities and methods. It shall define the required interface outputs at a high level, including RAM applicability/status, required RAMS deliverables, open actions, deviations, compliance status and evidence handover. Without this reference, the overall process does not establish how RAM assurance is performed or integrated into development acceptance.
 
-### G-03 - Tailoring shall not remove RAM governance
+### G-03 - Tailoring shall not remove mandatory plans and deliverables
 
-**Location:** TAILORING GUIDELINES and Activities and Deliverables.
+**Location:** TAILORING GUIDELINES, specifically **Project Tailoring Documentation and Approval**.
 
-L03000 shall state that tailoring may scale or combine RAM activities, but shall not remove the RAM Plan, RAMS accountability, required interfaces, traceability or milestone evidence. Tailoring records shall identify the applicable RAMS process, any combined or excluded activities, the justification and approval, and how RAM objectives and acceptance evidence remain covered.
+**Suggested single bullet:**
+
+> Tailoring shall comply with applicable CENELEC standards and contractual requirements and shall identify mandatory plans/deliverables that shall not be omitted, including the RAM Plan and Safety Plan where applicable; any reduction or combination shall be justified and approved.
 
 ## Main changes with RAM relevance
 
