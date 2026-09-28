@@ -1,6 +1,6 @@
 # ELEKTRA SBB – Vergleich Angebot und SBB-Anforderungen
 
-**Stand:** 24.09.2026  
+**Stand:** 28.09.2026  
 **Projekt:** Anlagenbeobachtung ELEKTRA CH / SBB
 
 ## 1. Grundlage
@@ -11,23 +11,44 @@ Referenzen:
 
 - [Hitachi-Angebot vom 22.07.2026](20260722_Angebot_Anlagenbeobachtung%20CH_Elektra.docx)
 - [Hitachi-Angebot vom 24.07.2026](20260724_Angebot_Anlagenbeobachtung%20CH_Elektra.docx)
+- [Hitachi-Angebot vom 17.08.2026 (unterzeichnet)](20260817_Angebot_Anlagenbeobachtung%20CH_Elektra_signed.pdf) ← **aktuellste Version mit finalen Preisen**
 - [SBB-Rückmeldung / Weiterleitung](FW_%20Unser%20Angebot%20_Erweiterte%20Anlagebeobachtung%20ELEKTRA1_.msg)
 - [SBB-Prüfliste kritischer Baugruppen](Anfrage%20Pr%C3%BCfung%20von%20Baugruppen%20aus%20AAL_2025-07-04_Ed1p03-AT.xlsx)
 
+### Aktualisierung: Angebot vom 17.08.2026
+
+Das neue, unterzeichnete Angebot vom 17.08.2026 konkretisiert die Preise und Termine definitiv:
+
+| Element | Wert |
+| --- | --- |
+| **Initialaufwand** | 122.083,00 EUR |
+| **Anlagenbeobachtung 3 Jahre** | 347.601,30 EUR |
+| **Obsoleszenz Management 3 Jahre** | 84.966,00 EUR |
+| **Gesamt für 3 Jahre** | **554.650,30 EUR** |
+| **Bestellung** | Q4/2026 |
+| **Start Beobachtung** | Q3/2027 |
+| **1. Report** | Ende Q1/2028 |
+| **Letzter Report (3-Jahre-Paket)** | Ende Q3/2030 |
+| **Erste Kündigung möglich** | Ende Q4/2029 |
+| **Jährliche Verlängerung danach** | 144.189,10 EUR/Jahr |
+| **Gültig bis** | 30.10.2026 |
+
 ## 2. Vergleich
 
-| Thema | Hitachi-Angebot | SBB-Erwartung |
-| --- | --- | --- |
-| Hauptziel | Halbjährliche Anlagenbeobachtung mit RAM-/Safety-Bewertung plus Obsoleszenzmanagement | Praxisnahe Bewertung der verbleibenden ELEKTRA-1-Lebensdauer |
-| Fokus | ELEKTRA 1 als Zielsystem; ELEKTRA 2 zusätzlich als statistische Referenzbasis, weil neun ELEKTRA-1-Anlagen allein zu wenig Daten liefern | Primär ELEKTRA 1 und obsolete bzw. kritische Hardware |
-| Hardwareumfang | Schwerpunkt Interface-Leiterplatten und Relaisbeanspruchung | Zusätzlich Rechner-Hardware |
-| Methodik | DGP-Auswertung, Relais-Schaltspiele, erwartete vs. tatsächliche Reparaturen, Altersklassen | Ausfallstatistik, detaillierte Fehlerbilder, Fehlercluster und Zuordnung zu Baugruppen |
-| Altersbewertung | Im aktuellen CH-Angebot nicht ausdrücklich beschrieben; 5-Jahres-Scheiben stammen aus dem früheren Angebotsansatz | 5-Jahres-Scheiben allein werden nicht als zielführend angesehen |
-| Prognose | Technische Einschätzung hauptsächlich bis zum nächsten Bericht | Aussage über die restliche ELEKTRA-1-Lebensdauer gewünscht |
-| Maßnahmen | Empfehlungen bei Auffälligkeiten; Obsoleszenzmaßnahmen separat | Konkrete Maßnahmen für die Ziel-Lebensdauer, z. B. Bevorratung und Know-how-Sicherung |
-| ELEKTRA 2 | Zusätzliche statistische Population, insbesondere wegen der geringen Anzahl von Rechnerleiterplatten je ELEKTRA-1-Anlage | Interface-Karten von ELEKTRA 2 separat im Obsoleszenzmanagement betrachten; die statistische Nutzung als Referenzbasis ist damit noch abzugrenzen |
-| SBB-Datenlieferung | Teilweise Zuarbeit über das Service-Portal vorausgesetzt | Service-Portal ist für SBB nicht nutzbar; SBB arbeitet mit SIP 2.0 |
-| Ergebnis | Halbjährlicher RAM-/Safety-Bericht | Fehler- und Baugruppenanalyse mit Abgleich gegen den SBB-Obsoleszenzplan |
+| Thema | Hitachi-Angebot (17.08.2026) | SBB-Erwartung | Status |
+| --- | --- | --- | --- |
+| Hauptziel | Halbjährliche Anlagenbeobachtung mit RAM-/Safety-Bewertung plus Obsoleszenzmanagement | Praxisnahe Bewertung der verbleibenden ELEKTRA-1-Lebensdauer | ⚠️ Eingrenzung offen |
+| Fokus | ELEKTRA 1 als Zielsystem; ELEKTRA 2 zusätzlich als statistische Referenzbasis, weil 9 ELEKTRA-1-Anlagen allein zu wenig Daten liefern | Primär ELEKTRA 1 + obsolete/kritische Hardware | ✓ Begründet |
+| Hardwareumfang | Schwerpunkt Interface-Leiterplatten + Relaisbeanspruchung | Zusätzlich Rechner-Hardware | ⚠️ Nicht explizit adressiert |
+| Methodik | DGP-Auswertung, Relais-Schaltspiele, erwartete vs. tatsächliche Reparaturen | Ausfallstatistik, Fehlerbilder, Fehlercluster, Zuordnung zu Baugruppen | ⚠️ Unterschiedliche Ansätze |
+| Altersbewertung | Im aktuellen CH-Angebot nicht ausdrücklich beschrieben | 5-Jahres-Scheinen allein nicht zielführend | ⚠️ Konkretisierung ausstehend |
+| Prognose | Technische Einschätzung hauptsächlich bis nächster Bericht; **Hinweis:** "Zeitraum ausgewiesen, in dem nicht mit signifikantem Fehleranstieg zu rechnen ist" (aber keine ungebundene Lebensdauerprognose) | Aussage über restliche ELEKTRA-1-Lebensdauer gewünscht | ⚠️ Vorsichtlich formuliert |
+| Maßnahmen | Empfehlungen bei Auffälligkeiten; Obsoleszenzmaßnahmen mit Bewertung | Konkrete Maßnahmen für Ziel-Lebensdauer (Bevorratung, Know-how-Sicherung) | ⚠️ Eher strategisch als konkret |
+| ELEKTRA 2 | Statistische Referenzbasis wegen geringer Rechnerleiterplatten pro EL1-Anlage | Interface-Karten von EL2 separat im Obsoleszenzmanagement; statistische Nutzung noch abzugrenzen | ✓ Begründung plausibel |
+| SBB-Datenlieferung | Zuarbeit über Service-Portal vorausgesetzt | Service-Portal nicht nutzbar; SBB arbeitet mit SIP 2.0 | ⚠️ Kritisch: Datenquelle klärt nicht |
+| Preis | **554.650,30 EUR** für 3 Jahre (incl. Initialaufwand); danach **144.189,10 EUR/Jahr** | Keine Budgetvorgabe genannt | ✓ Nun konkret |
+| Timeline | Start Q3/2027; 1. Report Ende Q1/2028; Letzter Report Ende Q3/2030 | Keine Timeline genannt | ✓ Nun konkret |
+| Ergebnis | Halbjährliche firmeneigene Erklärung zur Gültigkeit des Sicherheitsnachweises | Fehler- und Baugruppenanalyse mit Abgleich gegen SBB-Obsoleszenzplan | ⚠️ Anderer Schwerpunkt |
 
 ## 3. Was SBB vermutlich beauftragen möchte
 
@@ -126,9 +147,59 @@ Vor einer Beauftragung müssen mindestens folgende Punkte geklärt werden:
 - Welche Aussage zur Restlebensdauer ist fachlich und haftungsrechtlich zulässig?
 - Soll das Ergebnis ein halbjährlicher Report, ein einmaliger Lebensdauerbericht oder beides sein?
 
-## 7. Fachliche Schlussfolgerung
+### 6.1 Update: Angebot 17.08.2026 — Welche Fragen beantwortet sind
 
-SBB möchte kein reines Obsoleszenz-Reporting und auch nicht ausschließlich den bisherigen AT-Ansatz. Gewünscht ist ein baugruppenbezogenes, ausfallstatistisches Lebensdauer-Reporting für ELEKTRA 1, das mit dem SBB-Obsoleszenzplan abgeglichen wird und konkrete Maßnahmen für den Weiterbetrieb ableitet.
+Das neue, unterzeichnete Angebot vom 17.08.2026 konkretisiert folgende Punkte:
+
+| Frage | Status | Erkenntnis aus August-Angebot |
+| --- | --- | --- |
+| Daten-Zuordnung | ✓ Adressiert | "Zuordnung der einzelnen Reparaturen zu den Betriebsstellen" wird gefordert (optimal rückwirkend 3 Jahre, minimum 6 Monate); danach monatliche Lieferung |
+| Installierte Hardware | ✓ Adressiert | "Vollständige Aufstellung ∑ Summe der eingesetzten Interface-Leiterplatten pro Betriebsstelle" wird gefordert; auch Umbauten müssen erfasst sein |
+| Rohdaten-Frequenz | ✓ Adressiert | "Die entsprechenden Rohdaten werden monatlich zur Verfügung gestellt" |
+| Reporting-Rhythmus | ✓ Konkret | Halbjährliche Reports; 1. Report Ende Q1/2028; letzte Report Ende Q3/2030 |
+| Scope of Work | ✓ Konkret | Fokus: Relais-Alterung, Interface-Board-Beanspruchung, erwartete vs. empirische Fehlerraten; firmeneigene Sicherheitserklärung halbjährlich |
+| Restlebensdauer-Aussage | ⚠️ Vorsichtig | "Zeitraum ausgewiesen, in dem im Rahmen der technischen Möglichkeiten nicht mit einem signifikanten Anstieg der Fehlerrate zu rechnen ist" — aber keine ungebundene Prognose zugesagt |
+| Timeline | ✓ Konkret | Q4/2026 Bestellung; Q3/2027 Start; Q1/2028–Q3/2030 Reports |
+| Preis | ✓ Konkret | 554.650,30 EUR über 3 Jahre (incl. Initialaufwand); danach 144.189,10 EUR/Jahr |
+| ELEKTRA 2 | ✓ Begründet | Explizite Erwähnung: "Mit den oben genannten ELEKTRA 1.0 Anlagen ist es jedoch nicht möglich, diverse statistische Aussagen zu treffen. Um hier entsprechende Aussagen treffen zu können, wurde gemeinsam mit Hitachi Rail Schweiz vereinbart, ebenfalls die ELEKTRA 2.0 Anlagen mit zu betrachten." |
+| Service-Portal | ⚠️ Nicht gelöst | Angebot spricht noch von "monatliche Zuordnung", nicht von SIP-2.0-Schnittstelle oder Datenquelle |
+
+## 7. Fachliche Schlussfolgerung (aktualisiert 28.09.2026)
+
+### 7.1 Fortschritt durch das Angebot vom 17.08.2026
+
+Das unterzeichnete Angebot vom 17.08.2026 konkretisiert die Leistungsdefinition erheblich:
+
+1. **Datenfluss geklärt:** SBB muss Reparaturdaten mit Betriebsstelle-Zuordnung **monatlich** liefern (optimal rückwirkend 3 Jahre, minimum 6 Monate).
+2. **Installierte Basis:** Hitachi fordert explizit eine vollständige Aufstellung der eingesetzten Interface-Leiterplatten je Betriebsstelle, incl. Umbauten.
+3. **ELEKTRA-2-Begründung schriftlich fixiert:** Das Angebot erklärt klar, warum ELEKTRA 2 hinzugezogen wird: neun ELEKTRA-1-Anlagen allein ermöglichen "diverse statistische Aussagen" nicht. Das ist eine legitime methodische Begründung, erfordert aber eine klare Trennung der Ergebnisse.
+4. **Timeline konkret:** Bestellung Q4/2026, Start Q3/2027, regelmäßige halbjährliche Reports von Q1/2028 bis Q3/2030.
+5. **Preis transparent:** 554.650,30 EUR für 3 Jahre, danach 144.189,10 EUR/Jahr für Verlängerungen.
+6. **Sicherheitsnachweis-Erklärung:** Hitachi wird halbjährlich firmeneigene Erklärung zur Gültigkeit des Sicherheitsnachweises ausstellen (nicht Gutachten).
+7. **Vorsichtige Restlebensdauer-Aussage:** "Zeitraum ausgewiesen, in dem nicht mit signifikantem Fehleranstieg zu rechnen ist" — fachlich defensibel, da szenariogebunden.
+
+### 7.2 Noch offene methodische Punkte
+
+Folgende Aspekte sind im August-Angebot nicht vollständig adressiert:
+
+1. **SIP-2.0-Schnittstelle:** Das Angebot spricht von "monatlich zu stellende Daten", nicht von einer direkten SIP-2.0-Integration. SBB muss klären, wie die Datenlieferung praktisch erfolgt (Export, API, manuell).
+2. **Fehlercluster-Methodik:** Das Angebot nennt "Identifizierung von Ausfallverhalten" und "Relais-Schaltspiele", erwähnt aber nicht explizit die Fehlercluster-Gruppierung, die SBB als Kernmethode fordert.
+3. **Rechner-Hardware-Scope:** Der Fokus liegt auf Interface-Leiterplatten und Relais. Ob Rechner-Hardware (CPU, Speicher) gleich behandelt wird, ist nicht explizit geklärt.
+4. **Abgrenzung ELEKTRA 1 / ELEKTRA 2 im Report:** Das Angebot sagt nicht, wie die Ergebnisse getrennt oder zusammengefasst werden. Wird es einen Bericht geben, der "ELEKTRA-1-Daten" und "ELEKTRA-2-Referenzen" klar unterscheidet?
+
+### 7.3 Empfehlung für die nächste Phase
+
+Das Angebot ist nun konkret genug für eine verhandelte Konkretisierung. SBB sollte in einer Kick-off-Abstimmung folgende Punkte klären:
+
+| Punkt | Empfohlener Klärungsvorschlag |
+| --- | --- |
+| Datenquelle | Vereinbarung einer SIP-2.0-Export-Schnittstelle oder eines wöchentlichen Exports (mit Feldern gemäß Abschnitt 4.2 oben) |
+| Fehlercluster | Explizite Aufnahme einer Fehler-Clusteranalyse in den Scope; Definition von Fehler-Kategorien (HW-Ausfälle, Kontaktprobleme, Umwelteinflüsse, Verschleiß, etc.) |
+| Rechner-Hardware | Klarstellung, ob Rechner-Hardware (z. B. CPU, Speicher aus ELEKTRA-1-Anlagen) in gleicher Tiefe wie Interface-Leiterplatten analysiert wird |
+| EL1/EL2-Reporting | Vereinbarung, dass der Bericht explizit zwischen ELEKTRA-1-Daten und ELEKTRA-2-Referenzdaten unterscheidet |
+| Maßnahmen-Ableitung | Klärung, in welchen Szenarien Hitachi konkrete Maßnahmen (Bevorratung, Alternative, Migration) vorschlägt oder nur Risiken aufzeigt |
+
+### 7.4 Fachliche Bewertung der Statistischen Ausgangslage
 
 Die ursprüngliche Hitachi-Annahme bleibt fachlich maßgeblich: Die neun verbleibenden ELEKTRA-1-Anlagen und die geringe Anzahl von Rechnerleiterplatten je Anlage reichen allein voraussichtlich nicht aus, um für einzelne Baugruppentypen robuste statistische Aussagen zu treffen. ELEKTRA 2 wurde deshalb als zusätzliche statistische Referenzbasis vorgesehen. Das ist kein Widerspruch zum SBB-Fokus auf ELEKTRA 1, erfordert aber eine klare methodische Trennung:
 
