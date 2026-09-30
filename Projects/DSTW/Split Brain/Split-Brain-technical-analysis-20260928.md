@@ -416,7 +416,60 @@ DT=U_{triple,CCF}\times525{,}600
 =0.001424\ \mathrm{sec/year}
 $$
 
-The CCF contribution to the combined condition is $U_{CR,CCF}U_S=4.48\times10^{-11}$, while the independent double-core-router contribution is $U_{CR,ind}U_S=3.4420736\times10^{-13}$. Thus, even though the single-router failure is required, the CCF remains the dominant contribution within the combined network-failure calculation.
+###### Interpretation of the combined contributions
+
+The combined network-failure condition has two alternative paths. In both paths, the single router must be unavailable, so the single-router unavailability $U_S=0.000028$ is a common multiplier.
+
+###### CCF path
+
+The 200 FIT core-router CCF makes both core routers unavailable, and the single router is also unavailable:
+
+$$
+U_{CCF\ path}=U_{CR,CCF}U_S
+=0.0000016\times0.000028
+=0.0000000000448
+$$
+
+###### Independent path
+
+Two independent core-router failures overlap within the repair interval, and the single router is also unavailable:
+
+$$
+U_{ind\ path}=U_{CR,ind}U_S
+=0.00000001229312\times0.000028
+=0.00000000000034420736
+$$
+
+The total is the sum of these mutually alternative paths:
+
+$$
+U_{total}=0.0000000000448+0.00000000000034420736
+=0.00000000004514420736
+$$
+
+The percentage contribution of each path is calculated against this total:
+
+$$
+\mathrm{CCF\ share}
+=\frac{U_{CCF\ path}}{U_{total}}\times100
+=\frac{0.0000000000448}{0.00000000004514420736}\times100
+=99.237538\%\approx99.24\%
+$$
+
+$$
+\mathrm{Independent\ share}
+=\frac{U_{ind\ path}}{U_{total}}\times100
+=\frac{0.00000000000034420736}{0.00000000004514420736}\times100
+=0.762462\%\approx0.76\%
+$$
+
+The rounded shares add to 100.00%:
+
+$$
+99.24\%+0.76\%=100.00\%
+$$
+
+The CCF path is approximately **130 times larger** than the independent path and contributes approximately **99.24%** of the total combined unavailability. The independent path contributes approximately **0.76%**. The single-router requirement reduces both paths by the same factor; it does not change the comparison between them. Consequently, the CCF remains the dominant contributor even though the single-router failure is also required for total network failure.
 
 ## 5. Technical findings
 
