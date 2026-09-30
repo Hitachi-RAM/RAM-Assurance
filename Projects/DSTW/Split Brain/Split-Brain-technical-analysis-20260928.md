@@ -43,6 +43,8 @@ The proposal states that the supervision channel prevents a slave CN from becomi
 
 The proposal does not improve safety inside a data centre if the reference two-channel design already prevents the relevant double-fault hazard. Its principal safety benefit is for loss or transient unavailability of the main inter-site/core-router paths. The additional device and ServiceLink routing also introduce availability and maintainability trade-offs.
 
+![Split Brain topology](split-brain-topology.png)
+
 ## 4. RAM calculation review
 
 ### 4.1 Inputs from the preliminary workbook
@@ -154,6 +156,22 @@ $$
 | 8 | 201.537 | 4,961,877 | 566.42 | 99.99983877 | $1.612 \times 10^{-6}$ | 0.8474 |
 | 12 | 202.305 | 4,943,033 | 564.27 | 99.99975723 | $2.428 \times 10^{-6}$ | 1.2760 |
 | 24 | 204.610 | 4,887,349 | 557.92 | 99.99950894 | $4.911 \times 10^{-6}$ | 2.5810 |
+
+### 4.3.1 Exposure questions and answers
+
+The following answers use an 8-hour MTTR as the reference case and assume that the purple mini-router/supervision link remains available and correctly performs its master-election prevention function. The exposure values are expected accumulated exposure per year; the duration of an individual event is represented by the assumed MTTR.
+
+#### Question 1: Both big core routers are down due to independent faults while the mini-router remains available. What is the exposure?
+
+> **Answer:** For an 8-hour MTTR, the expected accumulated exposure is **0.00646 min/year**, equivalent to approximately **0.39 seconds/year**. The independent both-core-router failure rate is **1.537 FIT**.
+
+Because the purple supervision channel remains available, this condition should result in a blocked or controlled master-election state rather than an active Split Brain, provided the supervision channel is independent, correctly monitored, and correctly configured.
+
+#### Question 2: What is the exposure for a common-cause failure of both big core routers while the mini-router remains available?
+
+> **Answer:** For an 8-hour MTTR and a beta factor of 0.02, the expected accumulated exposure is **0.84096 min/year**, equivalent to approximately **50.46 seconds/year**. The common-cause failure rate is **200 FIT**.
+
+The CCF exposure is approximately **130 times higher** than the independent-failure exposure at 8-hour MTTR. The available purple supervision channel is therefore safety-significant: it should prevent the core-router CCF from directly developing into a dual-master Split Brain condition. If the mini-router or purple link also fails, this becomes a separate combined-failure case and must be assessed independently.
 
 #### CCF relevance to Split Brain
 
