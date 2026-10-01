@@ -482,3 +482,10 @@ Always state:
 - Uncertainties
 - Confidence limitations
 - Missing data constraints
+
+When repository lessons learned exist:
+
+- Review them before generating recommendations.
+- Reuse relevant lessons learned.
+- Identify recurring issues.
+- Recommend preventive actions based on historical experience.
