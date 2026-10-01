@@ -9,6 +9,7 @@
 ## 1. Objective
 
 Define a DSTW project FRACAS aligned with:
+
 - the DSTW RAMS contractual requirements,
 - the corporate FRACAS procedure, and
 - prior project experience (ProVIS-based failure data collection).
@@ -20,7 +21,7 @@ Deliver a first set of working documents: a FRACAS Plan, a data register templat
 ## 2. Source Documents Reviewed
 
 | Document | Role |
-|---|---|
+| --- | --- |
 | `SSS_DI_RAMS_3BU_17300_1257_DTAPA_Ed02PD01.docx` | DSTW RAMS specification — primary source of contractual FRACAS/availability requirements |
 | `Technical_Concept_DSTW_3BU_17300_0010_DSAPC.docx` | DSTW technical concept — FRACAS implementation description, FK classes, reporting cadence |
 | `RAMP_IPS_3BU_17300_2009_DUAPA_Ed01.docx` | IPS RAM Plan |
@@ -35,7 +36,7 @@ Deliver a first set of working documents: a FRACAS Plan, a data register templat
 ### 3.1 Contractual FRACAS obligations (DSTW RAMS spec)
 
 | Requirement ID | Summary |
-|---|---|
+| --- | --- |
 | EL4-DIL-SSS-REQ-00671 | Supplier must provide an EN 50126-1 aligned FRACAS system for all delivered systems/subsystems. |
 | EL4-DIL-SSS-REQ-00672 | Supplier must prove required availability values (DC, VIL, FES, OC) within 5 years of first VIL commissioning. |
 | EL4-DIL-SSS-REQ-00673 | FRACAS must monitor availability of each individual DSTW component. |
@@ -57,7 +58,7 @@ Deliver a first set of working documents: a FRACAS Plan, a data register templat
 ## 4. Clarifications Obtained from the User
 
 | Topic | Decision / input |
-|---|---|
+| --- | --- |
 | Lifecycle scope | All phases: manufacturing, T&C, warranty, O&M. |
 | Data source/tooling | Previously used ProVIS for failure data, analysed via Excel/R — adopted as the interim toolchain, pending a formal tool decision. |
 | Data ownership | Customer holds the operational data but must share it with Hitachi. |
@@ -74,7 +75,7 @@ Deliver a first set of working documents: a FRACAS Plan, a data register templat
 All files generated in `DSTW - FRACAS/` (Word via `python-docx`, Excel via `openpyxl`):
 
 | # | File | Content |
-|---|---|---|
+| --- | --- | --- |
 | 1 | `DSTW_FRACAS_Plan_v0.1.docx` | Full project FRACAS plan: purpose, scope/lifecycle, requirements references, objectives, roles/RACI, interim toolchain, data framework, FK1–FK4 classification, RAM/KPI monitoring, corrective-action workflow, FRB cadence, reporting, compliance demonstration, records, and an Open Points log. |
 | 2 | `DSTW_FRACAS_Register_Template_v0.1.xlsx` | Controlled register: README, Installed Base, Event Register, Corrective Actions, KPI Dashboard, Lookups — with data validation, conditional formatting, and dashboard formulas. |
 | 3 | `DSTW_FRACAS_KPI_Catalogue_v0.1.xlsx` | 14 KPI definitions (availability by system/subsystem, empirical failure rate, MTBF, MTTR/MRT, both SLA KPIs, recurrence rate, CA ageing/effectiveness) with formula, population, exclusions, data source, target status, and a Change Log sheet. |
@@ -87,7 +88,7 @@ Generation scripts retained in the session workspace (`build_fracas_plan.py`, `b
 ## 6. Open Points Carried Forward
 
 | ID | Open point | Owner (proposed) |
-|---|---|---|
+| --- | --- | --- |
 | OP-1 | FRACAS tool decision (interim ProVIS/Excel/R vs. future dedicated tool) | Project RAM WPL |
 | OP-2 | Customer data exchange agreement (format, frequency, access) | Project RAM WPL / Project Manager |
 | OP-3 | SLA start/stop timestamp definition (EL4-DIL-SSS-REQ-00676) | RAMS Manager / Project Manager |
