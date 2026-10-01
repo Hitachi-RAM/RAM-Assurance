@@ -45,7 +45,7 @@ The proposal states that the supervision channel prevents a slave CN from becomi
 
 The proposal does not improve safety inside a data centre if the reference two-channel design already prevents the relevant double-fault hazard. Its principal safety benefit is for loss or transient unavailability of the main inter-site/core-router paths. The additional device and ServiceLink routing also introduce availability and maintainability trade-offs.
 
-![Split Brain topology](split-brain-topology.png)
+![Split Brain topology](../split-brain-topology.png)
 
 ## 4. RAM calculation review
 
@@ -501,8 +501,8 @@ The technical evidence supports continuing with the independent supervision-chan
 
 ## Sources
 
-- [Independent supervision-channel experimental proposal](TEP-Independentsupervisionchannel-Experimentalproposal-280926-0956-378.pdf)
-- [Split Brain analysis and proposals](TEP-Split-brainanalysisandproposalsforDIL-CU-280926-0954-374.pdf)
-- [Split Brain technical report](TR-SplitBrain-280926-0956-376.pdf)
-- [Preliminary RAM estimation workbook](Prelim_RAM_Estimation_DSTW_Ed02_20260910.xlsx)
+- [Independent supervision-channel experimental proposal](../TEP-Independentsupervisionchannel-Experimentalproposal-280926-0956-378.pdf)
+- [Split Brain analysis and proposals](../TEP-Split-brainanalysisandproposalsforDIL-CU-280926-0954-374.pdf)
+- [Split Brain technical report](../TR-SplitBrain-280926-0956-376.pdf)
+- [Preliminary RAM estimation workbook](../Prelim_RAM_Estimation_DSTW_Ed02_20260910.xlsx)
 - [Chapter 4.4 calculation workbook](Split-Brain-Chapter-4.4-Calculations.xlsx)
