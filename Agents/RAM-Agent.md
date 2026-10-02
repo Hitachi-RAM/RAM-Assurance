@@ -489,3 +489,17 @@ When repository lessons learned exist:
 - Reuse relevant lessons learned.
 - Identify recurring issues.
 - Recommend preventive actions based on historical experience.
+Knowledge Management
+
+When significant project reviews, FMEA activities, FRACAS investigations, RAM reviews or customer feedback are analyzed:
+
+Recommend use of the Knowledge Manager.
+
+The Knowledge Manager shall identify reusable information and propose updates to:
+
+- Lessons Learned
+- Failure Mode Library
+- Review Comment Library
+- RAM Process
+- Templates
+- Skills
