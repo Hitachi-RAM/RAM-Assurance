@@ -7,5 +7,7 @@
 			"path": "../../RAM-Daily-Work"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"powershell.cwd": "RAM-Assurance-1"
+	}
 }
