@@ -9,7 +9,7 @@
 ## 1. Documents Reviewed
 
 | Document | Role |
-|---|---|
+| --- | --- |
 | `ETCS_RAM_chapter2.pdf` | Generic ERTMS/ETCS RAMS Requirements Specification, Chapter 2 – RAM (Subset-026, issue 6). Baseline RAM standard referenced as mandatory by the tender. |
 | `ETCS Project - Scope of Works_Pre Tender Publication_Trackside_V2.pdf` | Main D&B technical scope (164 pages). Contains Section 12 "RAM Management" (Ref 308–313) and safety/engineering management requirements. |
 | `CV\12_Scope of work trackside NRO_live updates_V7.pdf` | Updated/expanded version of the Scope of Works — contains more detailed spares provisioning clauses (Ref 105–107) not present in the V2 pre-tender issue. |
@@ -40,7 +40,7 @@
 ## 3. RAM Task List Demanded by the Contract
 
 | # | Task | Timing | Source |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | 1 | Produce & submit RAM Management Plan | 8 weeks after contract commencement | Ref 308 |
 | 2 | Demonstrate RAM target/spec compliance strategy | Ongoing | Ref 309 |
 | 3 | Comply with RAMS Subset-026 Ch.2, Subset-036, Subset-091 | Design phase | Ref 310 |
@@ -69,7 +69,7 @@
 ## 4. Certification & Contract Lifecycle Glossary
 
 | Term | Meaning |
-|---|---|
+| --- | --- |
 | **APIS** | Approval to Place In Service — CRR's external regulatory approval process, 6 stages |
 | **CRR** | Commission for Railway Regulation — Ireland's National Safety Authority |
 | **IM-SAP / SAP** | (Infrastructure Manager) Safety Approval Panel — IÉ's internal review board issuing Cert E→A |
@@ -108,7 +108,7 @@
 ## 7. Artifacts Produced This Session
 
 | File | Description | Location |
-|---|---|---|
+| --- | --- | --- |
 | `fracas_timeline.png` | Gantt-style chart: single-phase FRACAS/monitoring timeline + 9-phase overlap view | Project folder |
 | `RAM_Management_Plan_FRACAS_Section_Draft.md` | Draft RAM Management Plan section covering FRACAS process definition, in-service monitoring implementation, reporting cadence, and open items | Project folder |
 | `RAM_Tender_Review_Project_Summary.md` | This document | Project folder |
