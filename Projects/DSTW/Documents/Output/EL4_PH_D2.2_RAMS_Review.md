@@ -9,7 +9,7 @@ RAM-focused review of section **D2.2 – RAMS** in `EL4_PH_PleaseReview_Clean.do
 The principal risks are contractual and evidential: some proposed responses qualify commitments on availability and uninterrupted operation, while the requirement text remains unqualified. The system boundaries, restoration-time definitions and FRACAS evidence/reporting arrangements should be agreed before the Pflichtenheft is baselined.
 
 | Severity | Requirement / paragraph | RAM finding and recommended action |
-|---|---|---|
+| --- | --- | --- |
 | High | 02_152 — planned software/hardware changes | The requirement promises uninterrupted railway operation and no operational downtime, but the response allows controlled shutdowns and maintenance windows for some changes. Define which change classes can be performed without service impact; obtain explicit AG agreement and measurable acceptance criteria for exceptions. |
 | High | 02_141 — FRACAS | The requirement says a FRACAS system is to be made available to the AG; the response offers a process and reports and excludes access to internal tools/databases. Confirm whether AG tool access is required. Otherwise agree the narrower deliverable, data/interface and reporting arrangements. |
 | High | 02_142 — five-year availability demonstration | The requirement covers Rechenzentrum, VSTW, FES and OC, while the response limits proof to Hitachi Rail scope and depends on AG data. Define boundaries, data ownership/quality, responsibility for each listed system and treatment of insufficient population or data. |
