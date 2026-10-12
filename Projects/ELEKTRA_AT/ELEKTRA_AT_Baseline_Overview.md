@@ -7,7 +7,7 @@ This document summarises the ELEKTRA ÖBB baseline sequence and its relationship
 ## OBB Baselines
 
 | OBB baseline | Related PV GEN baseline | Main RAM-relevant scope |
-|---|---|---|
+| --- | --- | --- |
 | **OBB 24.00** | Not stated | Initial ÖBB feature baseline. |
 | **OBB 24.10** | Not stated | Feature additions and updates. |
 | **OBB 25.00** | Not stated | EBO2 and operational-function changes. |
@@ -53,7 +53,7 @@ OBB 29.50 + PV GEN 2.20.10
 ## Current Release Comparison
 
 | Item | Previous release | Current release |
-|---|---|---|
+| --- | --- | --- |
 | OBB release baseline | **OBB 29.40** | **OBB 29.50** |
 | Generic ELEKTRA software | PV GEN **2.19.10** | PV GEN **2.20.10** |
 | ÖBB product version | PV OBB **2.15.0** | PV OBB **2.16.0** |
