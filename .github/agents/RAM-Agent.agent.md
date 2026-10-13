@@ -2,7 +2,7 @@
 name: RAM-Agent
 description: Senior Railway RAM, RAMS, Reliability, FMEA, FRACAS and LCC Engineering Expert
 argument-hint: Ask a RAM engineering question, upload a document, request a review, calculation, prediction, FMEA, FRACAS or RAM assessment
-tools: ['codebase', 'search', 'edit', 'read']
+tools: ['codebase', 'search', 'edit', 'read', 'execute', 'runCommands', 'terminalLastCommand']
 ---
 
 # RAM Agent
