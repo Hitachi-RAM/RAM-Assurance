@@ -29,7 +29,7 @@ The source document states that chapter 3.1.4.3.2 contains **six active requirem
 
 - **Text:** The VIL instance shall have **class 2 overall availability of at least 99.995%**.
 - **Meaning:** This is the top-level availability target for the full VIL service.
-- **Value:** `A >= 0.99995`
+- **Value:** $A \ge 0.99995$
 
 ### 2. EL4-DIL-SSS-REQ-00569 — Availability distribution of the VIL instance
 
@@ -45,7 +45,7 @@ The source document states that chapter 3.1.4.3.2 contains **six active requirem
 
 - **Text:** Outages of a VIL instance with no operational impact shall have an availability of at least **99.7154%**.
 - **Meaning:** This covers faults that have **no operational impact**; the requirement's own comment names this defect class **FK4**. It limits how long the VIL may run with such a fault present (see the detailed section below).
-- **Value:** `A >= 0.997154`
+- **Value:** $A \ge 0.997154$
 
 ### 4. EL4-DIL-SSS-REQ-00573 — Minor SW/HW changes
 
@@ -119,12 +119,16 @@ Sources: chapter 3.1.4.3.2 of SSS RAMS 3BU_17300_1257_DTAPA Ed02PD01 (requiremen
 
 | Scenario | Customer clause | Required availability | Unavailability U | Equivalent downtime per 365 days |
 | --- | --- | --- | --- | --- |
-| Disturbance that needs **manual** correction (MTTR 6 h in the current requirement text) | 5.4.0-4 | 99.9979 % | 2.1e-5 | 11.0 min |
-| Disturbance corrected **automatically within 10 min** | 5.4.0-6 | 99.999 % | 1.0e-5 | 5.3 min |
-| Disturbance corrected **automatically within 2 min** | 5.4.0-7 | 99.9996 % | 4.0e-6 | 2.1 min |
+| Disturbance that needs **manual** correction (MTTR 6 h in the current requirement text) | 5.4.0-4 | 99.9979 % | $2.1\times10^{-5}$ | 11.0 min |
+| Disturbance corrected **automatically within 10 min** | 5.4.0-6 | 99.999 % | $1.0\times10^{-5}$ | 5.3 min |
+| Disturbance corrected **automatically within 2 min** | 5.4.0-7 | 99.9996 % | $4.0\times10^{-6}$ | 2.1 min |
 
 - **In plain terms:** the overall budget is looked at separately for each kind of disturbance. Each figure limits the downtime caused by disturbances of that kind. The RAM plan states that the classes apply to different scenarios and are not subcomponents of one overall downtime.
-- **Why the three figures differ although the shorter outages are less severe:** for a fixed availability, a shorter outage may happen more often. Using the stationary relation `A = MUT / (MUT + MTTR)`, i.e. `MUT = A x MTTR / (1 - A)` (MUT = mean up time between outages):
+- **Why the three figures differ although the shorter outages are less severe:** for a fixed availability, a shorter outage may happen more often. In the stationary relation (MUT = mean up time between outages, MTTR = restoration time)
+
+$$A = \frac{\mathrm{MUT}}{\mathrm{MUT} + \mathrm{MTTR}} \qquad\Longleftrightarrow\qquad \mathrm{MUT} = \frac{A \cdot \mathrm{MTTR}}{1 - A}$$
+
+the allowed outage frequency follows from the required availability and the restoration time:
 
 | Scenario | Assumed restoration time | Outage frequency that just meets the target |
 | --- | --- | --- |
@@ -147,7 +151,7 @@ Sources: chapter 3.1.4.3.2 of SSS RAMS 3BU_17300_1257_DTAPA Ed02PD01 (requiremen
 
 - **Requirement:** outages of a VIL instance with no operational impact shall have an availability of at least 99.7154 %; the comment identifies this as defect class FK4. Customer clause 5.4.0-5 gives 0.997154.
 - **In plain terms:** the VIL may be in such a "fault but no operational effect" condition for at most **0.2846 % of the time = about 1,496 min = 24.9 h per year**. This is a limit on how long the system may run with a fault present, for example **with one redundant partner failed while the other keeps operating** (interpretation: this is the typical case of a fault without operational impact).
-- **Example (workbook assumption, not a requirement):** the project RAM workbook assumes 8 h for the manual exchange of a faulty component "with no impact on operation". At 8 h per event, 24.9 h per year corresponds to about three such events per year.
+- **Example (workbook assumption, not a requirement):** the project RAM workbook assumes 8 h for the manual exchange of a faulty component "with no impact on operation". At 8 h per event, 24.9 h per year corresponds to about three such events per year. The allowed time is $U = 1 - 0.997154 = 2.846\times10^{-3}$ of the year, i.e. $2.846\times10^{-3}\cdot 525{,}600\ \mathrm{min} \approx 1{,}496\ \mathrm{min}$.
 - **What it implies:** it is not a service-loss figure and must not be mixed with the 99.995 %. It is the reason why failed redundancy must be detected, reported and restored in reasonable time: while one partner is out, the service has no protection against a second failure.
 - **Open points:** FK4 itself is not defined in this chapter. When the condition starts and ends (detection or failure), and which events count (for example a node that is out for a planned patch), has to be agreed.
 
@@ -235,11 +239,11 @@ This section explains which calculation models exist for the VIL, what each one 
 
 | Term | Meaning | Formula |
 | --- | --- | --- |
-| Failure rate lambda | Failures per hour of one item | FIT = failures per 10^9 h, so lambda = FIT x 10^-9 per hour |
-| MTBF | Mean time between failures | MTBF = 1 / lambda |
+| Failure rate $\lambda$ | Failures per hour of one item | $\mathrm{FIT}$ = failures per $10^{9}$ h, so $\lambda = \mathrm{FIT}\cdot 10^{-9}\ \mathrm{h}^{-1}$ |
+| MTBF | Mean time between failures | $\mathrm{MTBF} = 1/\lambda$ |
 | MTTR | Mean time to restore the service | taken from the scenario (2 min, 10 min, 1 h, 8 h ...) |
-| Availability | Share of time the service is up | A = MTBF / (MTBF + MTTR), approximately 1 / (1 + lambda x MTTR) |
-| Unavailability | Share of time the service is down | U = 1 - A |
+| Availability $A$ | Share of time the service is up | $A = \dfrac{\mathrm{MTBF}}{\mathrm{MTBF}+\mathrm{MTTR}} \approx \dfrac{1}{1+\lambda\cdot\mathrm{MTTR}}$ |
+| Unavailability $U$ | Share of time the service is down | $U = 1 - A$ |
 
 **2oo2 and 1oo2 are two different things.** The Core computing node (CN) is 2oo2: its two diverse software channels must agree, which is what makes hardware faults safely detectable. For **availability**, a 2oo2 node behaves like two items **in series**: if either part fails, the node stops. Availability comes from having **two such nodes in hot-hot operation (2x2oo2)**: the service continues if one node fails. At node level this is a 1oo2 arrangement. The ECMUX is 2x1oo1: two nodes with one channel each, also hot-hot (SSS_VIL EL4-VIL-SSS-REQ-00181 and 00227). This is why the DPR speaks of "2x2oo2 = 1oo2".
 
@@ -257,12 +261,22 @@ Source: Prelim_RAM_Estimation_DSTW_Ed02_20260910.xlsx (folder Split Brain), and 
 
 #### How sheet 4.1 calculates (the model behind the DPR table)
 
-1. **Failure rate of one computing node (2oo2 = series):** `lambda_CN = lambda_CE1 + lambda_CE2 + lambda_ControlServer`. Each CE consists of a compute and a storage server. Result in the sheet: CN1 (master) 21,175 FIT, CN2 (slave) 1,058.75 FIT.
-2. **Failure rate of the hot pair (1oo2 with repair):** the service is lost only if the second node fails while the first one is still being restored:
-   `lambda_pair = 2 x lambda_CN1 x lambda_CN2 x MTTR`
-   (the factor 2 because either node can fail first).
-3. **Network in series:** `lambda_total = lambda_pair + lambda_network`, with the network (3 pairs of switches, each pair already 1oo2) at 4.4477 FIT.
-4. **Availability:** `A = MTBF / (MTBF + MTTR)`.
+1. **Failure rate of one computing node (2oo2 = series):** the rates of the parts add up.
+
+   $$\lambda_{CN} = \lambda_{CE1} + \lambda_{CE2} + \lambda_{\mathrm{ControlServer}}$$
+
+   Each CE consists of a compute and a storage server. Result in the sheet: CN1 (master) 21,175 FIT, CN2 (slave) 1,058.75 FIT.
+2. **Failure rate of the hot pair (1oo2 with repair):** the service is lost only if the second node fails while the first one is still being restored.
+
+   $$\lambda_{pair} = 2 \cdot \lambda_{CN1} \cdot \lambda_{CN2} \cdot \mathrm{MTTR}$$
+
+   The factor 2 is there because either node can fail first.
+3. **Network in series:** the network (3 pairs of switches, each pair already 1oo2) adds 4.4477 FIT.
+
+   $$\lambda_{total} = \lambda_{pair} + \lambda_{network}$$
+4. **Availability:**
+
+   $$A = \frac{\mathrm{MTBF}}{\mathrm{MTBF} + \mathrm{MTTR}}$$
 
 Result for MTTR = 2 min: 4.449 FIT, MTBF about 25,658 years, availability 99.99999999 %.
 
@@ -275,7 +289,7 @@ Result for MTTR = 2 min: 4.449 FIT, MTBF about 25,658 years, availability 99.999
 
 | Point | Observation | Effect |
 | --- | --- | --- |
-| Restoration time of the network | The sheet gives the network its own 8 h restoration time in its own row, but the 2 min scenario applies 2 min to the whole rate, network included | With 8 h the network unavailability is 3.6e-8 (0.019 min per year) instead of 1.5e-10, a factor of 240. The 99.99999999 % is overstated; the conclusion "large margin for this hardware path" is not changed |
+| Restoration time of the network | The sheet gives the network its own 8 h restoration time in its own row, but the 2 min scenario applies 2 min to the whole rate, network included | With 8 h the network unavailability is $3.6\times10^{-8}$ (0.019 min per year) instead of $1.5\times10^{-10}$, a factor of 240. The 99.99999999 % is overstated; the conclusion "large margin for this hardware path" is not changed |
 | Slave failure rate | The slave node is set to **5 % of the master's failure rate** (documented as an estimate). In the specified hot-hot design both nodes run synchronously | With equal rates the pair term rises from 0.0015 to 0.030 FIT: still negligible here, but the assumption needs a justification |
 | Source of the server rates | The workbook states that the server failure rates are estimates; the switch rates are taken from an earlier analysis (RAM ANA BFZ) | The RAM plan names EN 50126-1 with the MIL-HDBK-217F based Alcatel standard as the prediction basis; the estimates are not evidence of that method |
 | Ideal failover | The formula assumes the second node takes over immediately and always | No failover time, no failure to switch over, no failure of reintegration |
@@ -297,29 +311,42 @@ None of these methods is implemented for the VIL in the repository. They are lis
 
 #### Example of the repairable 1oo2 model
 
-States: **S2** = both nodes up, **S1** = one node up (service still available, redundancy lost), **S0** = no node up (service lost). Each node fails with rate lambda. The restoration rate is mu = 1 / MTTR.
+States: **S2** = both nodes up, **S1** = one node up (service still available, redundancy lost), **S0** = no node up (service lost). Each node fails with rate $\lambda$. The restoration rate is $\mu = 1/\mathrm{MTTR}$, with one repair at a time.
 
-```text
-S2 --(2 x lambda)--> S1 --(lambda)--> S0
-S2 <--(mu)---------- S1 <--(mu)------ S0        (one repair at a time)
+| From | To | Rate | Meaning |
+| --- | --- | --- | --- |
+| S2 | S1 | $2\lambda$ | one of the two nodes fails |
+| S1 | S0 | $\lambda$ | the remaining node fails |
+| S1 | S2 | $\mu$ | the failed node is restored |
+| S0 | S1 | $\mu$ | one node is restored |
 
-Steady state:  U = P(S0) is approximately 2 x (lambda / mu)^2 = 2 x (lambda x MTTR)^2
-Rate of entering S0:  lambda_pair is approximately 2 x lambda^2 x MTTR
-```
+Solving the balance equations gives, for $\lambda \ll \mu$:
 
-The last line is the formula that sheet 4.1 uses, so the sheet is a first-order version of this model.
+$$U = P(S_0) \approx 2\left(\frac{\lambda}{\mu}\right)^{2} = 2\,(\lambda\cdot\mathrm{MTTR})^{2}$$
+
+$$\lambda_{pair} \approx 2\,\lambda^{2}\cdot\mathrm{MTTR}$$
+
+The second line (the rate at which the service is lost) is the formula that sheet 4.1 uses, so the sheet is a first-order version of this model.
 
 **Why common cause matters (illustration using the requirement itself, not project data):**
 
-- EL4-DIL-SSS-REQ-00587 needs U of at most 5e-5. With two **independent** nodes and a perfect switchover, `U = u^2`, so each node would only need `u <= sqrt(5e-5) = 7.07e-3`, i.e. a node availability of 99.29 %.
-- If a common-cause share beta of the node unavailability hits both nodes together, `U is approximately (1 - beta)^2 x u^2 + beta x u`. The common cause term decides the result:
+- EL4-DIL-SSS-REQ-00587 needs $U \le 5\times10^{-5}$. With two **independent** nodes and a perfect switchover, $U = u^{2}$ ($u$ = unavailability of one node), so each node would only need
 
-| beta (share of common-cause failures) | Node unavailability that still meets 5e-5 | Node availability needed |
+  $$u \le \sqrt{5\times10^{-5}} = 7.07\times10^{-3}$$
+
+  i.e. a node availability of 99.29 %.
+- If a common-cause share $\beta$ of the node unavailability hits both nodes together, the system unavailability becomes
+
+  $$U \approx (1-\beta)^{2}\,u^{2} + \beta\,u$$
+
+  The common-cause term $\beta\,u$ decides the result:
+
+| $\beta$ (share of common-cause failures) | Node unavailability $u$ that still meets $5\times10^{-5}$ | Node availability needed |
 | --- | --- | --- |
-| 0 (independent) | 7.07e-3 | 99.293 % |
-| 1 % | 3.68e-3 | 99.632 % |
-| 2 % | 2.26e-3 | 99.774 % |
-| 5 % | 9.8e-4 | 99.902 % |
+| 0 (independent) | $7.07\times10^{-3}$ | 99.293 % |
+| 1 % | $3.68\times10^{-3}$ | 99.632 % |
+| 2 % | $2.26\times10^{-3}$ | 99.774 % |
+| 5 % | $9.8\times10^{-4}$ | 99.902 % |
 
 The value 2 % is only the factor the workbook uses for the router pair in the split-brain sheet; it is shown as a sensitivity and is **not** a VIL value. The conclusion is that a simple independent calculation can be far too optimistic.
 
