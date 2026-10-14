@@ -81,7 +81,9 @@ Sources: chapter 3.1.4.3.2 of SSS RAMS 3BU_17300_1257_DTAPA Ed02PD01 (requiremen
 | Manual correction | A person has to intervene (for example replace a part). |
 | Class 2 | The availability class that the customer assigns to every VIL (LH 5.4.0-3): 99.995 %. The whole DIL central unit is class 1: 99.999 % (RAM plan section 3.4, Table 9). |
 | Operational break | A period without regular train traffic ("Betriebspause"). |
-| FK4 | The customer defect class for faults without operational impact (named in the comment of EL4-DIL-SSS-REQ-00570). Its definition is not given in the chapter. |
+| Fault / Error | Terms defined in the RAMS chapter. A [Fault] directly restricts system or operational performance and shall be resolved quickly. An [Error] is less critical for immediate operations and has no operational impact. |
+| FK1 to FK4 | The customer's defect classes (Fehlerklassen): FK1 "Emergency", FK2 "Critical", FK3 "Major", FK4 "Minor". They describe the operational effect of an event (table in the section on 2-minute and 10-minute disturbances). The customer assigns each event to a class; FK4 is named in the comment of EL4-DIL-SSS-REQ-00570. |
+| General interrogation (Generalabfrage) | After a (re)start the VSTW queries the state of the neighbouring systems and of the outdoor elements. The technical concept treats the VSTW as fully available again only when all general interrogations are finished. |
 | LH / PH | Lastenheft (customer specification text) and Pflichtenheft (Hitachi response text) shown with each requirement. |
 
 ### Facts common to all six requirements
@@ -140,20 +142,130 @@ the allowed outage frequency follows from the required availability and the rest
 
   This is exactly what the requirement's comment says: "outages with MTTR = 2 min may occur more often per N years than outages with MTTR = 10 min". In practice **a 2-minute outage about once a year is tolerated, a 6-hour outage only about once in 33 years**. The comment speaks of "equal availabilities", but the three values are not equal.
 - **What "automatic" asks of the design:** the system must detect the fault, bring the affected part to a safe state, restart or reintegrate it and restore operation by itself within 2 or 10 minutes. This is a requirement on failure detection, restart and reintegration of the SW components, not only on hardware. The earlier separate requirements EL4-DIL-SSS-REQ-00571 (10 min) and 00572 (2 min) were merged into this one.
-- **Interpretation:** if the redundancy hides a fault completely (the other node keeps the service running), no service is lost and the event belongs to EL4-DIL-SSS-REQ-00570 instead. EL4-DIL-SSS-REQ-00569 becomes relevant when service is actually interrupted: for example a restart of an application on all redundant nodes (EL4-VIL-SSS-REQ-01155) or a failure that affects both nodes.
+- **Interpretation:** if the redundancy hides a fault completely (the other node keeps the service running), no service is lost and the event belongs to EL4-DIL-SSS-REQ-00570 instead. EL4-DIL-SSS-REQ-00569 becomes relevant when service is actually interrupted: for example a restart of an application on all redundant nodes (EL4-VIL-SSS-REQ-01155) or a failure that affects both nodes. Concrete examples follow in the sub-section "What can a 2-minute or a 10-minute disturbance be?" below.
 - **Open points:**
   - The manual restoration time is 6 h in the requirement text, 0.5 h in the DPR and 225 min in the RAM plan. With one availability value the allowed outage frequency differs by a factor of 12 between 6 h and 0.5 h.
   - The three scenario budgets add up to about 18.4 min per year, less than the overall 26.3 min per year. The documents do not say how the remainder is used or whether the figures are meant to be added.
   - The table in the RAM plan appears to print 99.9999 % for the 10-minute case, but its own 5 min per year and 2-year MTBF correspond to 99.999 %. This looks like a typing error and should be corrected in the RAM plan.
   - Whether "within 2 / 10 minutes" is a maximum per event or an average is not stated; the customer wording ("within") suggests a maximum.
 
+#### What can a 2-minute or a 10-minute disturbance be?
+
+The requirement text does not list the disturbances. The customer's own table ("Tabelle 2" in the customer specification, referenced by clauses 5.4.0-4 to 5.4.0-7) is not among the supplied documents. This sub-section therefore does two things: it collects **what the project documents state** (facts, with their source) and it derives **examples** from them (interpretation, marked as such). **No restoration times of the real system are given in the documents** (except one figure, see example 5), so no duration is invented here.
+
+##### 1. What the documents establish
+
+| Source | Statement | Consequence |
+| --- | --- | --- |
+| Customer clauses 5.4.0-6 / 5.4.0-7 (in EL4-DIL-SSS-REQ-00569) | They concern "Störungen, welche durch das VSTW innerhalb von 10 (2) Minuten automatisch selbst behoben werden", i.e. disturbances that the VSTW itself clears automatically within 10 (2) minutes. | The class is defined by **how fast the system clears the disturbance by itself**, not by which component fails. |
+| RAMS chapter, definitions | A [Fault] directly restricts system or operational performance. An [Error] has no operational impact. | The 2- and 10-minute classes concern **faults** (operation is restricted). Errors without operational impact belong to EL4-DIL-SSS-REQ-00570. |
+| RAMS chapter, "Automatic correction" | After a fault has been detected, a safe computing unit (for example a VIL node) enters a safe state and performs a self-test. After a successful self-test the disturbed module is recommissioned automatically. | Three steps: detection, safe state with self-test, automatic recommissioning. If the self-test fails, there is **no** automatic correction (the event becomes a manual one). |
+| Technical concept, chapter on failure scenarios | A failure of one server (CE) of the master CN, of one CE of a slave CN, of two servers of a slave CN, of a top-of-rack switch or of a core router has "no effect on operation"; a failed MUX redundancy causes no operational restriction; after repair the node is reintegrated "without operational interruption". | Single failures that the hot-hot redundancy absorbs are **not** 2- or 10-minute disturbances. They stay in the "no operational impact" case. |
+| Technical concept, service chapter (table of fault classes) | The customer's fault classes FK1 to FK4 with their operational effect (next table). | They give the vocabulary for severity but **no restoration time per class**. |
+
+The customer's fault classes (source: technical concept, table "Fehlerklassen / betriebliche Indikatoren / Vorgehen"; the same classes are in the RAMS chapter):
+
+| Class | Operational effect | Examples given by the customer |
+| --- | --- | --- |
+| FK1 "Emergency" | Considerable obstruction of operation | Driving on sight / by order; DSTW not functional; failure of a central field element |
+| FK2 "Critical" | Considerable effect on parts (functional or local) of operation, or a serious error | Driving on sight / by order in a subarea of the DSTW; **failure of redundancy with risk of total failure**; failure of a field element affecting a subarea |
+| FK3 "Major" | Other fault or considerable error | Only slight effect on operation, or a serious error without effect on operation; **failure of individual functions of a VSTW** |
+| FK4 "Minor" | Other errors | No effect or an effect accepted by the customer; failure of individual, less operationally relevant elements |
+
+The customer defines which event belongs to which class (this can be adapted in agreement with the supplier); the assignment is made on the basis of the maintenance checklist. For the VIL, the documents do not state which fault class corresponds to the 2- and 10-minute scenarios. For the DIL central unit the comment of EL4-DIL-SSS-REQ-00406 only says that class 1 availability corresponds to FK1.
+
+##### 2. Examples of disturbances that restrict operation and can clear themselves (interpretation)
+
+Every example below is derived from the cited requirement or document. The **indicative class** is an interpretation based on how much has to be restarted; it must be confirmed by measurement.
+
+| # | Example | Source basis | What is lost | What has to happen (time drivers) | Indicative class |
+| --- | --- | --- | --- | --- | --- |
+| 1 | **Failure of one VIL application** (RCU, DGP or CC) | EL4-VIL-SSS-REQ-01155: the failed application is stopped and restarted **on all redundant nodes**; EL4-VIL-SSS-REQ-00229: an RCU failure restarts only RCU, a DGP failure only DGP, a CC failure restarts CC and RCU; technical concept: the process supervision restarts the RCU without restarting the VM | The functions of the failed application for the duration of the restart. The redundant partner cannot mask it because it restarts as well. This is the "failure of individual functions of a VSTW" of fault class FK3 | Detection by supervision, stop, restart of the application on all nodes, re-synchronisation of the two diverse channels, reconnection, restoration of state | Short disturbance, a candidate for the **2-minute** class if the restart is fast |
+| 2 | **Loss of one external connection after a safety reaction** | EL4-VIL-SSS-REQ-00275: after a voting error the X25 connection is closed and reopened; EL4-VIL-SSS-REQ-00276: the SW components controlling the affected X25-over-RaSTA connections are rebooted, which disconnects the RaSTA connections; EL4-VIL-SSS-REQ-00286: lost connections are reopened periodically; EL4-VIL-SSS-REQ-01463 and 01464: failures of connections to adjacent systems and object controllers are detected and answered within [TBD] seconds | The interface to one adjacent system or group of object controllers, so only the part of operation that depends on it | Detection time (TBD), reboot of the connection SW, RaSTA reconnection, exchange of state | Short, a **2-minute** candidate; effect limited to the affected connection |
+| 3 | **Safety reaction on a node of the Core** (reboot of a CE or CN by the platform) | Safety concept of the platform (section on action following detection): a safety reaction may be a reboot of the applications and/or an interruption of communication; the decisive question is whether the reaction cures the fault or a permanent stop is needed | Normally nothing, because the other CN keeps operating (then it is a "no operational impact" case). It becomes a disturbance of EL4-DIL-SSS-REQ-00569 only if the remaining redundancy cannot carry operation (second failure or common cause) | Boot with initial checks (state integrity, version checks, fault containment check, supervision), "Point X", operative state, synchronisation of the two channels, recovery of the 2oo2 into the 2x2oo2 system | A **10-minute** candidate (more steps than example 1) |
+| 4 | **Overload or reactivity violation** | EL4-VIL-SSS-REQ-01461: a configurable response-time limit between the applications; if it is exceeded a safety reaction follows; technical concept: tests of high-load detection and reaction in CC and RCU and of the signal time-drift supervision under high load | A transient condition (peak load) that triggers a restart of the affected application | As example 1 or 3, depending on the safety reaction | Depends on the reaction; a typical **transient fault that a restart cures** |
+| 5 | **Complete outage of the VIL instance and automatic restart** (for example after a power failure) | EL4-DIL-SSS-REQ-00655: the node starts continuous automatic start-up attempts until it is reintegrated; EL4-DIL-SSS-REQ-00716: after a successful start-up all states of the field elements and of all VIL nodes are recovered; technical concept: the boot is complete only after all general interrogations | The whole VSTW | Boot, start-up checks, synchronisation, RaSTA reconnection, general interrogation of the neighbouring systems and the outdoor elements, restoration of the operationally relevant data | The **only figure in the documents**: the technical concept limits the interval from the activation consent until the new VSTW is operable again to **3 to 4 minutes** (stated for a planned software update). A full restart therefore does **not** fit into 2 minutes; a **10-minute** candidate. This is not a measured failure-recovery time |
+| 6 | **Failure of the VSTW MUX** | Technical concept, system administration tests: the "KAZ generator prevents the complete restart of the VSTW when the VSTW MUX fails" | Indicates that a MUX failure was recognised as a possible trigger for a complete VSTW restart, which a mechanism is meant to avoid | Not explained in the supplied documents | To be confirmed with the architecture |
+
+##### 3. What is not automatic (the boundary to the manual class)
+
+The 2- and 10-minute classes cover **transient** faults. The documents show where automatic correction ends:
+
+| Case | Source | Result |
+| --- | --- | --- |
+| Permanent fault | Platform safety concept: the safety reaction either cures the fault or a permanent stop is triggered because of a permanent fault | The unit stays stopped; a technician is needed |
+| Recurrent software error | Platform safety concept: "Q-values" for the application supervision would stop an application in case of **recurrent** software errors; when they are exhausted the "Stopped" state is entered and the CE no longer communicates. **Caution:** the same document lists the use of the Q-values as an open issue ("not yet defined if the following TAS Platform functions will be used", edition 01 proposal 01) | If the function is used, the system stops by design after repeated restarts and manual correction follows; whether it is used is not confirmed |
+| Wrong or incompatible versions, rejected authorization | EL4-VIL-SSS-REQ-01458: a VM whose authorization is rejected performs a permanent shutdown; EL4-VIL-SSS-REQ-01460: incompatible application versions lead to a permanent shutdown | Manual correction |
+| Hardware replacement and restart by staff | Technical concept: every maintenance activity (for example restarts of services or subcomponents) is performed only by the customer's service staff; spare material is stored on site | The manual class (MTTR 6 h in the requirement text) |
+
+##### 4. Where the 2-minute or 10-minute budget is spent
+
+The documents describe the following chain after a fault. They give no duration for any step.
+
+1. The fault occurs and the service (or part of it) is lost.
+2. The fault is **detected** by supervision (numeric detection limits are still [TBD] in EL4-VIL-SSS-REQ-01462).
+3. The safety reaction brings the affected unit to the **safe state** (application stopped or CE rebooted).
+4. **Restart**: boot with initial checks, then self-test.
+5. The unit becomes **operative**; the two diverse channels are synchronised and the 2oo2 unit is recovered into the redundant system.
+6. The **external connections** are re-established (RaSTA).
+7. The **general interrogation** of the neighbouring systems and outdoor elements is completed and the operationally relevant data are restored.
+8. The VSTW is **fully available operationally** again.
+
+**Interpretation:** the "2 minutes" or "10 minutes" are the time from step 1 (loss of service) to step 8 (operation possible again), not just the boot time. The documents support this: the technical concept calls the VSTW "betrieblich wieder voll verfügbar" only after all general interrogations. If a redundant partner has kept the service running, step 5 (reintegration) happens later without interrupting operation; it is the "redundancy restoration" which the DPR proposes to keep below 10 minutes, and it is a different clock.
+
+##### 5. What the arithmetic means for the examples
+
+The availability values of EL4-DIL-SSS-REQ-00569 translate into an **annual downtime budget per VIL instance and class** (365-day year, 525,600 min):
+
+$$D_{budget} = (1 - A)\cdot 525{,}600\ \mathrm{min}$$
+
+| Class | Required availability | Annual budget | Illustrative event duration | Events per year that just fit |
+| --- | --- | --- | --- | --- |
+| 2 minutes | 99.9996 % | 2.10 min = 126 s | 30 s | 4.2 |
+| | | | 60 s | 2.1 |
+| | | | 120 s | 1.05 |
+| 10 minutes | 99.999 % | 5.26 min = 315 s | 3 min | 1.75 |
+| | | | 4 min | 1.31 |
+| | | | 10 min | 0.53 |
+| Manual | 99.9979 % | 11.04 min | 6 h (360 min) | 0.03 (once in 32.6 years) |
+
+The durations in the table are **illustrations of the arithmetic, not predictions**.
+
+What follows (interpretation):
+
+- A short application or connection restart (examples 1 and 2) can occur a few times per year in the 2-minute class. The shorter the restart, the more events fit.
+- A full restart of the instance (example 5) lasts about 3 to 4 minutes according to the technical concept. It belongs to the 10-minute class and fits about once or at most twice per year.
+- It follows that the **restart isolation** of EL4-VIL-SSS-REQ-00229 is what makes the 2-minute class attainable: frequent disturbances must stay at application or connection level, and whole-instance restarts must remain rare.
+- A manual outage of 6 hours exceeds the annual budget of 11 minutes by a factor of 33. It is only acceptable if it almost never happens.
+- The budgets are per class. How the three class budgets and the overall 26.3 min per year (EL4-DIL-SSS-REQ-00587) are combined is not stated (open point above).
+
+##### 6. How an event would be assigned to a class (interpretation)
+
+1. Operation continues uninterrupted on a redundant partner: **not** an event of EL4-DIL-SSS-REQ-00569. It is an error without operational impact (EL4-DIL-SSS-REQ-00570), or a more severe fault class if the remaining redundancy is critical (customer assignment).
+2. Operation is restricted and the VIL restores it by itself within 2 minutes: the **2-minute** class.
+3. Restored automatically within 10 minutes: the **10-minute** class.
+4. Not restored automatically within 10 minutes, or a permanent fault: the **manual** class (MTTR 6 h).
+
+It is not stated whether an event restored in 90 seconds is counted only in the 2-minute class or also in the 10-minute class, and whether "within" is a maximum per event or a mean.
+
+##### 7. What should be clarified or measured
+
+| Item | Why |
+| --- | --- |
+| The customer's table of disturbances (Tabelle 2) | It should list which events belong to the 2- and 10-minute scenarios; it is not in the supplied documents |
+| End of the disturbance | Operation possible again (after general interrogation) or only the node booted? |
+| Restoration times of examples 1 to 5 by fault injection | There is no measured value in the documents; the technical concept's stability test is meant to show that the system "always restores full availability", generally required at the **first attempt** |
+| Numeric failure detection limits | EL4-VIL-SSS-REQ-01462 to 01464 contain [TBD] |
+| Maximum number of automatic restarts before the "Stopped" state | Defines where the automatic classes end and the manual class begins; the platform's Q-value function for this is an open issue in the safety concept |
+| Treatment of an event shorter than 2 minutes | Whether it also counts in the 10-minute class |
+
 ### EL4-DIL-SSS-REQ-00570 - Outages with no operational impact (FK4)
 
 - **Requirement:** outages of a VIL instance with no operational impact shall have an availability of at least 99.7154 %; the comment identifies this as defect class FK4. Customer clause 5.4.0-5 gives 0.997154.
-- **In plain terms:** the VIL may be in such a "fault but no operational effect" condition for at most **0.2846 % of the time = about 1,496 min = 24.9 h per year**. This is a limit on how long the system may run with a fault present, for example **with one redundant partner failed while the other keeps operating** (interpretation: this is the typical case of a fault without operational impact).
+- **In plain terms:** the VIL may be in such a "fault but no operational effect" condition for at most **0.2846 % of the time = about 1,496 min = 24.9 h per year**. This is a limit on how long the system may run with a fault present, for example **with one redundant partner failed while the other keeps operating** (interpretation: the technical concept states that a single failure of a server, switch or router has no effect on operation, so this is the typical case of an error without operational impact). Caution: the customer's own table lists "loss of redundancy that risks total failure" as FK2, so the customer may classify a lost redundancy more severely, depending on how much redundancy remains.
 - **Example (workbook assumption, not a requirement):** the project RAM workbook assumes 8 h for the manual exchange of a faulty component "with no impact on operation". At 8 h per event, 24.9 h per year corresponds to about three such events per year. The allowed time is $U = 1 - 0.997154 = 2.846\times10^{-3}$ of the year, i.e. $2.846\times10^{-3}\cdot 525{,}600\ \mathrm{min} \approx 1{,}496\ \mathrm{min}$.
 - **What it implies:** it is not a service-loss figure and must not be mixed with the 99.995 %. It is the reason why failed redundancy must be detected, reported and restored in reasonable time: while one partner is out, the service has no protection against a second failure.
-- **Open points:** FK4 itself is not defined in this chapter. When the condition starts and ends (detection or failure), and which events count (for example a node that is out for a planned patch), has to be agreed.
+- **Open points:** FK4 is defined (class 4 "Minor", see the table in the section on EL4-DIL-SSS-REQ-00569), but only as a description of severity, not as a measurable condition. The customer assigns events to the classes, and it is not stated whether a lost redundancy partner is FK4 or FK2. When the condition starts and ends (detection or failure), and which events count (for example a node that is out for a planned patch), has to be agreed.
 
 ### EL4-DIL-SSS-REQ-00573 - Minor SW/HW changes
 
@@ -188,7 +300,7 @@ the allowed outage frequency follows from the required availability and the rest
 2. Do planned operational breaks (EL4-DIL-SSS-REQ-00818) and update windows count as downtime?
 3. Which manual restoration time is authoritative: 6 h, 225 min or 0.5 h?
 4. How do the three scenario figures of EL4-DIL-SSS-REQ-00569 relate to the overall figure: added, overlapping or independent?
-5. What exactly is FK4, and when does an FK4 condition start and end?
+5. Which events does the customer assign to FK4 (is a single lost redundancy partner FK4 or FK2), and when does an FK4 condition start and end?
 6. Which numeric limits apply to restart and re-integration in EL4-DIL-SSS-REQ-00574?
 7. Does the customer wish for redundancy takeover during safety-relevant updates (5.4.0-9) apply or the operational-break approach?
 

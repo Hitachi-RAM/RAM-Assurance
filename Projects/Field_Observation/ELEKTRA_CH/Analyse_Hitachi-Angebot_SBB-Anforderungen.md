@@ -1,6 +1,6 @@
 # ELEKTRA SBB – Vergleich Angebot und SBB-Anforderungen
 
-**Stand:** 28.09.2026  
+**Stand:** 14.10.2026  
 **Projekt:** Anlagenbeobachtung ELEKTRA CH / SBB
 
 ## 1. Grundlage
@@ -14,6 +14,8 @@ Referenzen:
 - [Hitachi-Angebot vom 17.08.2026 (unterzeichnet)](20260817_Angebot_Anlagenbeobachtung%20CH_Elektra_signed.pdf) ← **aktuellste Version mit finalen Preisen**
 - [SBB-Rückmeldung / Weiterleitung](FW_%20Unser%20Angebot%20_Erweiterte%20Anlagebeobachtung%20ELEKTRA1_.msg)
 - [SBB-Prüfliste kritischer Baugruppen](Anfrage%20Pr%C3%BCfung%20von%20Baugruppen%20aus%20AAL_2025-07-04_Ed1p03-AT.xlsx)
+- [Interne Abstimmung zum Leistungsumfang vom 30.03.2026](Update%20zur%20Anlagenbeobachtung%20-%20CH.msg)
+- [Interner Antwortentwurf vom 13.10.2026](Vorschlag%20Antwort%20-%20Anlagenbeobachtung%20CH.msg)
 
 ### Aktualisierung: Angebot vom 17.08.2026
 
@@ -164,7 +166,7 @@ Das neue, unterzeichnete Angebot vom 17.08.2026 konkretisiert folgende Punkte:
 | ELEKTRA 2 | ✓ Begründet | Explizite Erwähnung: "Mit den oben genannten ELEKTRA 1.0 Anlagen ist es jedoch nicht möglich, diverse statistische Aussagen zu treffen. Um hier entsprechende Aussagen treffen zu können, wurde gemeinsam mit Hitachi Rail Schweiz vereinbart, ebenfalls die ELEKTRA 2.0 Anlagen mit zu betrachten." |
 | Service-Portal | ⚠️ Nicht gelöst | Angebot spricht noch von "monatliche Zuordnung", nicht von SIP-2.0-Schnittstelle oder Datenquelle |
 
-## 7. Fachliche Schlussfolgerung (aktualisiert 28.09.2026)
+## 7. Fachliche Schlussfolgerung (aktualisiert 14.10.2026)
 
 ### 7.1 Fortschritt durch das Angebot vom 17.08.2026
 
@@ -187,7 +189,38 @@ Folgende Aspekte sind im August-Angebot nicht vollständig adressiert:
 3. **Rechner-Hardware-Scope:** Der Fokus liegt auf Interface-Leiterplatten und Relais. Ob Rechner-Hardware (CPU, Speicher) gleich behandelt wird, ist nicht explizit geklärt.
 4. **Abgrenzung ELEKTRA 1 / ELEKTRA 2 im Report:** Das Angebot sagt nicht, wie die Ergebnisse getrennt oder zusammengefasst werden. Wird es einen Bericht geben, der "ELEKTRA-1-Daten" und "ELEKTRA-2-Referenzen" klar unterscheidet?
 
-### 7.3 Empfehlung für die nächste Phase
+### 7.3 Klarstellung: Anlagenbeobachtung, Safety-Bewertung und Ersatzteilreichweite
+
+Christophs Rückfrage macht deutlich, dass im Antwortentwurf zwei unterschiedliche Bewertungsziele miteinander verglichen werden. Die Datenbasis überschneidet sich teilweise, ist aber weder vollständig identisch noch für beide Aussagen automatisch gleich aussagekräftig.
+
+#### Dokumentierter Diskussionsstand
+
+- In den internen Abstimmungen vom März/Juni 2026 wurde SBBs Wunsch nach einer Auswertung historischer Ausfälle, detaillierten Fehlerbildern, Fehlerclustern und Trends festgehalten. Eine Prognose über die nächste Berichtsperiode hinaus wurde dabei als nicht belastbar abgegrenzt; die technische Einschätzung sollte sich auf den Zeitraum bis zum nächsten Report beziehen.
+- Die Anlagenbeobachtung sollte eine technische Einschätzung zum Weiterbetrieb liefern. Eine erforderliche finale Safety-Freigabe bzw. ein Safety-Statement für CH wurde davon getrennt behandelt.
+- Reparierbarkeit, Bestände bei HR-CHE/HR-AUT, Last-Time-Buy und Obsoleszenzstatus wurden als Inhalte des Obsoleszenzmanagements benannt.
+- Jürgs E-Mail vom 14.09.2026 fragt, ob ausschließlich das Obsoleszenzmanagement aus dem Angebot bestellt werden kann. Diese Frage belegt eine geprüfte Beauftragungsoption, aber keine bestätigte Änderung der SBB-Zielsetzung.
+
+#### Gemeinsame und zusätzliche Daten
+
+| Bewertungsziel | Gemeinsame bzw. erforderliche Daten | Zusätzliche Bewertungsgrundlage |
+| --- | --- | --- |
+| Anlagenbeobachtung / Ausfalltrend | Reparatur- und Fehlerhistorie, Zuordnung zu Anlage und Baugruppe, installierte Basis | Fehlerbild und Fehlermechanismus, DGP-/Beanspruchungsdaten soweit verfügbar, Konfiguration und System-/Sicherheitsrelevanz der betrachteten Ausfälle |
+| Aktueller Versorgungsstatus | Reparaturhistorie, Baugruppen-/Materialzuordnung | Reparierbarkeit, nutzbare Bestände und deren Standort/Status, Abkündigungen, verfügbare Ersatztypen und Lieferanteninformationen |
+| Ersatzteilreichweite für einen definierten Zeitraum | Historische Reparaturen als mögliche Nachfrageinformation, installierte Basis | Betrachtungszeitraum, Nachfrage-/Ausfallszenario, Reparaturdurchlauf- und Wiederbeschaffungszeiten, verfügbarer bzw. gebundener Bestand und dokumentierte Versorgungsannahmen |
+
+Reparaturdaten und installierte Basis können somit beiden Analysen dienen. Für eine technische Ausfallbewertung müssen sie jedoch mit den relevanten Fehlermechanismen und der Systembedeutung verknüpft werden. Für eine Reichweitenbewertung reichen sie nicht: Dafür sind insbesondere Bestands-, Reparatur- und Wiederbeschaffungsdaten sowie ein definierter Zeitraum und Nachfrageannahmen notwendig.
+
+#### Fachliche Grenzen und Schlussfolgerungen
+
+1. **Anlagenbeobachtung ist kein Risikoausschluss:** Sie kann anhand definierter Daten Hinweise auf verändertes Ausfallverhalten liefern und eine technische Bewertung oder vertiefte Untersuchung auslösen. Sie kann nicht pauschal Doppelfehler oder Sicherheitsrisiken ausschließen. Eine Safety-Aussage muss auf die betrachtete Konfiguration, die relevanten Fehlerwirkungen und die geltende Safety-Nachweisführung bezogen sein. Ein Vergleich empirischer mit erwarteten Fehlerraten allein ist dafür kein vollständiger Sicherheitsnachweis.
+2. **Keine unbegrenzte Ausfallprognose:** Aussagen müssen Zeitraum, Population, Datenqualität und Annahmen benennen. Im dokumentierten Diskussionsstand war die technische Einschätzung bis zur nächsten Berichtsperiode begrenzt. Aussagen über längere Zeiträume oder bis zum Ende der Restlebensdauer sind damit nicht automatisch abgedeckt.
+3. **OMP ist nicht gleich Ausfallprognose:** Ein separat abgegrenztes OMP kann den aktuellen Obsoleszenz-, Reparatur- und Versorgungsstatus bewerten, auch wenn keine statistisch belastbare Prognose künftiger Ausfälle oder Bedarfe möglich ist. Eine quantifizierte Ersatzteilreichweite ist davon zu unterscheiden und nur mit zusätzlicher Versorgungs- und Nachfragebasis als Szenario belastbar.
+4. **Keine bestätigte Scope-Änderung unterstellen:** Die Frage nach einer separaten Beauftragung des OMP darf nicht als bestätigter Wunsch verstanden werden, die Anlagenbeobachtung oder Fehleranalyse entfallen zu lassen. Vor einer entsprechenden Antwort ist zu klären, ob CH nur die Bestellbarkeit prüft oder tatsächlich eine geänderte Leistung beauftragen möchte.
+5. **Bericht und Verantwortung trennen:** Der Anlagenbeobachtungsbericht kann technische Befunde und eine begrenzte Weiterbetriebseinschätzung liefern. Die Zuständigkeit für eine erforderliche finale Safety-Freigabe ist gesondert zu benennen; nach dem bisherigen Abstimmungsstand liegt diese bei HR-CHE.
+
+**Empfohlene Formulierung für die fachliche Abgrenzung:** Eine quantitative Prognose künftiger Reparaturhäufigkeiten oder Ersatzteilreichweiten kann ohne ausreichende, geeignete Daten und dokumentierte Annahmen nicht belastbar zugesagt werden. Ein eigenständiges OMP kann dennoch den aktuellen Lebenszyklus-, Reparatur- und Versorgungsstatus bewerten. Die Anlagenbeobachtung kann ergänzend Hinweise auf Veränderungen des Ausfallverhaltens und eine zeitlich begrenzte technische Einschätzung liefern; sie ist kein eigenständiger Nachweis, dass Sicherheitsrisiken ausgeschlossen sind.
+
+### 7.4 Empfehlung für die nächste Phase
 
 Das Angebot ist nun konkret genug für eine verhandelte Konkretisierung. SBB sollte in einer Kick-off-Abstimmung folgende Punkte klären:
 
@@ -199,7 +232,7 @@ Das Angebot ist nun konkret genug für eine verhandelte Konkretisierung. SBB sol
 | EL1/EL2-Reporting | Vereinbarung, dass der Bericht explizit zwischen ELEKTRA-1-Daten und ELEKTRA-2-Referenzdaten unterscheidet |
 | Maßnahmen-Ableitung | Klärung, in welchen Szenarien Hitachi konkrete Maßnahmen (Bevorratung, Alternative, Migration) vorschlägt oder nur Risiken aufzeigt |
 
-### 7.4 Fachliche Bewertung der Statistischen Ausgangslage
+### 7.5 Fachliche Bewertung der Statistischen Ausgangslage
 
 Die ursprüngliche Hitachi-Annahme bleibt fachlich maßgeblich: Die neun verbleibenden ELEKTRA-1-Anlagen und die geringe Anzahl von Rechnerleiterplatten je Anlage reichen allein voraussichtlich nicht aus, um für einzelne Baugruppentypen robuste statistische Aussagen zu treffen. ELEKTRA 2 wurde deshalb als zusätzliche statistische Referenzbasis vorgesehen. Das ist kein Widerspruch zum SBB-Fokus auf ELEKTRA 1, erfordert aber eine klare methodische Trennung:
 
