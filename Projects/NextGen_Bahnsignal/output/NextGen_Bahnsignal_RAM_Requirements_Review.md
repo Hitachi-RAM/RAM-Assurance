@@ -448,6 +448,130 @@ Baseline LH-SIG-105 only after agreeing the target interpretation, scope and eve
 | 3 | Correct legacy origin references, including missing LH-SIG-94 origin in 0808 and erroneous LH-SIG-82 mounting reference. | Requirements / Product | Reviewed bidirectional traceability. |
 | 3 | Reuse the agreed disturbance taxonomy, counting rules and demonstration approach in the review-comment library and RAM templates. | RAM process owner | Reviewed reusable guidance after customer agreement. |
 
+## LH-SIG-105: Project Requirement Formulation and Fulfillment Strategy
+
+**Added:** 2026-10-16. This chapter consolidates the proposed requirement and the practical fulfillment approach. It supplements the preceding analysis; it does not establish customer approval or demonstrated compliance.
+
+The recommended approach is to formulate a **quantitative functional-disturbance requirement**, supported by an agreed verification specification, rather than another hardware MTBF requirement.
+
+> The requirement specifies the permissible disturbance frequency. The verification specification defines what counts, how exposure is measured, and when the evidence is sufficient.
+
+### Proposed Project Requirement
+
+> **NGB-RAM-DST-105-01 - Zulässige funktionale Störungsrate**  
+> Die funktionale Störungsrate des Signalgebers darf unter dem freigegebenen Einsatz- und Umgebungsprofil **0,001 Störungsereignisse je Signalgeberjahr** nicht überschreiten. Als Störungsereignisse gelten die im freigegebenen Störungskatalog für LH-SIG-105 definierten Ereignisse. Die Ermittlung der Exposition erfolgt gemäß der freigegebenen Nachweisspezifikation.
+
+**Traceability:** LH-SIG-105 -> SE:FL:FEA:0806 -> NGB-RAM-DST-105-01.
+
+This wording refines the same draft requirement identified earlier in this report; it is not a second independent requirement. It is a **proposed event-rate interpretation**, not an agreed contractual clarification. It must not silently replace the number of affected units with the number of events if the customer intended the former.
+
+### Accompanying Event Definition
+
+Based on the customer clarification quoted in S4, the following definition is proposed for approval:
+
+> Ein LH-SIG-105-Störungsereignis liegt vor, wenn ein gültiger Schaltauftrag unter spezifizierten Betriebsbedingungen nicht zum geforderten funktionalen Verhalten des Signalgebers führt und das Ereignis dem vereinbarten, nicht-sicherheitsrelevanten Ereignisumfang zugeordnet ist.
+
+**Example:** A valid switch-on command is issued, but the green light remains dark beyond the specified response time.
+
+The response time must come from the applicable functional/interface specification. No new time limit is introduced by this definition.
+
+| Topic | Decision required before baselining |
+| --- | --- |
+| Event scope | Only failed switching, or also flicker, temporary intensity deviations and other LH-SIG-10 disturbances? |
+| Repetition | Does a persistent dark state count once, or does every unsuccessful command count? |
+| Recovery | When does a recovered unit become eligible for a new event? |
+| Exposure | Calendar in-service time, powered time or another agreed basis? |
+| Attribution | How are external supply/interface disturbances and hardware-caused switching failures treated? |
+| Applicability | Does the quoted LH4.0 clarification apply to this project? V1.1 assigns LH-SIG-105 to Conventional/SEA, not DSTW. |
+
+Do not automatically exclude a disturbance because it is safe, self-recovering or hardware-caused.
+
+### Three Layers of Fulfillment Evidence
+
+| Evidence layer | Method | What it demonstrates |
+| --- | --- | --- |
+| **Design substantiation** | Failure-mode analysis, interface/timing review, diagnostic assessment and evaluation of common causes. | Relevant disturbance mechanisms have been identified and addressed. |
+| **Functional verification** | Switching, startup/restart, blinking, dormant-use, supply-envelope, temperature and EMC tests. | Required behaviour is achieved under the tested conditions. |
+| **Quantitative demonstration** | Representative field records or justified equivalent evidence, with complete exposure accounting. | Whether the numerical disturbance-frequency target has been demonstrated. |
+
+**Passing functional tests alone does not establish a rate of 0.001 per Signalgeber-year.** A hardware MTBF calculation also does not cover all intermittent, software, timing and interface disturbances.
+
+#### Required Event and Exposure Records
+
+For each event, retain:
+
+- Unit identity and hardware/software configuration.
+- Command, expected response and observed response.
+- Timestamp and operating conditions.
+- Duration, recovery and corrective action.
+- Event classification and attribution.
+
+For the denominator, retain each unit's eligible observation period, including installation/removal and gaps in monitoring.
+
+Allocate data collection between the Signalgeber, interlocking, service tools and FRACAS. The complete recording function need not be implemented inside the Signalgeber.
+
+### Numerical Acceptance Example
+
+#### Inputs and Assumptions
+
+- Target: $r_D \leq 0.001$ events/(Signalgeber year).
+- Illustrative acceptance criterion: **95% one-sided confidence**, not a contractual criterion.
+- Homogeneous Poisson event process, representative exposure and complete observation.
+- Independence and constant frequency require justification; common-cause events require special treatment.
+
+#### Formula
+
+The observed rate is:
+
+$$
+\hat r_D = \frac{K}{E}
+$$
+
+where $K$ is the number of qualifying events and $E$ is eligible exposure in Signalgeber-years.
+
+For zero observed events, the upper confidence bound is:
+
+$$
+r_{D,U} = \frac{-\ln(0.05)}{E}
+$$
+
+#### Calculation
+
+$$
+E \geq \frac{-\ln(0.05)}{0.001}
+= 2995.7\ \text{Signalgeber-years}
+$$
+
+#### Result
+
+| Observation | Upper rate bound, events/(Signalgeber year) | Interpretation under the illustrative criterion |
+| --- | --- | --- |
+| Zero events in 100 Signalgeber-years | Approximately 0.02996 | Encouraging, but insufficient evidence. |
+| Zero events in 1,000 Signalgeber-years | Approximately 0.002996 | Numerical target not demonstrated. |
+| Zero events in 3,000 Signalgeber-years | Approximately 0.000999 | Numerical target demonstrated if the assumptions are valid. |
+
+The customer must agree whether acceptance uses a confidence bound, a simple observed rate or a hard annual event ceiling. These are not equivalent.
+
+### Practical Staged Verification Strategy
+
+| Stage | Required activity | Result / permitted conclusion |
+| --- | --- | --- |
+| **Before design baseline** | Approve the event definition, exposure basis, applicability and acceptance method. | Requirement and verification basis agreed. |
+| **Before product release** | Complete design substantiation and functional robustness tests; assess transferable evidence from previous products. | Design and tested behaviour substantiated; numerical compliance only where sufficient agreed evidence exists. |
+| **During pilot/operation** | Accumulate representative exposure and perform the agreed statistical demonstration. | Numerical compliance assessed against the approved acceptance rule. |
+
+Existing-product data may reduce the demonstration burden only after showing relevance to the new hardware, software, interfaces, mission profile and reporting completeness. Similar product names or a shared architecture alone are insufficient.
+
+If sufficient exposure cannot be obtained before delivery, agree a **staged acceptance arrangement with the customer**. Do not substitute "tests passed" for numerical fulfillment without that agreement.
+
+### Recommended Current Compliance Statement
+
+The following wording is proposed for use when the stated supporting activities are actually in place; it does not assert that those activities have already been completed:
+
+> Die Anforderung ist spezifiziert und wird durch konstruktive Maßnahmen sowie Funktions- und Robustheitsprüfungen unterstützt. Der quantitative Nachweis der zulässigen Störungsrate erfolgt gemäß dem mit dem AG abgestimmten RAM-Nachweisplan. Bis zum Vorliegen ausreichender repräsentativer Nachweisdaten bleibt der quantitative Erfüllungsnachweis offen.
+
+**Conclusion:** The project can specify the requirement and verify the design against relevant disturbance mechanisms. Full numerical fulfillment requires an agreed demonstration method and sufficient representative evidence.
+
 ## Review Verification
 
 The associated review register and calculation workbook were generated and reopened during the original analysis. Checks covered:
