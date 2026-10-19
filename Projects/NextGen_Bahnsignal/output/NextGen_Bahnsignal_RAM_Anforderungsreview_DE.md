@@ -1,11 +1,16 @@
 # NextGen_Bahnsignal – RAM-Anforderungsreview
 
-**Datum der ursprünglichen Analyse:** 15.10.2026  
-**Ergänzung zur Nachweisstrategie:** 16.10.2026  
-**Deutsche Fassung:** 19.10.2026  
-**Status:** Technischer Entwurf zur gemeinsamen Prüfung. Keine freigegebene Anforderungsbaseline und keine Konformitätserklärung.  
-**Gegenstand:** Vergleich der Anforderungen aus dem Lastenheft Signalgeber mit der bisherigen Feature List Signal Element; Schwerpunkt LH-SIG-105.  
-**Bezugsfassung:** [Englischer Bericht](./NextGen_Bahnsignal_RAM_Requirements_Review.md). Die Übersetzung stellt keine neue Prüfung der Quelldokumente dar.
+**Datum der ursprünglichen Analyse:** 15.10.2026
+
+**Überarbeitet:** 19.10.2026 – Beschränkung auf bestehende Anforderungen und dokumentierte Klärungen.
+
+**Status:** Quellenbezogene technische Analyse. Keine neue Anforderungsspezifikation, keine Abnahmevorschrift und keine Konformitätserklärung.
+
+**Gegenstand:** Vergleich des Lastenhefts Signalgeber mit der bisherigen Feature List Signal Element; Schwerpunkt LH-SIG-105.
+
+**Parallelfassung:** [Englischer Bericht](./NextGen_Bahnsignal_RAM_Requirements_Review.md).
+
+**Korrektur gegenüber der bisherigen Fassung:** Eigene Requirement-Entwürfe, zusätzliche Nachweispflichten und statistische Abnahmekriterien wurden entfernt. Sie waren nicht durch die zitierten Kundenanforderungen vorgegeben. Die Rücknahme ist in Kapitel 16 dokumentiert. Die übrigen Projektquellen wurden nicht verändert.
 
 ## Inhaltsverzeichnis
 
@@ -15,618 +20,425 @@
   - [3.1 Umfang und Einschränkungen](#31-umfang-und-einschränkungen)
 - [4. Befunde: RAM-Anforderungen und Vergleich mit der bisherigen FL](#4-befunde-ram-anforderungen-und-vergleich-mit-der-bisherigen-fl)
   - [4.1 Weitere RAM-relevante Anforderungen](#41-weitere-ram-relevante-anforderungen)
-  - [4.2 Wichtige Abgrenzungen zur bisherigen FL](#42-wichtige-abgrenzungen-zur-bisherigen-fl)
-- [5. LH-SIG-105: Interpretation](#5-lh-sig-105-interpretation)
-  - [5.1 Kundenklärung](#51-kundenklärung)
-  - [5.2 Eingangsgrößen](#52-eingangsgrößen)
-  - [5.3 Annahmen](#53-annahmen)
-  - [5.4 Formel und Berechnung](#54-formel-und-berechnung)
-  - [5.5 Ergebnis](#55-ergebnis)
-  - [5.6 Bedingte Interpretation je Schaltanforderung](#56-bedingte-interpretation-je-schaltanforderung)
-- [6. Warum eine Hardware-MTBF-Prognose allein nicht ausreicht](#6-warum-eine-hardware-mtbf-prognose-allein-nicht-ausreicht)
-- [7. Vorgeschlagene Projektanforderungen für LH-SIG-105](#7-vorgeschlagene-projektanforderungen-für-lh-sig-105)
-  - [7.1 Leistungsanforderung unter Vorbehalt der Kundenfreigabe](#71-leistungsanforderung-unter-vorbehalt-der-kundenfreigabe)
-  - [7.2 Unterstützende Anforderungen](#72-unterstützende-anforderungen)
-- [8. Verifikation und statistischer Nachweis](#8-verifikation-und-statistischer-nachweis)
-  - [8.1 Vorgeschlagene Nachweisstrategie](#81-vorgeschlagene-nachweisstrategie)
-  - [8.2 Statistisches Beispiel ohne beobachtete Ereignisse](#82-statistisches-beispiel-ohne-beobachtete-ereignisse)
-  - [8.3 Ratenziel gegenüber fester jährlicher Obergrenze](#83-ratenziel-gegenüber-fester-jährlicher-obergrenze)
+  - [4.2 Wichtige Abgrenzungen](#42-wichtige-abgrenzungen)
+- [5. LH-SIG-105: Quellenlage und Interpretation](#5-lh-sig-105-quellenlage-und-interpretation)
+  - [5.1 Lastenheft](#51-lastenheft)
+  - [5.2 Feature List](#52-feature-list)
+  - [5.3 Dokumentierte Kundenklärung](#53-dokumentierte-kundenklärung)
+  - [5.4 Jahresbezug und offene Interpretation](#54-jahresbezug-und-offene-interpretation)
+- [6. Abgrenzung zur Hardware-MTBF](#6-abgrenzung-zur-hardware-mtbf)
+- [7. Bestehende Anforderung statt neuer Requirements](#7-bestehende-anforderung-statt-neuer-requirements)
+- [8. Nachweisfrage ohne zusätzliche Abnahmekriterien](#8-nachweisfrage-ohne-zusätzliche-abnahmekriterien)
 - [9. Abgrenzung von Verfügbarkeit und Instandhaltbarkeit](#9-abgrenzung-von-verfügbarkeit-und-instandhaltbarkeit)
-- [10. Annahmen und fehlende Informationen](#10-annahmen-und-fehlende-informationen)
-- [11. Risiken](#11-risiken)
-- [12. Empfehlungen](#12-empfehlungen)
-- [13. Erforderliche Nachweise](#13-erforderliche-nachweise)
-- [14. Maßnahmen](#14-maßnahmen)
-- **[15. LH-SIG-105: Formulierung der Projektanforderung und Erfüllungsnachweis](#15-lh-sig-105-formulierung-der-projektanforderung-und-erfüllungsnachweis)**
-  - [15.1 Vorgeschlagene Projektanforderung](#151-vorgeschlagene-projektanforderung)
-  - [15.2 Zugehörige Ereignisdefinition](#152-zugehörige-ereignisdefinition)
-  - [15.3 Drei Ebenen des Erfüllungsnachweises](#153-drei-ebenen-des-erfüllungsnachweises)
-    - [15.3.1 Erforderliche Ereignis- und Expositionsdaten](#1531-erforderliche-ereignis--und-expositionsdaten)
-  - [15.4 Beispiel für die quantitative Abnahme](#154-beispiel-für-die-quantitative-abnahme)
-    - [15.4.1 Eingangsgrößen und Annahmen](#1541-eingangsgrößen-und-annahmen)
-    - [15.4.2 Formel](#1542-formel)
+- [10. Offene Informationen](#10-offene-informationen)
+- [11. Risiken der Interpretation](#11-risiken-der-interpretation)
+- [12. Ergebnis der Anforderungsanalyse](#12-ergebnis-der-anforderungsanalyse)
+- [13. Dokumentierte Nachweisanforderungen und vorliegende Evidenz](#13-dokumentierte-nachweisanforderungen-und-vorliegende-evidenz)
+- [14. Offene Klärungsfragen](#14-offene-klärungsfragen)
+- **[15. LH-SIG-105: Jahresbezogene Bewertung der bestehenden Forderung](#15-lh-sig-105-jahresbezogene-bewertung-der-bestehenden-forderung)**
+  - [15.1 Bezugsanforderung](#151-bezugsanforderung)
+  - [15.2 Ereignisumfang](#152-ereignisumfang)
+  - [15.3 Aussagekraft von Prüfungen](#153-aussagekraft-von-prüfungen)
+  - [15.4 Lesbares Rechenbeispiel für ein Jahr](#154-lesbares-rechenbeispiel-für-ein-jahr)
+    - [15.4.1 Eingangsgrößen des Beispiels](#1541-eingangsgrößen-des-beispiels)
+    - [15.4.2 Rechenregel](#1542-rechenregel)
     - [15.4.3 Berechnung](#1543-berechnung)
-    - [15.4.4 Ergebnis](#1544-ergebnis)
-  - [15.5 Praktische gestufte Nachweisstrategie](#155-praktische-gestufte-nachweisstrategie)
-  - [15.6 Empfohlene Aussage zum aktuellen Erfüllungsstand](#156-empfohlene-aussage-zum-aktuellen-erfüllungsstand)
-- [16. Prüfung der Review-Artefakte](#16-prüfung-der-review-artefakte)
+    - [15.4.4 Aussage und Grenze des Beispiels](#1544-aussage-und-grenze-des-beispiels)
+  - [15.5 Nicht aus der Quelle ableitbare Festlegungen](#155-nicht-aus-der-quelle-ableitbare-festlegungen)
+  - [15.6 Aktueller Erfüllungsstand](#156-aktueller-erfüllungsstand)
+- [16. Korrekturregister und Dokumentprüfung](#16-korrekturregister-und-dokumentprüfung)
 
 ## 1. Zusammenfassung
 
-**LH-SIG-105 ist als Anforderung an die funktionale Störungshäufigkeit berechenbar. Ihre Erfüllung lässt sich jedoch nicht unmittelbar durch eine herkömmliche Hardware-MTBF-Berechnung nachweisen.**
+**LH-SIG-105 enthält eine quantitative, jahresbezogene Störungsforderung. Sie ist nicht allein deshalb unberechenbar, weil sie weder MTBF noch Verfügbarkeit nennt.**
 
-Empfohlene Position:
-
-> Der quantitative Zielwert ist definiert. Ereigniszählung, Expositionsbasis und Nachweiskriterien müssen jedoch vereinbart werden. Eine bauteilbasierte Zuverlässigkeitsprognose allein weist die Erfüllung nicht nach.
-
-Die Projektunterlagen enthalten folgende Grundlagen:
+Die Quellen unterscheiden:
 
 - **LH-SIG-94:** Verfügbarkeit mindestens **0,9999**.
 - **LH-SIG-95:** MTBF **100.000 h**.
-- **LH-SIG-105:** eine Störung je **1.000 Signalgeber und Jahr**.
-- Die bisherige FL behandelt LH-SIG-105 separat in **SE:FL:FEA:0806** und fordert höchstens **0,001 funktionale Störungen je Element und Jahr**.
-- Die lokale Klärungs-E-Mail zitiert eine ÖBB-Antwort vom **12.12.2025**. Sie beschreibt einen **nicht sicherheitsrelevanten fehlerhaften Schaltvorgang**, beispielsweise einen grünen Lichtpunkt, der beim Einschalten dunkel bleibt.
+- **LH-SIG-105:** „Pro Jahr darf bei einem von 1000 Signalgebern eine Störung erfolgen.“
+- **SE:FL:FEA:0806:** höchstens **0,001 Funktionsstörungen je Element und Jahr**.
 
-**Die Störungsrate ist eine RAM-Kennzahl**, auch wenn sie weder die Verfügbarkeit beschreibt noch zwingend dieselbe Ereignispopulation wie die Hardware-MTBF verwendet.
+Die in S4 zitierte ÖBB-Klärung beschreibt einen nicht sicherheitsrelevanten fehlerhaften Schaltvorgang, beispielsweise einen grünen Lichtpunkt, der beim Einschalten dunkel bleibt. Ihre Anwendbarkeit auf die Projektbaseline ist nicht belegt, da der E-Mail-Verlauf auf ein nicht vorliegendes LH 4.0 verweist.
 
-Technische Nutzungsdauer, Hardware-Zuverlässigkeit, Verfügbarkeit, Instandhaltbarkeit und funktionale Störungshäufigkeit sind deshalb getrennt und rückverfolgbar in Projektanforderungen zu überführen.
+**Der Jahresbezug bleibt erhalten.** Die Analyse ersetzt ihn weder durch einen mehrjährigen Beobachtungszeitraum noch durch einen statistischen Mittelwert über mehrere Jahre. LH-SIG-105 und FL0806 legen jedoch nicht allein fest, wie eine konkrete Abnahmeprüfung auszuführen ist.
+
+Eine beobachtete Jahresrate lässt sich aus passenden Daten berechnen. Ein Feature-Status Accepted oder eine Hardware-MTBF-Berechnung allein belegt nicht die beobachtete jährliche Störungsrate. Ein tatsächlicher Erfüllungsnachweis liegt in den bereitgestellten Unterlagen nicht vor.
 
 ## 2. Angewendete Skills
 
-Folgende Repository-Skills wurden für die zugrunde liegende Analyse angewendet:
+Für die technische Analyse wurden folgende Repository-Methodiken berücksichtigt:
 
-- [Railway-RAM](../../../Skills/Railway-RAM.md): RAM-Assurance und Lebenszyklusbewertung für Bahnanwendungen.
-- [REQ-Review](../../../Skills/REQ-Review.md): Eindeutigkeit, Vollständigkeit, Rückverfolgbarkeit und Verifizierbarkeit.
-- [RAM-Metrics](../../../Skills/RAM-Metrics.md): Kennzahlendefinitionen, Exposition, Ereigniszählung und Berichterstattung.
-- [Reliability-Prediction](../../../Skills/Reliability-Prediction.md): Abgrenzung von prognostizierter Ausfallrate, beobachteter Störungshäufigkeit und Nutzungsdauernachweisen.
+- [Railway-RAM](../../../Skills/Railway-RAM.md): Abgrenzung der RAM-Größen und Prüfung der Projektquellen.
+- [REQ-Review](../../../Skills/REQ-Review.md): Trennung von Anforderung, Interpretation und fehlender Information.
+- [RAM-Metrics](../../../Skills/RAM-Metrics.md): Einheit und Berechnung einer beobachteten Störungsrate.
+- [Reliability-Prediction](../../../Skills/Reliability-Prediction.md): Grenzen des Vergleichs mit Hardware-MTBF.
+
+Diese Methodiken begründen keine zusätzlichen Kundenanforderungen. Ein statistisches Konfidenzniveau wird daraus nicht als Projektforderung übernommen.
 
 ## 3. Quellen und Prüfumfang
 
-Die Analyse verwendet Informationen aus folgenden Projektunterlagen:
-
 | Referenz | Quelle | Verwendung |
 | --- | --- | --- |
-| S1 | [715 LH Signalgeber DSTW V1.1_Kom_SS_20250704.pdf](../715%20LH%20Signalgeber%20DSTW%20V1.1_Kom_SS_20250704.pdf) | Anforderungs-IDs, Verbindlichkeit und Variantengültigkeit; insbesondere S. 17–22. |
+| S1 | [715 LH Signalgeber DSTW V1.1_Kom_SS_20250704.pdf](../715%20LH%20Signalgeber%20DSTW%20V1.1_Kom_SS_20250704.pdf) | Lastenheftanforderungen, IDs, Verbindlichkeit und Gültigkeit; insbesondere S. 5 und S. 17–22. |
 | S2 | [LH Signalgeber V2.0 signed.pdf](../LH%20Signalgeber%20V2.0%20signed.pdf) | Kundenanforderungen für konventionelle und SEA-Varianten; Freigabe vom 08.05.2024. |
-| S3 | [FL_SignalElement_old_3BU_62200_1001_FLAPQ.docx](../FL_SignalElement_old_3BU_62200_1001_FLAPQ.docx) | Bisherige Produktfeatures; Dokument 3BU 62200 1001 FLAPQ, ED01, Änderungsverzeichnis vom 08.10.2025. |
-| S4 | [RE_ Aufklärungen durch ÖBB bei LED Ausschreibung.msg](../RE_%20Aufkl%C3%A4rungen%20durch%20%C3%96BB%20bei%20LED%20Ausschreibung.msg) | Interner E-Mail-Verlauf vom 08.01.2026 mit zitierter Kundenantwort vom 12.12.2025. |
-| S5 | [D2.3_Teillastenheft_Allgemeine_Anforderungen_V1.3_Kom_SS_20250704.pdf](../D2.3_Teillastenheft_Allgemeine_Anforderungen_V1.3_Kom_SS_20250704.pdf) | Zusätzliche Umwelt- und Gehäuselebensdaueranforderungen, soweit anwendbar. |
-| S6 | [SSDD_iLED_01PD01.docx](../SSDD_iLED_01PD01.docx) | Architektur, Diagnoseverhalten und Verweis auf einen separaten RAM-Plan; kein quantitativer Erfüllungsnachweis. |
+| S3 | [FL_SignalElement_old_3BU_62200_1001_FLAPQ.docx](../FL_SignalElement_old_3BU_62200_1001_FLAPQ.docx) | Bisherige Produktfeatures; 3BU 62200 1001 FLAPQ, ED01, Änderungsverzeichnis vom 08.10.2025. |
+| S4 | [RE_ Aufklärungen durch ÖBB bei LED Ausschreibung.msg](../RE_%20Aufkl%C3%A4rungen%20durch%20%C3%96BB%20bei%20LED%20Ausschreibung.msg) | Interner Verlauf vom 08.01.2026 mit zitierter Kundenantwort vom 12.12.2025; kein separat vorliegender offizieller Antwortnachweis. |
+| S5 | [D2.3_Teillastenheft_Allgemeine_Anforderungen_V1.3_Kom_SS_20250704.pdf](../D2.3_Teillastenheft_Allgemeine_Anforderungen_V1.3_Kom_SS_20250704.pdf) | Zusätzliche Umwelt- und Gehäuseanforderungen, soweit anwendbar. |
+| S6 | [SSDD_iLED_01PD01.docx](../SSDD_iLED_01PD01.docx) | Architektur und Diagnoseverhalten; verweist auf einen separaten RAM-Plan, enthält aber keinen quantitativen Nachweis zu LH-SIG-105. |
 
-Zusätzlich wurden Unternehmensprozesse und Repository-Wissen berücksichtigt:
-
-- [G-PRD_S06000_02_EN.pdf](../../../Knowledge/Process/RAM-Process/G-PRD_S06000_02_EN.pdf): Anforderungsanalyse, RAM-Planung, Durchführung und Überwachung; RAM-Nachweis- und FRACAS-Artefakte.
-- [Requirements_Lessons.md](../../../Knowledge/Lessons_Learned/Requirements_Lessons.md): RL-011 zur Abgrenzung der Wiederherstellungszeit und RL-012 zur Klärung der Kundenintention vor Baseline-Freigabe. Dies sind freigegebene Beispiellehren, keine historischen Leistungsnachweise dieses Projekts.
+Als Prozess- und Review-Kontext wurden außerdem [G-PRD_S06000_02_EN.pdf](../../../Knowledge/Process/RAM-Process/G-PRD_S06000_02_EN.pdf) und [Requirements_Lessons.md](../../../Knowledge/Lessons_Learned/Requirements_Lessons.md) betrachtet. Prozesshinweise und Beispiellehren sind keine projektbezogenen Kundenforderungen oder Felddaten.
 
 ### 3.1 Umfang und Einschränkungen
 
-- Der Vergleich umfasst alle inhaltlichen Anforderungen des RAMS-Kapitels, LH-SIG-84 bis LH-SIG-116 sowie LH-SIG-139. Ergänzend werden ausgewählte Definitionen, funktionale Abnahmekriterien, Umweltbedingungen und Nachweisanforderungen behandelt.
-- LH-SIG-83 und LH-SIG-117 sind Kapitelüberschriften, keine inhaltlichen Anforderungen.
-- Dies ist keine vollständige Prüfung aller funktionalen, elektrischen, optischen, umweltbezogenen oder sicherheitstechnischen Anforderungen.
-- Verbindlichkeit und Gültigkeit folgen **S1, DSTW-LH V1.1**. Die unterzeichnete V2.0 gehört zu einem anderen Dokumentenstrang. Versionsnummern allein bestimmen keine vertragliche Rangfolge.
-- S4 verweist auf **LH 4.0**, das nicht im Projektordner vorliegt, und nennt die FL-Kennung FLAPC. Die bereitgestellte Vergleichsdatei trägt die Kennung FLAPQ. Vertragsbaseline und offizieller Klärungsnachweis sind zu bestätigen.
-- Die nachfolgenden Beschreibungen sind technische Zusammenfassungen, keine wortgetreuen Abschriften.
-- Vorgeschlagene Formulierungen und statistische Abnahmebeispiele benötigen eine Freigabe.
-- Kundendokumentation muss LH-SIG-119 einschließlich der deutschen Dokumentationssprache erfüllen.
+- Der Vergleich umfasst LH-SIG-84 bis LH-SIG-116 und LH-SIG-139 sowie ausgewählte RAM-relevante Anforderungen außerhalb des RAMS-Kapitels. LH-SIG-83 und LH-SIG-117 sind Überschriften.
+- Die Tabellen geben technische Zusammenfassungen wieder, keine vollständigen wortgetreuen Abschriften. Nur ausdrücklich gekennzeichnete Zitate sind Quellwortlaut.
+- Verbindlichkeit und Gültigkeit beziehen sich auf S1. S2 gehört zu einem anderen Dokumentenstrang; Versionsnummern allein bestimmen keine vertragliche Rangfolge.
+- S4 nennt LH 4.0 und die FL-Kennung FLAPC. Vorhanden sind die oben aufgeführten LH-Fassungen und FLAPQ. Die Abweichung bleibt offen.
+- Ein eigenständiges, freigegebenes Projekt-Pflichtenheft mit einer verbindlichen Nachweismethode zu LH-SIG-105 wurde unter den sechs bereitgestellten Projektdateien nicht identifiziert. S6 ist eine Systementwurfsbeschreibung.
+- Es werden keine neuen Requirement-IDs, Grenzwerte, Testumfänge, Aufzeichnungsfunktionen oder Abnahmeverfahren festgelegt.
+- Angaben als Info oder Soll werden nicht zu Muss-Anforderungen hochgestuft.
+- Es handelt sich nicht um einen vollständigen Review aller funktionalen, elektrischen, optischen oder sicherheitstechnischen Anforderungen.
 
 ## 4. Befunde: RAM-Anforderungen und Vergleich mit der bisherigen FL
 
-Die Featurenummern in der Tabelle stehen verkürzt für **SE:FL:FEA:xxxx**.
+Featurenummern stehen verkürzt für **SE:FL:FEA:xxxx**. Die letzte Spalte enthält Quellenvergleiche und offene Punkte, keine zusätzlichen Projektanforderungen.
 
-| LH-Anforderung | Kundenanforderung / Intention | Bisherige FL | Bewertung und Überführung ins Projekt |
+| LH-Anforderung | Inhalt der bestehenden Quelle | Bisherige FL | Vergleich / offener Punkt |
 | --- | --- | --- | --- |
-| **84, 88** | Montage und Tausch von Teilsystemen mit handelsüblichem Werkzeug. | 1006; 0316/0317 | Inhaltlich abgedeckt. Freigegebene Werkzeuge und Bedingungen des Instandhaltbarkeitsnachweises festlegen. |
-| **85** | Austausch defekter Frontoptik, Leuchtmittel oder Elektronik ohne Gehäusedemontage oder optische Neueinstellung. | 1005 | In V1.1 Info. LRU-Tausch ist nicht zwingend gleichbedeutend mit separatem Komponententausch. Umgang mit dem Ziel dokumentieren. |
-| **86–87** | Vom Gehäuse unabhängig tauschbares Lichtpunkt- bzw. Anzeigerteilsystem ohne optische Neueinstellung. | 1005 | In V1.1 Soll. Die unterzeichnete V2.0 fordert das Lichtpunktteilsystem verbindlicher. Baseline und Umgang mit Soll-Zielen klären. |
-| **89** | Tausch darf physikalische und funktionale Eigenschaften nicht verändern. | 1005 | In messbare Abnahmekriterien nach dem Tausch überführen. |
-| **90** | Einbau oder Austausch maximal **10 min**, bezeichnet als MRT. | 0811; 1005 | 0811 schwächt das Maximum zu einer mittleren Reparaturzeit ab und schließt Vorbereitung aus. 1005 fordert weniger als 10 min. **Maximal 600 s je definierter Tätigkeit** mit vereinbartem Start/Ende festlegen. |
-| **91** | Sichtbarkeit bleibt trotz Degradation, Temperatureinfluss und Teilausfällen über die Nutzungsdauer erhalten. | 0219; 0810 | Explizite optische Nutzungsdaueranforderung und Nachweise erforderlich. Zulässige Teilausfälle dürfen die Sichtbarkeit nicht abschwächen. |
-| **92** | Der geforderte Achslichtstärkebereich darf während der Nutzungsdauer nicht unterschritten werden. | 0808/0810 | 0808 referenziert diese ID, fordert im verbindlichen Text aber Verfügbarkeit und MTBF. Explizite optische Nutzungsdaueranforderung ergänzen. |
-| **93** | Technische Nutzungsdauer mindestens **130.000 Betriebsstunden**. | 0810; Kommentare zu 0808 | **15 Kalenderjahre** sind bei intermittierender Nutzung nicht allgemein gleichwertig. Betriebsstundenziel beibehalten und Kalenderalterung separat behandeln. |
-| **94** | Verfügbarkeit mindestens **0,9999** über die Lebensdauer. | 0808 | Zahlenwert stimmt überein. Verfügbarkeitsart, Systemgrenze, Ausfallzeitanteile und Beobachtungsbasis fehlen. |
-| **95** | MTBF **100.000 h**. | 0808: mindestens **200.000 h** | Bisheriges Ziel ist bei gleicher Systemgrenze und gleichem Einsatzprofil strenger. Mindestwertinterpretation und fortbestehende Produktzusagen bestätigen. |
-| **96** | Schaltungstechnische Maßnahmen zur Erreichung der Nutzungsdauer sind freigestellt. | Entwurfsprinzipien | Info bzw. Gestaltungsfreiheit, kein zusätzliches quantitatives Ziel. |
-| **97** | Betriebsstunden lokal speichern. | 0407 | Feature mit Status Accepted zählt Zeit unter Spannung einschließlich Dunkelzeit. V1.1 gilt für SEA. Genauigkeit, Erhalt der Werte und Verhalten beim Tausch festlegen. |
-| **98** | Nutzungsanzeige am Signalstandort ohne Demontage oder zusätzliche Systeme sichtbar. | 0633 | Lücke: Feature ist Descoped, obwohl V1.1 eine Muss-Anforderung für konventionelle/SEA-Varianten enthält. |
-| **99** | Grün bis 68 % der Nutzungsdauer; gelb 68,1–81,1 %; rot ab 81,2 %. | 0634 | Lücke: Feature ist Descoped. Quantisierung und Rundung zur Schließung der Intervalllücken vereinbaren. |
-| **100** | Position des Indikators mit dem Kunden abstimmen. | 0633 | Ein ausgeplantes Feature belegt keine abgestimmte Einbauposition. |
-| **101** | Betriebsstunden nach Demontage kabelgebunden auslesen. | 0643 | Akzeptiertes CAN-Auslesen unterstützt digitale Varianten. Konventionelle Varianten und Auslesekonfiguration prüfen. |
-| **102** | Drahtloses Auslesen ohne Demontage. | 0644 | In V1.1 Soll, in der FL Descoped. Formelle Entscheidung erforderlich. |
-| **103** | Nutzungsdauergrenze umfasst alle notwendigen Teile ab kabelseitiger Klemmleiste einschließlich des vollständigen Steckers. | 0810 | Inhaltlich abgedeckt. Nicht nur die Elektronikbaugruppe bewerten. |
-| **104** | Typisch 300 Einschaltungen/Tag, 100 Blinkanschaltungen/Tag zu je 2 min; Extreme von Dauerbetrieb bis einmal in zwei Jahren. | 0810/0812/0813 | Widersprüchliche bisherige Profile: 300 × 2 min bzw. 100 × 1 min. Variantenbezogene Profile vereinbaren; typische Mittelwerte sind keine allgemeinen Maximalwerte. |
-| **105** | Eine Störung je **1.000 Signalgeber und Jahr**. | 0806 | Zahlenziel zugeordnet. Ereignisumfang, Zählregeln, Exposition und Nachweiskriterien sind unvollständig. |
-| **106** | Bei Störung hochohmige Stellwerksschnittstelle für konventionelle Varianten. | 0805 | Impedanzkriterien und Reaktionszeiten festlegen. |
-| **107** | Störung an der Stellwerksschnittstelle offenbaren, für DSTW/SEA. | 0805; 0406 | Diagnosemeldungen, Abdeckung, Latenz und Verhalten bei Kommunikationsausfall festlegen. |
-| **108–109** | Keine erforderliche periodische Wartung während der Nutzungsdauer, ausgenommen definierte äußere Reinigung. | 1001 | Weitgehend abgedeckt. Korrektive Eingriffe gegenüber Reparatur nach zufälligem Ausfall abgrenzen. |
-| **110** | Falls erforderlich: Instandhaltungs-/Inspektionsintervall mindestens **2 Jahre**. | 1004 | Das bisherige Ideal „keine wiederkehrende Prüfung“ enthält die explizite Untergrenze nicht. |
-| **111** | Intervall von mindestens **4 Jahren** als Ziel. | 1004 | Kein explizites Vierjahresziel identifiziert. Erfüllung oder freigegebene Abweichung dokumentieren. |
-| **112** | Sicherheitsnachweis/Anwendungsbedingungen dürfen keine Stellwerksansteuerung oder Zustandswechsel für Inspektion/Instandhaltung verlangen. | 1003 | Bisherige Formulierung schwächer. Explizites Verbot erhalten und Diagnoseannahmen bei seltenem Betrieb prüfen. |
-| **113** | Signaltechnische Sicherheit SIL4 im Zulassungssicherheitsnachweis dokumentieren. | 0801/0807 | Sicherheitsbezogene Anforderung, kein Ersatz für RAM-Nachweise. |
-| **114–116** | Anwendbare THR-Matrizen für kleine/große Lichtpunkte und Signalgeber. | 0801 | Kontrollierte Matrizen beschaffen. Ein allgemeiner THR-Einzelwert ersetzt keine gefährdungsspezifischen Zuweisungen. |
-| **139** | Leuchtdauer bei konventionellen Varianten lokal speichern. | 0407 | Lücke: Zeit unter Spannung einschließlich Dunkelzeit ist nicht gleich Leuchtdauer. |
+| **84, 88** | Montage und Tausch mit handelsüblichem Werkzeug. | 1006; 0316/0317 | Inhaltliche Entsprechung. Konkrete Nachweisbedingungen sind durch diesen Vergleich nicht festgelegt. |
+| **85** | Austausch von Frontoptik, Leuchtmittel oder Elektronik ohne Gehäusedemontage bzw. optische Neueinstellung. | 1005 | In V1.1 Info. LRU-Tausch entspricht nicht zwingend separatem Komponententausch. |
+| **86–87** | Gehäuseunabhängiger Tausch von Lichtpunkt-/Anzeigerteilsystem ohne optische Neueinstellung. | 1005 | In V1.1 Soll; S2 verwendet für das Lichtpunktteilsystem verbindlichere Formulierungen. Gültigkeit für 87 in S1 nicht befüllt. |
+| **89** | Tausch ohne Änderung physikalischer und funktionaler Eigenschaften. | 1005 | Inhaltliche Entsprechung; konkrete Umsetzung nicht nachgewiesen. |
+| **90** | Einbau/Austausch maximal 10 min, als MRT bezeichnet. | 0811; 1005 | 0811 verwendet eine mittlere Reparaturzeit und schließt Vor-/Nachbereitung aus; 1005 fordert weniger als 10 min. Maximum und Mittelwert sind nicht gleichbedeutend. 10 min entsprechen 600 s, ohne neue Zeitvorgabe. |
+| **91** | Sichtbarkeit trotz Degradation, Temperatur und Teilausfällen während der Nutzungsdauer erhalten. | 0219; 0810 | Teilweise optische Nutzungsdauerabdeckung; kein vollständiger Nachweis durch die Featuretexte. |
+| **92** | Achslichtstärkebereich während der Nutzungsdauer nicht unterschreiten. | 0808/0810 | 0808 referenziert die ID, fordert im verbindlichen Text aber Verfügbarkeit/MTBF statt einer expliziten optischen Grenze. |
+| **93** | Technische Nutzungsdauer mindestens 130.000 Betriebsstunden. | 0810; Kommentare zu 0808 | 15 Kalenderjahre sind bei intermittierender Nutzung nicht gleich 130.000 Betriebsstunden. |
+| **94** | Verfügbarkeit mindestens 0,9999 über die Lebensdauer. | 0808 | Zahlenwert entspricht 99,99 %. Verfügbarkeitsart und Ausfallzeitumfang sind in diesem Wortlaut nicht definiert. |
+| **95** | „Ein Signalgeber muss eine MTBF von 100.000h aufweisen.“ | 0808: mindestens 200.000 h | FL nennt ausdrücklich einen Mindestwert; LH-Wortlaut nicht. Vergleich hängt auch von Systemgrenze, Fehlerdefinition und Profil ab. |
+| **96** | Schaltungstechnische Maßnahmen zur Nutzungsdauererreichung freigestellt. | Entwurfsprinzipien | Info/Gestaltungsfreiheit, kein eigenes Zahlenziel. |
+| **97** | Betriebsstunden lokal speichern; Gültigkeit SEA. | 0407 | Zählt Zeit unter Spannung einschließlich Dunkelzeit. |
+| **98** | Nutzungsanzeige ohne Demontage/Zusatzsystem am Standort sichtbar. | 0633 | Feature Descoped trotz Muss in S1 für konventionelle/SEA-Varianten; keine Kundenbefreiung belegt. |
+| **99** | Grün bis 68 %, gelb 68,1–81,1 %, rot ab 81,2 % der Nutzungsdauer. | 0634 | Feature Descoped. Umgang mit Werten zwischen den genannten Grenzen im Wortlaut nicht erläutert. |
+| **100** | Position des Indikators mit dem AG abstimmen. | 0633 | Kundenabstimmung aus dem Featurestatus nicht belegbar. |
+| **101** | Kabelgebundenes Auslesen nach Demontage. | 0643 | CAN-Auslesen beschrieben; Anwendbarkeit auf konventionelle Varianten offen. |
+| **102** | Drahtloses Auslesen ohne Demontage. | 0644 | Soll in S1, Descoped in FL. Descope ist keine dokumentierte Kundenbefreiung. |
+| **103** | Nutzungsdauer umfasst Gesamtsystem ab kabelseitiger Klemmleiste einschließlich vollständigem Stecker. | 0810 | Inhaltliche Entsprechung. Aussage betrifft ausdrücklich die Nutzungsdauergrenze. |
+| **104** | Durchschnittlich 300 Einschaltungen/Tag bzw. 100 Blinkanschaltungen/Tag zu je 2 min; kontinuierlicher bis sehr seltener Betrieb. | 0810/0812/0813 | Unterschiedliche FL-Profile: unter anderem 300 × 2 min und 100 × 1 min. S1 kennzeichnet die Angabe als Info; Durchschnitt ist kein universeller Maximalwert. |
+| **105** | Pro Jahr darf bei einem von 1.000 Signalgebern eine Störung erfolgen. | 0806 | Jährliche Normierung 0,001 Funktionsstörungen je Element und Jahr vorhanden. Ereigniszählung und konkrete Nachweismethode nicht vollständig beschrieben. |
+| **106** | Bei Störung hochohmige Stellwerksschnittstelle, konventionell. | 0805 | Verwandte analoge Fehlerreaktion; keine neue Impedanz-/Zeitgrenze aus diesem Review. |
+| **107** | Störungsoffenbarung an der Schnittstelle, DSTW/SEA. | 0805; 0406 | Diagnoseverhalten beschrieben; numerische Erfüllung nicht aus Featuretext ableitbar. |
+| **108–109** | Keine erforderliche vorgeschriebene/periodische Wartung; Ausnahme äußere Reinigung. | 1001 | Inhaltlich ähnlich. Wortlaut zu korrektiven Eingriffen und Reparatur nach zufälligem Ausfall auslegungsbedürftig. |
+| **110** | Falls erforderlich: Instandhaltungs-/Inspektionsintervall mindestens 2 Jahre. | 1004 | „Im Idealfall keine wiederkehrende Prüfung“ übernimmt die Zweijahresgrenze nicht ausdrücklich. |
+| **111** | Mindestens 4 Jahre als Intervallziel, Soll. | 1004 | Keine explizite Vierjahresangabe identifiziert. |
+| **112** | Keine vorgeschriebene Stellwerksansteuerung/Zustandswechsel für Instandhaltungszwecke über Sicherheitsnachweis/Anwendungsbedingungen. | 1003 | „Sicherheit oder Anwendungsbedingungen nicht beeinflussen“ ist nicht dasselbe wie das Verbot einer geforderten Ansteuerung. |
+| **113** | SIL4-Sicherheit im Zulassungsnachweis dokumentieren. | 0801/0807 | Sicherheit ist von Störungsrate und Verfügbarkeit zu unterscheiden. |
+| **114–116** | THR-Matrizen für kleine/große Lichtpunkte und Signalgeber. | 0801 | Allgemeiner FL-THR-Wert ersetzt nicht ohne Zuordnung die referenzierten Matrizen. |
+| **139** | Leuchtdauer lokal speichern; konventionelle Varianten. | 0407 | Betriebsstunden einschließlich Dunkelzeit sind nicht dieselbe Größe wie Leuchtdauer. |
 
 ### 4.1 Weitere RAM-relevante Anforderungen
 
-| LH-Anforderung | RAM-Bezug | Vergleich / Maßnahme |
+| LH-Anforderung | Quelleninhalt / RAM-Bezug | Vergleich / offener Punkt |
 | --- | --- | --- |
-| **5–9** | Signalgebertypen und Gesamtsystemgrenzen. | Gelieferte Optik, Schnittstelle, Stecker, Befestigung, Gehäuse und thermische Einrichtungen entsprechend berücksichtigen. |
-| **10–11** | Störungsdefinition und nicht spezifiziertes optisches Verhalten. | LH-SIG-10 umfasst Funktionsverlust, optische Abweichungen, Schnittstellenabweichungen und Flackern. Mit der engeren Schaltvorgangsklärung abstimmen. |
-| **12–13** | Störungsreaktion und dunkler/hochohmiger Zustand. | 0805 behandelt nicht behebbare Fehler. Weitere Verhaltensabweichungen und digitale Schnittstellen prüfen. |
-| **18** | Anzuwendende Normen einschließlich EN 50126-1. | Ausgaben und Anwendbarkeit in der Normenbaseline festlegen. |
-| **33, 35–36** | Erhalt der Justierung, Tausch ohne Neueinstellung und Masse. | 0317/1005 decken Tauschintention ab. Variantenbezogene Masseforderungen teilweise strenger. Messbare Kriterien festlegen. |
-| **40–48** | Umweltbeständigkeit, Schnee, Temperatur, EMV, Transport/Lagerung, IP und Druck-/Sogbelastung. | Vollständiges freigegebenes Umweltprofil und Qualifikationsnachweise verwenden. IP65 übertrifft IP54, ist aber allein kein Nutzungsdauernachweis. |
-| **54–57, 63, 65** | Sichtbarkeit, Einblickwinkel, Lichtverteilung und Erhalt der Lichtstärke. | Kriterien zur funktionalen Störungsklassifikation und optischen Nutzungsdauer, keine MTBF-Zielwerte. |
-| **67–69** | Farbstabilität bei Temperatur, Alterung, Spannungsänderungen und Phantomlicht. | 0220 deckt Intention ab. Informelle Farbtoleranzabweichungen benötigen eine Kundenfreigabe. |
-| **71, 74, 81–82** | Störungsoffenbarung, Serienschaltung, Spannungsverhalten und kein Flackern bei einpoliger Abschaltung. | In Störungs- und Schnittstellenverifikation aufnehmen. 0317 referenziert LH-SIG-82 fälschlich für Befestigung. |
-| **76–77** | Blinken mit 1 Hz, Tastverhältnis 1:1 und Toleranzen. | 0502 ist enger toleriert. Festlegen, ob jede Blinkflanke eine Schaltanforderung ist. |
-| **118** | RAM-Nachweise. | Installationsunterlagen allein gewährleisten kein vollständiges RAM-Nachweispaket. |
-| **119–120** | Deutsche Dokumentation sowie veränderbare/unveränderbare digitale Formate. | Englische generische Produktunterlagen allein erfüllen die Kundenlieferpflicht nicht. |
-| **121–123** | Handbuch, Diagnose, Ersatzteile, Messverfahren und freigegebene Werkzeuge. | Vollständigkeit prüfen und Werkzeugabweichungen schriftlich freigeben lassen. |
-| **124–126** | Kennzeichnung und maschinenlesbare Daten für Anlagen- und FRACAS-Rückverfolgbarkeit. | Identität, Konfiguration, Exposition und Störungsdaten verknüpfen. |
-| **135** | Lichtstärke kleiner Lichtpunkte. | 0619 passt zum Nennbereich. **0624 erlaubt nachts mindestens 21 cd statt geforderter 40 cd**. Variantengültigkeit und Alterungsreserve klären. |
-| **136–138** | Anzeigerlichtstärke, Sichtwinkel und Symbolerkennbarkeit. | Erkennbarkeit bei zulässigen Teilausfällen prüfen. Pixel-Ausfallgrenzen anderer Kunden nicht automatisch für ÖBB übernehmen. |
+| **5–9** | Signalgebertypen und Gesamtsystemdefinitionen. | Optik, Schnittstelle, Stecker, Befestigung und Gehäuse gehören entsprechend der jeweiligen Definition zum System. |
+| **10–11** | Störungsdefinition und nicht spezifiziertes optisches Verhalten. | Breiter als das Schaltbeispiel in S4; Verhältnis zur Klärung offen. |
+| **12–13** | Störungszustand, dunkel/hochohmig. | 0805 behandelt nicht behebbare Fehler; vollständige Deckung und digitale Anwendbarkeit nicht belegt. |
+| **18** | Normen einschließlich EN 50126-1. | 0108/0701/0807 enthalten Bezüge; Vertragsausgaben sind damit nicht abschließend bestimmt. |
+| **33, 35–36** | Erhalt der Justierung, Tausch ohne Neujustierung, Massegrenzen. | 0317/1005 sowie Massefeatures haben Entsprechungen, teilweise strengere Produktwerte. |
+| **40–48** | Umwelt, Schnee, Temperatur, EMV, Transport/Lagerung, IP, Druck/Sog. | 0703/0706/0707/0314/0803/0301 behandeln diese Themen. IP65 in FL gegenüber IP54 im LH; Temperaturbezüge und Profile nicht durchgehend gleich. |
+| **54–57, 63, 65** | Sichtbarkeit, Winkel, Verteilung und Erhalt der Lichtstärke. | Funktionale Kriterien für Störungen und Nutzungsdauer, keine zusätzlichen MTBF-Ziele. |
+| **67–69** | Farbstabilität bei Alterung, Temperatur, Spannung und Phantomlicht. | 0220 mit entsprechender Intention; informelle Farbabweichungen belegen keine Kundenfreigabe. |
+| **71, 74, 81–82** | Fehleroffenbarung, Serienschaltung, Spannungsverhalten, kein Flackern bei einpoliger Abschaltung. | Schnittstellenbezug zur Störungsdefinition. 0317 referenziert LH-SIG-82 fälschlich für Befestigung. |
+| **76–77** | 1 Hz, Tastverhältnis 1:1, Toleranzen. | 0502 enthält engere Toleranz; daraus folgt keine LH-SIG-105-Zählregel für Blinkflanken. |
+| **118–120** | RAM-Nachweise, deutsche Sprache, digitale veränderbare/unveränderbare Formate. | 0904/0905/0807 teilweise passend; englische generische Unterlagen allein entsprechen nicht der deutschen Lieferforderung. |
+| **121–123** | Handbuch, Diagnose, Ersatzteile, Messverfahren und Werkzeuge. | 0904/0905/1006 mit Entsprechungen; vollständige Lieferung nicht belegt. |
+| **124–126** | Kennzeichnung und maschinenlesbare Angaben. | 0903; daraus folgt nicht automatisch eine zusätzliche Ereignisprotokollierungsfunktion. |
+| **135** | Kleine Lichtpunkte: nachts 40–300 cd im genannten Bereich. | 0619 passt nominal; 0624 nennt mindestens 21 cd statt 40 cd. Variantenbezogene Diskrepanz. |
+| **136–138** | Anzeigerlichtstärke, Winkel und Erkennbarkeit. | 0218/0601/0602 haben Entsprechungen. Pixel-Ausfallgrenzen anderer Kunden sind nicht automatisch ÖBB-Grenzen. |
 
-### 4.2 Wichtige Abgrenzungen zur bisherigen FL
+### 4.2 Wichtige Abgrenzungen
 
-- **Der Feature-Status Accepted ist kein Nachweis der Kundenkonformität.**
-- **30 Jahre Produktunterstützung/Produktlebensdauer** nach 0809 sind von **130.000 Betriebsstunden technischer Nutzungsdauer** und ausfallfreiem Betrieb zu trennen.
-- S5 fordert gegebenenfalls **30 Jahre UV-Beständigkeit der Gehäuse**; diese Anforderung ist separat zuzuweisen.
-- Umgebungstemperatur, äußere Gehäusetemperatur und innere Bauteiltemperatur dürfen nicht gleichgesetzt werden.
-- S5 fordert gegebenenfalls **−40 bis +70 °C Umgebungstemperatur im Gleisbereich**. LH-SIG-42/43 beziehen sich dagegen auf äußere Gehäusetemperaturen.
-- Eine bisherige Rechenannahme von **20 °C** bildet kein vollständiges Einsatzprofil ab.
+- Accepted bedeutet Featureannahme, nicht nachgewiesene Umsetzung oder Kundenkonformität.
+- Descoped bedeutet Produktentscheidung, nicht nachgewiesenen Kundenverzicht.
+- 30 Jahre Produktunterstützung/Produktlebensdauer nach 0809 sind nicht identisch mit 130.000 Betriebsstunden technischer Nutzungsdauer.
+- Die gegebenenfalls anwendbare 30-jährige UV-Beständigkeit aus S5 betrifft Gehäuse, nicht automatisch sämtliche Bauteile.
+- Umgebungstemperatur, äußere Gehäusetemperatur und innere Bauteiltemperatur sind unterschiedliche Größen. S5 nennt gegebenenfalls −40 bis +70 °C im Gleisbereich; LH-SIG-42/43 beziehen sich auf das Gehäuse.
+- Eine FL-Annahme von 20 °C ist nicht mit allen Umweltforderungen gleichzusetzen.
 
-## 5. LH-SIG-105: Interpretation
+## 5. LH-SIG-105: Quellenlage und Interpretation
 
-### 5.1 Kundenklärung
+### 5.1 Lastenheft
 
-S4 unterstützt die Einordnung von LH-SIG-105 als Anforderung an **fehlerhafte Schaltvorgänge**, statt lediglich die Hardware-Ausfallrate aus LH-SIG-95 anzuwenden.
+**Wortlaut S1, LH-SIG-105, S. 19:**
 
-Dabei bleiben folgende Punkte offen:
+> Die zulässige Störungsrate ist wie folgt definiert und darf nicht überschritten werden:
+>
+> Pro Jahr darf bei einem von 1000 Signalgebern eine Störung erfolgen.
 
-1. Die zitierte Antwort bezeichnet LH-SIG-95 als „Verfügbarkeit“. Technisch wird dort **MTBF** gefordert; LH-SIG-94 ist die separate Verfügbarkeitsanforderung.
-2. Der Verlauf verweist auf das nicht bereitgestellte **LH 4.0**. Seine Anwendbarkeit ist zu bestätigen.
-3. Ein fehlerhafter Schaltvorgang kann eine Hardwareursache haben. **Hardwarebedingte Schaltfehler und störende sichere Dunkelschaltungen nicht ohne Kundenvereinbarung ausschließen.**
-4. V1.1 ordnet LH-SIG-105 **konventionellen und SEA-Varianten**, nicht DSTW zu. Eine Erweiterung muss explizit erfolgen.
-5. Jährliche Störungsgrenze, Schaltbeispiel und breite Definition nach LH-SIG-10 benötigen einen abgestimmten Ereigniskatalog.
-6. **Ein Ereignis** und **ein betroffenes Gerät** sind unterschiedliche Kennzahlen, wenn dasselbe Gerät wiederholt gestört ist.
+Verbindlichkeit: **Muss**. Gültigkeit: **Konventionell, SEA**. DSTW ist für diese Zeile nicht genannt.
 
-### 5.2 Eingangsgrößen
+### 5.2 Feature List
 
-| Parameter | Wert | Quelle / Status |
+**Wortlaut S3, SE:FL:FEA:0806:**
+
+> Die Störungsrate (Anzahl von Störungen je Element und Jahr) für Funktionsstörungen (fallweise Einschaltversagen, fallweise Toleranzüberschreitungen, etc.) eines Signalelements darf nicht mehr als 0.001 betragen.
+
+Die FL nennt als Ursprung LH-SIG105 und den Status Accepted. Sie macht die Normierung auf Element und Jahr explizit und nennt Beispiele funktionaler Störungen.
+
+### 5.3 Dokumentierte Kundenklärung
+
+Die in S4 zitierte Antwort vom 12.12.2025 beschreibt, dass unter 1.000 Signalgebern ein Schaltvorgang im nicht sicherheitsrelevanten Fall fehlerhaft sein darf; Beispiel: grüner Lichtpunkt bleibt beim Einschalten dunkel.
+
+Die Antwort bezeichnet LH-SIG-95 als Verfügbarkeit. Der Lastenheftwortlaut fordert dort jedoch MTBF; Verfügbarkeit steht separat in LH-SIG-94. Diese Terminologieabweichung ändert nicht automatisch die Anforderungstexte.
+
+Die Antwort liegt als Zitat in einem internen E-Mail-Verlauf vor. Ob und mit welcher Rangfolge sie die vorliegenden LH-Fassungen präzisiert, ist nicht abschließend belegt.
+
+### 5.4 Jahresbezug und offene Interpretation
+
+Belegt sind **„pro Jahr“** im LH und **„je Element und Jahr“** in der FL. Es werden keine längere Beobachtungsdauer und keine Mittelung über mehrere Jahre daraus abgeleitet.
+
+Nicht abschließend erklärt sind wiederholte Störungen desselben Geräts, feste oder gleitende Jahresgrenzen sowie der Umgang mit wechselnder Flotte und Erfassungslücken. Das sind offene Analysefragen, keine hier festgelegten Zusatzbedingungen.
+
+## 6. Abgrenzung zur Hardware-MTBF
+
+LH-SIG-95 nennt eine Zeitgröße in Stunden. LH-SIG-105/FL0806 betreffen die Anzahl funktionaler Störungen je Element und Jahr. Die Ereignisumfänge sind nicht als identisch belegt.
+
+Eine Hardwareprognose allein liefert keine beobachtete jährliche Anzahl sporadischer Einschaltfehler oder Toleranzüberschreitungen. Umgekehrt ist ein beobachteter Schaltfehler nicht automatisch frei von Hardwareursachen.
+
+Aus LH-SIG-105 werden hier **weder ein Hardware-MTBF-Ziel noch ein FIT-Ziel oder eine zulässige Fehlerwahrscheinlichkeit je Schaltvorgang** abgeleitet. Die früheren entsprechenden Umrechnungen wurden aus der geltenden Analyse entfernt, da sie zusätzliche Expositions- und Ereignisannahmen benötigten.
+
+Eine tatsächliche Prognose nach FIDES, IEC 61709 oder MIL-HDBK-217 ist nicht Gegenstand dieses Reviews.
+
+## 7. Bestehende Anforderung statt neuer Requirements
+
+Die vorhandene Zuordnung lautet:
+
+```text
+LH-SIG-105 → SE:FL:FEA:0806
+```
+
+Es werden keine zusätzlichen Projekt-Requirement-IDs und keine erweiterten Muss-Texte eingeführt.
+
+Die zuvor formulierten Pflichten zu freigegebenem Ereigniskatalog, Expositionsspezifikation, Logging, statistischem Nachweisplan und Testszenarien waren Vorschläge des Assistenten. Sie sind keine aus LH-SIG-105 nachgewiesenen Vertragsforderungen und wurden als Requirement-Entwürfe zurückgenommen.
+
+Offene Begriffe dürfen als Klärungsbedarf beschrieben werden. Daraus folgt nicht automatisch, dass der Kunde jeweils ein zusätzliches Dokument oder eine Gerätefunktion verlangt.
+
+## 8. Nachweisfrage ohne zusätzliche Abnahmekriterien
+
+LH-SIG-105 und FL0806 enthalten den Jahresbezug und das Zahlenziel. Ihr zitierter Wortlaut schreibt keine konkrete Gerätezahl für einen Versuch, kein Konfidenzniveau und keine vollständige Abnahmeprozedur vor.
+
+**Bewertung von Prüfungen, keine zusätzliche Prüfforderung:**
+
+| Vorhandene oder denkbare Evidenz | Mögliche Aussage | Was daraus allein nicht folgt |
 | --- | --- | --- |
-| Zulässige Störungshäufigkeit | Eine Störung je 1.000 Signalgeberjahre | LH-SIG-105; Interpretation als Ereignisrate noch abzustimmen. |
-| Hardware-MTBF | 100.000 h | LH-SIG-95; Interpretation als Mindestwert bestätigen. |
-| Verfügbarkeit | Mindestens 0,9999 | LH-SIG-94; Verfügbarkeitsart und Ausfallzeitgrenze offen. |
-| Typische Einschaltzahl für das Beispiel | 300 Einschaltungen/Tag | LH-SIG-104; kein allgemeines Maximum und keine vollständige Definition der Schaltanforderung. |
+| Featuretext mit Status Accepted | Forderung ist in der FL aufgenommen. | Tatsächliche jährliche Störungsrate ist eingehalten. |
+| Funktionstest | Verhalten unter den protokollierten Bedingungen wurde geprüft. | Quantitative Jahresrate, wenn die Ergebnisse keinen nachvollziehbaren Jahresbezug haben. |
+| Schalt-/Dauerbetriebsversuch | Kann Ereigniszahlen und Prüfzeit bzw. Schaltzahlen liefern. | Automatische Gleichsetzung von Schaltzahlen oder Laborstunden mit einem Betriebsjahr. |
+| Jahresbezogene Betriebsaufzeichnung | Kann eine beobachtete Rate für den betrachteten Gerätebestand und das betrachtete Jahr liefern. | Garantie für andere Jahre oder automatisch eine formelle Kundenabnahme. |
+| Hardware-MTBF-Prognose | Aussage zur jeweils modellierten Hardware-Zuverlässigkeit. | Vollständiger Nachweis aller Funktionsstörungen nach FL0806. |
 
-### 5.3 Annahmen
+Die Aussage „Bestandene Funktionstests allein belegen keine Rate von 0,001 je Signalgeberjahr“ ist somit eine **Grenze der Aussagekraft**, keine Forderung nach einem bestimmten Zusatztest oder einer statistischen Konfidenz.
 
-Nur für die entsprechend gekennzeichneten Berechnungen gelten:
-
-- Ein Jahr wird mit **365 Tagen** angesetzt.
-- Kontinuierliche Exposition entspricht **8.760 h/Jahr**.
-- Der Kehrwert als mittlerer Ereignisabstand setzt einen stationären Ereignisprozess voraus.
-- Die Umrechnung je Schaltanforderung setzt voraus, dass ausschließlich diese Anforderungen die betrachteten Ereignisse verursachen.
-- Statistische Beispiele setzen unabhängige seltene Ereignisse, homogene repräsentative Exposition, konstante Ereignisrate und vollständige Beobachtung voraus.
-- Keine dieser Annahmen ist damit ein kundenfreigegebenes Abnahmekriterium.
-
-### 5.4 Formel und Berechnung
-
-Gemessene Störungshäufigkeit:
-
-$$
-r_D = \frac{K_D}{E}
-$$
-
-- $K_D$: Anzahl der nach vereinbarter Definition zählbaren Störungsereignisse.
-- $E$: kumulierte anrechenbare Exposition in Signalgeberjahren.
-
-Vorgeschlagene quantitative Interpretation:
-
-$$
-r_D \leq \frac{1}{1000}
-= 0{,}001\ \text{Störungen/(Signalgeberjahr)}
-$$
-
-Die Größe ist aus Ereignis- und Expositionsdaten unmittelbar berechenbar.
-
-Bei kontinuierlicher Exposition:
-
-$$
-\nu_D = \frac{0{,}001}{8760}
-= 1{,}142 \times 10^{-7}\ \text{Ereignisse/h}
-$$
-
-$$
-\text{Äquivalent in FIT-Einheiten}
-= \nu_D \times 10^9
-= 114{,}2
-$$
-
-$$
-\text{Mittlerer Ereignisabstand}
-= \frac{1}{\nu_D}
-= 8.760.000\ \text{h}
-$$
-
-### 5.5 Ergebnis
-
-| Bedingtes Ergebnis | Wert | Bedeutung |
-| --- | --- | --- |
-| Zielwert der Störungshäufigkeit | 0,001 Ereignisse/Signalgeberjahr | Vorgeschlagene jährliche Rateninterpretation. |
-| Zeitnormierte Störungshäufigkeit | $1{,}142 \times 10^{-7}$ Ereignisse/h | Nur unter Annahme kontinuierlicher Exposition. |
-| Äquivalent in FIT-Einheiten | 114,2 FIT | Einheitenumrechnung, keine Hardwareprognose. |
-| Kehrwert als mittlerer Ereignisabstand | 8.760.000 h | Nicht automatisch die Hardware-MTBF nach LH-SIG-95. |
-
-Wenn beide Anforderungen genau dieselben Ereignisse erfassen, ist LH-SIG-105 wesentlich strenger:
-
-$$
-\frac{8.760.000}{100.000} = 87{,}6
-$$
-
-Das ist nicht zwingend ein logischer Widerspruch zu einer Mindest-MTBF. Es ist aber ein erheblicher Machbarkeits- und Nachweispunkt.
-
-### 5.6 Bedingte Interpretation je Schaltanforderung
-
-Bei 300 Einschaltanforderungen pro Tag und ausschließlicher Verursachung der gezählten Störungen durch diese Anforderungen:
-
-$$
-D = 300 \times 365 = 109.500\ \text{Anforderungen/(Signalgeberjahr)}
-$$
-
-$$
-p_D = \frac{0{,}001}{109.500}
-= 9{,}13 \times 10^{-9}\ \text{Fehler/Anforderung}
-$$
-
-Dies ist ein Rechenbeispiel, **keine kundenseitig spezifizierte Anforderung je Schaltvorgang**. Tatsächliche Schaltprofile, Blinkflanken und lange Ruhezeiten müssen vor Verwendung einer solchen Umrechnung festgelegt werden.
-
-## 6. Warum eine Hardware-MTBF-Prognose allein nicht ausreicht
-
-Eine bauteilbasierte Prognose quantifiziert üblicherweise nicht vollständig:
-
-- sporadisches Einschaltversagen;
-- Software-, Zeitverhaltens- und Schnittstellenfehler;
-- vorübergehende Störfestigkeitsprobleme;
-- unerwünschte Diagnoseabschaltungen;
-- zeitweilige optische Grenzwertverletzungen;
-- wiederholte fehlgeschlagene Anforderungen und Wiederanlaufverhalten.
-
-Für LH-SIG-95 ist die unternehmensseitig freigegebene Zuverlässigkeitsmethode anzuwenden. Für LH-SIG-105 sind eine **eigene Störungsbewertung, funktionale Verifikation und Betriebsnachweise** erforderlich.
-
-In diesem Review wurde keine Prognose nach FIDES, IEC 61709 oder MIL-HDBK-217 durchgeführt. Die Berechnungen sind Einheitenumrechnungen und beispielhafte Ereignisratenanalysen.
-
-Die Zweikanalarchitektur aus S6 rechtfertigt ohne Analyse keine Unabhängigkeitsannahme. Gemeinsame Ursachen in Versorgung, Umwelt, Kommunikation oder systematischem Verhalten können mehrere Störungen auslösen und ein einfaches Zusammenfassen statistischer Daten unzulässig machen.
-
-## 7. Vorgeschlagene Projektanforderungen für LH-SIG-105
-
-### 7.1 Leistungsanforderung unter Vorbehalt der Kundenfreigabe
-
-> **NGB-RAM-DST-105-01:** Die Häufigkeit der gemäß dem freigegebenen Störungskatalog als LH-SIG-105-Ereignisse klassifizierten Störungen darf unter dem freigegebenen Einsatzprofil **0,001 Ereignisse je Signalgeberjahr** nicht überschreiten. Die Exposition ist gemäß der freigegebenen Expositionsdefinition zu bestimmen.
-
-Die Formulierung erhält das jährliche Ratenziel, ohne es stillschweigend durch Hardware-MTBF oder Fehlerwahrscheinlichkeit je Schaltanforderung zu ersetzen.
-
-### 7.2 Unterstützende Anforderungen
-
-Die folgenden Punkte sind **vorgeschlagene abgeleitete Verifikations- und Nachweisanforderungen**, keine zusätzlich zitierten Kundenanforderungen.
-
-| Entwurfs-ID | Vorgeschlagene Anforderung | Verifikation / Freigabe |
-| --- | --- | --- |
-| **NGB-RAM-DST-105-02** | Der freigegebene Ereigniskatalog muss die von der Kundenklärung erfassten nicht sicherheitsrelevanten fehlerhaften Schaltvorgänge und ihre Beziehung zur breiteren Definition nach LH-SIG-10 festlegen. | Gemeinsame Klassifikationsprüfung; Anwendbarkeit der zitierten LH4.0-Klärung bestätigen. |
-| **NGB-RAM-DST-105-03** | Die Zählspezifikation muss getrennte Ereignisse, wiederholte fehlerhafte Befehle, Dauerstörungen, Wiederherstellung, Neustarts, Blinkflanken und Zuordnung zur vereinbarten Systemgrenze festlegen. | Prüfung repräsentativer Szenarien; kein pauschaler Ausschluss hardwarebedingter oder sicher-dunkler Ereignisse. |
-| **NGB-RAM-DST-105-04** | Die Expositionsspezifikation muss die Akkumulation anrechenbarer Signalgeberjahre einschließlich Einbau, Ausbau, Zeit unter Spannung, Leuchtdauer, Ruhezeiten und Beobachtungslücken festlegen. | Zeitbasis und Behandlung von Ausfallzeiten freigeben. |
-| **NGB-RAM-DST-105-05** | Das Nachweissystem muss Störungen mit Geräteidentität, Konfiguration, Ereigniszeit, Sollzustand, Istzustand, Wiederherstellung und zugehöriger Exposition aufzeichnen. | Datenqualität und Protokollierung prüfen; Quellen zwischen Gerät, Stellwerk, Werkzeugen und FRACAS zuweisen. |
-| **NGB-RAM-DST-105-06** | Der RAM-Nachweisplan muss statistisches Modell, Konfidenzniveau, Stichprobenexposition, Behandlung gemeinsamer Ursachen und Abnahmeregel vor einer Erfüllungsaussage festlegen. | Kundenfreigabe des Nachweisplans. |
-| **NGB-RAM-DST-105-07** | Die Verifikation muss Schaltfolgen unter freigegebenen elektrischen, umweltbezogenen, zeitlichen und einsatzbezogenen Bedingungen einschließlich Start, Neustart, seltenem Betrieb und gegebenenfalls Blinken prüfen. | Robustheits- und Schnittstellenprüfungen; allein kein quantitativer Jahresratennachweis. |
-| **NGB-RAM-DST-105-08** | Die RAM-Erfüllungsmatrix muss MTBF, Verfügbarkeit und Störungshäufigkeit nach LH-SIG-105 mit freigegebenen Ereignisklassen und Grenzen getrennt ausweisen. | Rückverfolgbarkeitsprüfung; ein Ereignis kann mehrere Kennzahlen beeinflussen. |
-
-## 8. Verifikation und statistischer Nachweis
-
-### 8.1 Vorgeschlagene Nachweisstrategie
-
-1. Ereigniskatalog, Zählregeln und Expositionsdefinition freigeben.
-2. Relevante Fehlerarten und Entwurfsbeiträge einschließlich transienter und systematischer Ursachen analysieren.
-3. Funktionale Robustheit unter freigegebenen Einsatz- und Umweltprofilen verifizieren.
-4. Übertragbarkeit historischer Flottendaten auf neue Hardware, Software, Schnittstellen und Umwelt bewerten.
-5. Feldnachweis und FRACAS-Berichterstattung vereinbaren.
-6. Erfüllungsnachweis bis zum Vorliegen ausreichender vereinbarter Evidenz offenhalten.
-
-### 8.2 Statistisches Beispiel ohne beobachtete Ereignisse
-
-**Nur Beispielannahmen:** homogene unabhängige Poisson-Ereignisse, vollständige Beobachtung und **einseitiges Konfidenzniveau von 95 %**. Dies ist kein kundenseitig festgelegtes Abnahmekriterium.
-
-Bei null beobachteten Ereignissen:
-
-$$
-r_{D,U} = \frac{-\ln(0{,}05)}{E}
-$$
-
-Für $r_{D,U} \leq 0{,}001$:
-
-$$
-E \geq \frac{-\ln(0{,}05)}{0{,}001}
-= 2995{,}7\ \text{Signalgeberjahre}
-$$
-
-| Beobachtung / Beispielkriterium | Ergebnis |
-| --- | --- |
-| Null Ereignisse in 1.000 Signalgeberjahren | Obere Rate etwa 0,002996 Ereignisse/Signalgeberjahr; für das Beispielkriterium nicht ausreichend. |
-| Null Ereignisse und obere Rate höchstens 0,001 | Aufgerundet etwa **2.996 volle Signalgeberjahre** erforderlich. |
-| Ein Ereignis und obere Rate höchstens 0,001 | Aufgerundet etwa **4.744 volle Signalgeberjahre** erforderlich. |
-
-Bei einem Ereignis wird der obere Poisson-Erwartungswert aus folgender Gleichung ermittelt:
-
-$$
-e^{-\mu_U}(1+\mu_U) = 0{,}05
-$$
-
-$$
-\mu_U = 4{,}7438645,\qquad
-E \geq \frac{\mu_U}{0{,}001} = 4743{,}9\ \text{Signalgeberjahre}
-$$
-
-Gemeinsame Ursachen, Alterung, Beobachtungslücken und Konfigurationsunterschiede können ein einfaches Zusammenfassen der Daten unzulässig machen.
-
-### 8.3 Ratenziel gegenüber fester jährlicher Obergrenze
-
-Ein statistisches Ratenziel ist nicht gleichbedeutend mit einer festen Grenze von einem Ereignis in jedem Flottenjahr.
-
-Bei einem Poisson-Erwartungswert von einem Ereignis:
-
-$$
-P(K \geq 2) = 1-e^{-1}(1+1) = 0{,}2642
-$$
-
-Auch bei einem Erwartungswert von eins beträgt die Wahrscheinlichkeit für mindestens zwei Ereignisse somit **26,4 %**. Der Kunde muss die beabsichtigte Abnahmelogik bestätigen.
+Welches Nachweisverfahren im Projekt tatsächlich gilt, ist aus den vorliegenden Dokumenten nicht abschließend feststellbar. Es wird hier nicht erfunden.
 
 ## 9. Abgrenzung von Verfügbarkeit und Instandhaltbarkeit
 
-Die Austauschzeit nach LH-SIG-90 ist nicht automatisch die Ausfallzeit für LH-SIG-94.
+- LH-SIG-94 fordert Verfügbarkeit mindestens 0,9999.
+- LH-SIG-90 nennt maximal 10 min für Einbau/Austausch.
+- FL0811 bezeichnet eine mittlere Reparaturzeit und schließt Vor-/Nachbereitung aus.
 
-Für ein vereinfachtes Modell aus Betriebs- und Ausfallzeiten gilt:
+Eine maximale Austauschtätigkeit ist nicht dieselbe Größe wie mittlere vollständige Ausfallzeit. Der Quellenvergleich zeigt diese Unterscheidung, legt aber keine zusätzlichen Ausfallzeitanteile oder Budgets fest.
 
-$$
-A = \frac{\text{MTBF}}{\text{MTBF}+\text{MDT}}
-$$
+Die früher berechneten beispielhaften MDT-Grenzen und Verfügbarkeitswerte wurden entfernt. Sie waren modellabhängige Zusatzrechnungen, keine bestehenden Anforderungen.
 
-Mit MTBF = 100.000 h und $A = 0{,}9999$:
+## 10. Offene Informationen
 
-$$
-\text{MDT} \leq 100.000
-\left(\frac{1}{0{,}9999}-1\right)
-= 10{,}001\ \text{h}
-$$
-
-Dies gilt nur unter der vereinbarten Verfügbarkeitsdefinition und dem vereinfachten Erneuerungsmodell. Es ist kein freigegebenes Ausfallzeitbudget.
-
-Bei ausschließlicher Berücksichtigung einer aktiven Austauschzeit von 10 min:
-
-$$
-A = \frac{100.000}{100.000+10/60}
-= 0{,}99999833
-$$
-
-Erkennung, Mobilisierung, Zugang, Ersatzteillogistik, Prüfung und Wiederinbetriebnahme sind darin nicht enthalten. Dies ist **kein Nachweis der betrieblichen Verfügbarkeit**.
-
-## 10. Annahmen und fehlende Informationen
-
-| Punkt | Status / Auswirkung |
+| Punkt | Befund |
 | --- | --- |
-| Vertragliche Dokumentenrangfolge | Nicht bestätigt. LH-Dokumentenstränge und zitierte LH4.0-Klärung abstimmen. |
-| Ereigniskatalog LH-SIG-105 | Nicht freigegeben. Schaltbeispiele und breite Störungsdefinition abgleichen. |
-| Expositionsnenner | Nicht definiert. Kalenderzeit, Zeit unter Spannung, Leuchtdauer und Betriebsbereitschaft sind nicht austauschbar. |
-| Zählung wiederholter Ereignisse | Nicht definiert. Anzahl betroffener Geräte ist nicht gleich Ereigniszahl. |
-| Statistische Abnahme | Konfidenz, Stichprobe, Zeitraum und feste Jahresgrenze nicht vereinbart. |
-| Stückliste und Zuverlässigkeitsdaten | Für eine quantitative Hardwareprognose nicht bereitgestellt. |
-| Einsatz- und Temperaturprofile | Nicht freigegeben. Dauer-, intermittierenden, Blink- und seltenen Betrieb gesondert behandeln. |
-| Feldstörungs- und Expositionsdaten | Nicht bereitgestellt. Ist-Rate und Erfüllung nicht feststellbar. |
-| Instandhaltbarkeitsnachweis | Nicht bereitgestellt. Maximale Tätigkeitsdauer und vollständige Wiederherstellungsgrenze offen. |
-| RAM-Plan und quantitative Analysen | S6 verweist auf einen separaten RAM-Plan; vollständige Nachweise liegen nicht vor. |
-| THR-Matrizen | Kontrollierte Werte und Zuweisungen beschaffen; hier keine Werte abgeleitet. |
-| Informelle PDF-Kommentare | Eine Aussage über aktuell mehr als 400.000 h MTBF enthält keine zugehörige Rechnung und wird nicht als Leistungsnachweis verwendet. |
+| Vertragsrangfolge | Verhältnis von S1, S2 und zitierter LH4.0-Klärung offen. |
+| Störungsumfang | Breite LH-SIG-10-Definition, FL-Beispiele und Schaltklärung nicht abschließend abgegrenzt. |
+| Wiederholungen | Ereigniszahl gegenüber Anzahl betroffener Geräte bei Wiederholstörungen nicht vollständig erklärt. |
+| Jahresabgrenzung | Fester oder gleitender Jahreszeitraum nicht ausdrücklich festgelegt. |
+| Wechselnde Gerätepopulation | Behandlung von Teiljahren, Tausch und Erfassungslücken nicht aus dem Wortlaut bestimmt. |
+| Nachweismethode | Keine vollständige projektspezifische Abnahmeregel in den bereitgestellten Unterlagen identifiziert. |
+| Erfüllungsdaten | Keine jährlichen Störungsaufzeichnungen oder zugeordneten Prüfergebnisse für die konkrete Bewertung bereitgestellt. |
+| Weitere RAM-Nachweise | Vollständiger separater RAM-Plan, Berechnungen, Instandhaltbarkeitsnachweis und kontrollierte THR-Zuordnungen liegen in der betrachteten Dateiauswahl nicht vor. |
 
-## 11. Risiken
+Diese Lücken belegen fehlende Information in der Review-Grundlage, nicht automatisch fehlende Aktivitäten oder Nichtkonformität im Projekt.
 
-| Risiko | Technische Folge | Empfohlene Beherrschung |
-| --- | --- | --- |
-| LH-SIG-105 als nicht berechenbar behandeln | Quantitatives Kundenziel geht bei der Anforderungsüberführung verloren. | Ratenziel erhalten und offene Nachweisbedingungen ausweisen. |
-| Erfüllung aus Status Accepted von FL0806 ableiten | Featurezuordnung wird mit Umsetzung und Leistung verwechselt. | Separate Erfüllungsbewertung mit Nachweisreferenz. |
-| LH-SIG-105 ohne Ereignisvereinbarung als Hardware-MTBF behandeln | Unbelegte Umrechnung verfälscht die Entwurfsverpflichtung. | Ereignispopulation vereinbaren und Kennzahlnachweise trennen. |
-| Sicher-dunkle oder hardwarebedingte Ereignisse ohne Freigabe ausschließen | Zu geringe Ereigniszählung und irreführende Erfüllungsberichte. | Ursache, Sicherheitsstatus und Kennzahlzugehörigkeit separat erfassen. |
-| Gemeinsame Ursachen ignorieren | Mehrere Geräte können gleichzeitig gestört werden; Unabhängigkeit gilt nicht. | Umwelt-, Versorgungs-, Kommunikations- und systematische Ursachen bewerten. |
-| Maximale Austauschzeit als mittlere Reparaturzeit übernehmen | Instandhaltbarkeitsanforderung wird abgeschwächt. | Maximaldauer und freigegebenes Nachweisverfahren festlegen. |
-| 15 Kalenderjahre mit 130.000 Betriebsstunden gleichsetzen | Intermittierender Betrieb und Kalenderalterung nicht ausreichend erfasst. | Betriebsstundennutzungsdauer, Kalenderalterung und Produktunterstützung trennen. |
-| Bisheriges Descoping als Kundenverzicht behandeln | Verbindliche Anzeigen oder Zähler könnten fehlen. | Kontrollierte Kundenentscheidung oder Umsetzung. |
-| Uneinheitliche Blink- und Temperaturprofile verwenden | Prognose und Nutzungsdauerbeleg repräsentieren den Einsatz nicht. | Rückverfolgbares Profil je anwendbarer Variante freigeben. |
-| Nachtlichtstärke kleiner Lichtpunkte unter Kundengrenze | Optische Nichtkonformität und gegebenenfalls Störungsereignis. | 21-cd-/40-cd-Abweichung und Alterungsreserve klären. |
+## 11. Risiken der Interpretation
 
-## 12. Empfehlungen
-
-**LH-SIG-105 nicht als „nicht berechenbar“ einstufen und nicht allein aufgrund des Status Accepted von FL0806 als erfüllt erklären.**
-
-Empfohlener Status:
-
-> **Quantitativer Zielwert verstanden; Ereignisklassifikation, Expositionsdefinition und Nachweiskriterien offen; Erfüllung noch nicht nachgewiesen.**
-
-Getrennte Projektanforderungen und Nachweise vorsehen für:
-
-1. Technische Nutzungsdauer und optische Degradation.
-2. Hardware-MTBF.
-3. Verfügbarkeit.
-4. Instandhaltbarkeit und Wiederherstellung.
-5. Funktionale Störungshäufigkeit.
-6. Sicherheit und Fehlerreaktion.
-
-LH-SIG-105 erst nach Vereinbarung von Interpretation, Gültigkeit und Ereignispopulation in die freigegebene Baseline übernehmen. Quantitative Erfüllung erst nach Vorliegen der vereinbarten Evidenz erklären.
-
-## 13. Erforderliche Nachweise
-
-- Kontrollierte Vertragsbaseline und offizielle Kundenklärung.
-- Freigegebene Variantengültigkeit und RAM-Systemgrenze.
-- Freigegebener Störungskatalog sowie Zähl- und Expositionsspezifikation.
-- Freigegebene Einsatz- und Umweltprofile einschließlich thermischer Modellierung.
-- RAM-Plan und kundenfreigegebener RAM-Nachweisplan.
-- Hardwareprognose nach Unternehmensmethode mit Datenquellen und Fehlerartenzuordnung.
-- Nachweise zu optischer Degradation, Nutzungsdauer und mechanischer Beständigkeit.
-- Verfügbarkeitsmodell mit vereinbarten Ausfallzeitanteilen.
-- Zeitgemessener Instandhaltbarkeitsnachweis.
-- Robustheits- und Schnittstellenprüfberichte.
-- FRACAS-Daten, konfigurationskontrollierte Exposition und repräsentative Felderfahrung.
-- Sicherheitsnachweis und kontrollierte THR-Zuweisungen.
-- Deutsche RAM- und Instandhaltungsdokumentation mit vollständiger bidirektionaler Rückverfolgbarkeit.
-
-## 14. Maßnahmen
-
-| Priorität | Maßnahme | Verantwortliche Rollen | Abschlussnachweis |
-| --- | --- | --- | --- |
-| 1 | Vertragsbaseline und Anwendbarkeit der zitierten ÖBB-Klärung bestätigen. | Projekt / Anforderungsmanagement / Kunde | Kontrollierte Baseline und Klärungsnachweis. |
-| 1 | Störungskatalog, Zählregeln und Expositionsbasis freigeben. | RAM / Systemtechnik / Sicherheit / Kunde | Spezifikationen mit repräsentativen Szenarien. |
-| 1 | Abnahmelogik, realisierbare Beobachtungsexposition und Evidenzstrategie vereinbaren. | RAM / V&V / Kunde | Freigegebener RAM-Nachweisplan. |
-| 2 | Nutzungsdauer, MTBF, Verfügbarkeit und Störungsrate getrennt spezifizieren. | RAM / Anforderungsmanagement | Geprüfte Anforderungs- und Nachweismatrix. |
-| 2 | Mindest-MTBF-Interpretation und fortbestehende Produktzusage von 200.000 h bestätigen. | Produktmanagement / RAM / Anforderungsmanagement | Freigegebene Zielzuweisung. |
-| 2 | Descoping von Zählern/Indikatoren und Schwellenrundung klären. | Produktmanagement / Systemtechnik / Kunde | Umsetzungsplan oder schriftliche Kundenentscheidung. |
-| 2 | Maximal 600 s je Austauschtätigkeit und vollständige Wiederherstellungsgrenze definieren. | Instandhaltung / V&V / Kunde | Freigegebenes Nachweisverfahren. |
-| 2 | Blink- und Umweltprofile abstimmen. | Entwicklung / RAM / Kunde | Freigegebene Variantenprofile. |
-| 2 | Nachtlichtstärkeabweichung 21 cd gegenüber 40 cd klären. | Produktmanagement / Optik / Anforderungsmanagement | Optische Spezifikation und Qualifikationsnachweise. |
-| 2 | Wartungsfreiheit und Sicherheitsannahmen bei seltenem Betrieb prüfen. | Instandhaltung / Sicherheit / RAM | Instandhaltungskonzept und Sicherheitsannahmen. |
-| 2 | THR-Matrizen beschaffen und RAM-Nachweise vollständig zuweisen. | Sicherheit / RAM / V&V | Kontrollierte Zuweisungen und Nachweismatrix. |
-| 3 | Fehlende LH-SIG-94-Herkunftsreferenz in 0808 und fehlerhafte Befestigungsreferenz LH-SIG-82 korrigieren. | Anforderungsmanagement / Produktmanagement | Geprüfte bidirektionale Rückverfolgbarkeit. |
-| 3 | Vereinbarte Störungstaxonomie, Zählregeln und Nachweisstrategie für künftige Reviews und RAM-Vorlagen wiederverwenden. | RAM-Prozessverantwortlicher | Nach Kundenvereinbarung geprüfte wiederverwendbare Anleitung. |
-
-## 15. LH-SIG-105: Formulierung der Projektanforderung und Erfüllungsnachweis
-
-**Ergänzt am 16.10.2026.** Dieses Kapitel bündelt die vorgeschlagene Anforderung und den praktischen Erfüllungsnachweis. Es ergänzt die vorherige Analyse; es stellt weder eine Kundenfreigabe noch nachgewiesene Erfüllung dar.
-
-Empfohlen wird eine **quantitative Anforderung an funktionale Störungen** mit abgestimmter Nachweisspezifikation, nicht eine weitere Hardware-MTBF-Anforderung.
-
-> Die Anforderung legt die zulässige Störungshäufigkeit fest. Die Nachweisspezifikation definiert, was gezählt wird, wie die Exposition bestimmt wird und wann die Evidenz ausreicht.
-
-### 15.1 Vorgeschlagene Projektanforderung
-
-> **NGB-RAM-DST-105-01 – Zulässige funktionale Störungsrate**  
-> Die funktionale Störungsrate des Signalgebers darf unter dem freigegebenen Einsatz- und Umgebungsprofil **0,001 Störungsereignisse je Signalgeberjahr** nicht überschreiten. Als Störungsereignisse gelten die im freigegebenen Störungskatalog für LH-SIG-105 definierten Ereignisse. Die Ermittlung der Exposition erfolgt gemäß der freigegebenen Nachweisspezifikation.
-
-**Rückverfolgbarkeit:** LH-SIG-105 → SE:FL:FEA:0806 → NGB-RAM-DST-105-01.
-
-Diese Formulierung präzisiert denselben Entwurf wie in Kapitel 7 und ist keine zweite unabhängige Anforderung. Sie ist eine **vorgeschlagene Ereignisrateninterpretation**, keine vereinbarte Vertragsklärung. Eine Anzahl betroffener Geräte darf nicht stillschweigend durch eine Ereigniszahl ersetzt werden, wenn der Kunde Ersteres meint.
-
-### 15.2 Zugehörige Ereignisdefinition
-
-Ausgehend von der in S4 zitierten Klärung wird folgende Definition zur Freigabe vorgeschlagen:
-
-> Ein LH-SIG-105-Störungsereignis liegt vor, wenn ein gültiger Schaltauftrag unter spezifizierten Betriebsbedingungen nicht zum geforderten funktionalen Verhalten des Signalgebers führt und das Ereignis dem vereinbarten, nicht-sicherheitsrelevanten Ereignisumfang zugeordnet ist.
-
-**Beispiel:** Ein gültiger Einschaltbefehl wird ausgegeben, der grüne Lichtpunkt bleibt jedoch über die spezifizierte Reaktionszeit hinaus dunkel.
-
-Die Reaktionszeit ist aus der anwendbaren Funktions-/Schnittstellenspezifikation zu übernehmen. Die Definition führt keinen neuen Zeitgrenzwert ein.
-
-| Thema | Vor Baseline-Freigabe erforderliche Entscheidung |
+| Risiko | Mögliche Fehlbewertung |
 | --- | --- |
-| Ereignisumfang | Nur fehlerhafte Schaltvorgänge oder auch Flackern, zeitweilige Lichtstärkeabweichungen und andere LH-SIG-10-Störungen? |
-| Wiederholung | Zählt ein dauerhafter Dunkelzustand einmal oder jeder erfolglose Befehl? |
-| Wiederherstellung | Ab wann kann ein wiederhergestelltes Gerät ein neues Ereignis erzeugen? |
-| Exposition | Kalenderzeit im Einsatz, Zeit unter Spannung oder andere vereinbarte Basis? |
-| Zuordnung | Wie werden externe Versorgungs-/Schnittstellenstörungen und hardwarebedingte Schaltfehler behandelt? |
-| Gültigkeit | Gilt die zitierte LH4.0-Klärung für das Projekt? V1.1 gilt für konventionelle/SEA-Varianten, nicht DSTW. |
+| Eigene statistische Regeln ergänzen | Zusätzliche Verpflichtungen werden als Kundenforderung dargestellt. |
+| Jahresbezug durch Mehrjahresmittel ersetzen | Eine auffällige Jahresrate könnte durch andere Jahre verdeckt werden; die Quelle belegt diese Mittelung nicht. |
+| Normierung mit Testumfang verwechseln | „Je 1.000“ wird ohne Quelle zu zwingend 1.000 Prüflingen erklärt. |
+| Ereigniszählung eigenmächtig festlegen | Wiederholstörungen werden ohne Grundlage ausgeschlossen oder mehrfach gezählt. |
+| Sichere Dunkelschaltung pauschal ausnehmen | Nicht sicherheitsrelevante Funktionsstörungen könnten unberechtigt entfallen. |
+| Accepted oder Descoped als Kundenentscheidung lesen | Erfüllung oder Verzicht wird ohne Nachweis angenommen. |
+| MTBF, Nutzungsdauer und Störungsrate gleichsetzen | Unterschiedliche Kenngrößen und Ereignisumfänge werden vermischt. |
+| Vorhandene FL-Abweichungen übergehen | Maximum/Mittelwert, Zählerarten, Wartungsintervalle und optische Grenzwerte bleiben unzutreffend zugeordnet. |
 
-Eine Störung nicht allein deshalb ausschließen, weil sie sicher, selbstbehebend oder hardwarebedingt ist.
+## 12. Ergebnis der Anforderungsanalyse
 
-### 15.3 Drei Ebenen des Erfüllungsnachweises
+**Quellenbezogenes Ergebnis:**
 
-| Nachweisebene | Methode | Aussage |
+> LH-SIG-105 enthält eine jahresbezogene Störungsforderung. FL0806 bildet sie mit höchstens 0,001 Funktionsstörungen je Element und Jahr ab. Die konkrete Zähl- und Nachweisauslegung ist in den vorliegenden Unterlagen nicht vollständig beschrieben. Die tatsächliche Erfüllung ist mit den bereitgestellten Daten nicht bewertbar.
+
+Die Forderung ist nicht pauschal „unberechenbar“. Unvollständig sind die Grundlage für eine konkrete Auswertung und der Nachweis, nicht der vorhandene Zahlenwert.
+
+Es gibt in dieser Fassung keine neuen Anforderungsentwürfe oder verbindlichen Abnahmeformulierungen.
+
+## 13. Dokumentierte Nachweisanforderungen und vorliegende Evidenz
+
+| Quellenbezug | Dokumentierte Forderung / vorhandene Aussage | Stand der Review-Grundlage |
 | --- | --- | --- |
-| **Entwurfsabsicherung** | Fehlerartenanalyse, Schnittstellen-/Zeitverhaltensprüfung, Diagnosebewertung und Analyse gemeinsamer Ursachen. | Relevante Störungsmechanismen wurden identifiziert und behandelt. |
-| **Funktionale Verifikation** | Schalten, Start/Neustart, Blinken, seltener Betrieb, Versorgungsbereich, Temperatur und EMV. | Das geforderte Verhalten wird unter den geprüften Bedingungen erreicht. |
-| **Quantitativer Nachweis** | Repräsentative Felddaten oder begründete gleichwertige Evidenz mit vollständiger Expositionsbilanz. | Ob das quantitative Ziel der Störungshäufigkeit nachgewiesen ist. |
+| LH-SIG-118 | Lieferdokumentation umfasst unter anderem RAM-Nachweise. | Kein daraus ableitbares spezifisches Konfidenzniveau oder Prüfprogramm für LH-SIG-105. |
+| LH-SIG-119 | Kundendokumentation auf Deutsch. | Bestehende Lieferforderung, keine Ergänzung des Reviews. |
+| LH-SIG-120 | Digitale veränderbare und unveränderbare Dokumentation. | Bestehende Formatforderung. |
+| LH-SIG-121–123 | Handbuch, Mess-/Prüfunterlagen bei erforderlichen Messungen und definierte Werkzeuge. | Anforderungen gemäß jeweiliger Anwendbarkeit; keine pauschale zusätzliche Testpflicht aus LH-SIG-105. |
+| S6 | Verweis auf einen separaten RAM-Plan. | Verweis ist kein vorliegender quantitativer Erfüllungsbeleg. |
+| S3, FL0806 | Forderung mit Status Accepted. | Belegt Aufnahme in die FL, nicht die Ist-Rate. |
 
-**Bestandene Funktionstests allein belegen keine Rate von 0,001 je Signalgeberjahr.** Eine Hardware-MTBF-Berechnung deckt ebenfalls nicht alle intermittierenden, Software-, Zeitverhaltens- und Schnittstellenstörungen ab.
+Die frühere pauschale Liste „Erforderliche Nachweise“ wurde durch diese Quellenzuordnung ersetzt. Weitere aus RAM-Sicht mögliche Analysen werden nicht als zusätzliche Kundenlieferpflicht deklariert.
 
-#### 15.3.1 Erforderliche Ereignis- und Expositionsdaten
+## 14. Offene Klärungsfragen
 
-Je Ereignis erfassen:
+Dies sind **Fragen zur Auslegung vorhandener Anforderungen**, keine zugewiesenen neuen Arbeitspakete oder Requirements.
 
-- Geräteidentität und Hardware-/Softwarekonfiguration.
-- Befehl, erwartete und beobachtete Reaktion.
-- Zeitstempel und Betriebsbedingungen.
-- Dauer, Wiederherstellung und Korrekturmaßnahme.
-- Klassifikation und Zuordnung.
+| Quellenbezug | Offene Frage |
+| --- | --- |
+| S1/S2/S4 | Welche Dokumentfassung und welche Kundenklärung gelten verbindlich für NextGen_Bahnsignal? |
+| LH-SIG-10 / LH-SIG-105 / FL0806 | Wie ist der breite Störungsbegriff gegenüber den Schalt- und Toleranzbeispielen abgegrenzt? |
+| LH-SIG-105 | Wie werden wiederholte Störungen desselben Geräts gezählt? |
+| LH-SIG-105 / FL0806 | Welches Jahr und welcher Gerätebestand sind für die konkrete Auswertung maßgeblich? |
+| LH-SIG-118 / S6 | Gibt es bereits eine verbindliche Nachweismethode in nicht bereitgestellten Projektunterlagen? |
+| LH-SIG-90 / FL0811 | Ist die unterschiedliche Interpretation von maximaler Austauschzeit und mittlerer Reparaturzeit geklärt? |
+| LH-SIG-93 / FL0810 | Wie ist der Unterschied zwischen Betriebsstunden und Kalenderjahren im konkreten Einsatz berücksichtigt? |
+| LH-SIG-98–102 / FL0633/0634/0644 | Gibt es dokumentierte Entscheidungen zu den ausgeplanten Anzeigen und Ausleseoptionen? |
+| LH-SIG-104 / FL0812/0813 | Welches der unterschiedlichen Einsatzprofile gilt für die jeweilige Variante? |
+| LH-SIG-135 / FL0624 | Wie ist die Abweichung 21 cd gegenüber 40 cd für die betroffene Variante aufgelöst? |
 
-Für den Nenner die anrechenbaren Beobachtungszeiten jedes Geräts einschließlich Einbau/Ausbau und Überwachungslücken erfassen.
+## 15. LH-SIG-105: Jahresbezogene Bewertung der bestehenden Forderung
 
-Die Datenerfassung zwischen Signalgeber, Stellwerk, Servicewerkzeugen und FRACAS zuweisen. Nicht die gesamte Aufzeichnung muss im Signalgeber implementiert sein.
+Dieses Kapitel ersetzt die früheren eigenen Requirement- und Abnahmeentwürfe. Es erläutert nur die vorhandene Forderung und ihre rechnerische Normierung.
 
-### 15.4 Beispiel für die quantitative Abnahme
+### 15.1 Bezugsanforderung
 
-#### 15.4.1 Eingangsgrößen und Annahmen
+Maßgebliche Texte sind LH-SIG-105 und SE:FL:FEA:0806 aus Kapitel 5. Es wird kein zusätzlicher Muss-Text erstellt.
 
-- Ziel: $r_D \leq 0{,}001$ Ereignisse/Signalgeberjahr.
-- Beispielkriterium: **95 % einseitige Konfidenz**, keine Vertragsforderung.
-- Homogener Poisson-Prozess, repräsentative Exposition und vollständige Beobachtung.
-- Unabhängigkeit und konstante Rate begründen; gemeinsame Ursachen gesondert behandeln.
+```text
+Lastenheft: Pro Jahr darf bei einem von 1000 Signalgebern eine Störung erfolgen.
+FL0806:     Höchstens 0,001 Funktionsstörungen je Element und Jahr.
+```
 
-#### 15.4.2 Formel
+Die FL-Zeile ist hier zusammengefasst; der vollständige Quellwortlaut steht in Abschnitt 5.2.
 
-Beobachtete Rate:
+### 15.2 Ereignisumfang
 
-$$
-\hat r_D = \frac{K}{E}
-$$
+LH-SIG-10 nennt den Verlust der vollen Funktionsfähigkeit, etwa unzulässige optische Eigenschaften, Schnittstellenverhalten und Flackern. FL0806 nennt fallweises Einschaltversagen und Toleranzüberschreitungen. S4 beschreibt einen nicht sicherheitsrelevanten fehlerhaften Schaltvorgang.
 
-$K$ ist die Anzahl zählbarer Ereignisse, $E$ die anrechenbare Exposition in Signalgeberjahren.
+Eine neue Definition mit zusätzlicher Reaktionszeit, Rücksetzbedingung oder Ursachenbefreiung wird daraus nicht formuliert. Die Beziehung der Aussagen bleibt ein Interpretationspunkt.
 
-Bei null beobachteten Ereignissen ergibt sich die obere Konfidenzgrenze:
+### 15.3 Aussagekraft von Prüfungen
 
-$$
-r_{D,U} = \frac{-\ln(0{,}05)}{E}
-$$
+Ein Funktionstest belegt das protokollierte Verhalten unter seinen Prüfbedingungen. Ob er auch den Jahreswert belegt, hängt vom vorhandenen Nachweisinhalt und seinem Bezug zur Jahresforderung ab.
+
+Weder die Forderung nach statistischer Absicherung noch ein bestimmter Dauer-, Schalt-, Feld- oder beschleunigter Versuch ist im zitierten Wortlaut von LH-SIG-105/FL0806 festgelegt. Solche Methoden werden hier nicht als Pflicht eingeführt.
+
+### 15.4 Lesbares Rechenbeispiel für ein Jahr
+
+#### 15.4.1 Eingangsgrößen des Beispiels
+
+- Betrachtet wird **ein Jahr**, entsprechend dem Jahresbezug der Quelle.
+- **1.000 Signalgeber** dienen zur anschaulichen Darstellung der Normierung.
+- Beispielhaft sind alle 1.000 Geräte für dieses Jahr im betrachteten Bestand und die gezählten Störungen bekannt.
+- Dies sind Rechenannahmen, keine vorgeschriebene Stichprobengröße oder Abnahmeprozedur.
+
+#### 15.4.2 Rechenregel
+
+```text
+Für denselben Gerätebestand über ein Jahr:
+
+Beobachtete jährliche Störungsrate =
+Anzahl gezählter Funktionsstörungen im Jahr ÷ Anzahl betrachteter Signalgeber
+
+Einheit: Störungen je Signalgeber und Jahr
+Quellgrenze FL0806: höchstens 0,001
+```
 
 #### 15.4.3 Berechnung
 
-$$
-E \geq \frac{-\ln(0{,}05)}{0{,}001}
-= 2995{,}7\ \text{Signalgeberjahre}
-$$
+```text
+0 Störungen bei 1.000 Signalgebern in einem Jahr:
+0 ÷ 1.000 = 0
 
-#### 15.4.4 Ergebnis
+1 Störung bei 1.000 Signalgebern in einem Jahr:
+1 ÷ 1.000 = 0,001
 
-| Beobachtung | Obere Ratengrenze, Ereignisse/Signalgeberjahr | Interpretation unter dem Beispielkriterium |
+2 Störungen bei 1.000 Signalgebern in einem Jahr:
+2 ÷ 1.000 = 0,002
+```
+
+Es werden keine drei Beobachtungsjahre benötigt, um diese Jahreswerte auszurechnen. Die frühere Berechnung einer mehrjährigen statistischen Exposition war kein Bestandteil der Kundenforderung und wurde entfernt.
+
+#### 15.4.4 Aussage und Grenze des Beispiels
+
+| Jahresbeobachtung im Beispiel | Vergleich mit dem Zahlenwert aus FL0806 |
+| --- | --- |
+| 0 Störungen bei 1.000 Signalgebern | Beobachteter Wert liegt unter 0,001. |
+| 1 Störung bei 1.000 Signalgebern | Beobachteter Wert entspricht 0,001. |
+| 2 Störungen bei 1.000 Signalgebern | Beobachteter Wert liegt über 0,001. |
+
+Das ist ein Zahlenvergleich für das betrachtete Jahr und den angenommenen Ereignisumfang. Er ersetzt keine noch ungeklärte vertragliche Abnahmeregel und garantiert keine Rate für künftige Jahre.
+
+Bei wechselndem Bestand, Teiljahren oder unklarer Ereigniszählung wird hier keine eigene Umrechnungsregel festgelegt.
+
+### 15.5 Nicht aus der Quelle ableitbare Festlegungen
+
+Aus dem zitierten Wortlaut allein folgen nicht:
+
+- eine zwingende Prüfung von genau 1.000 Geräten;
+- ein statistisches Konfidenzniveau oder ein Poisson-Modell;
+- eine mehrjährige fehlerfreie Beobachtung;
+- eine bestimmte Anzahl Laborstunden oder Schaltzyklen;
+- eine Pflicht zu zusätzlichem Logging im Signalgeber;
+- eine gestufte Kundenabnahme;
+- ein eigenes Hardware-MTBF-/FIT-Ziel oder eine Fehlerwahrscheinlichkeit je Schaltung.
+
+Der jährliche Bezug ist vorhanden. Die konkrete Ausführung des Nachweises darf damit nicht verwechselt werden.
+
+### 15.6 Aktueller Erfüllungsstand
+
+**Aus den bereitgestellten Unterlagen feststellbar:** Die Forderung ist im Lastenheft und als FL0806 dokumentiert.
+
+**Nicht feststellbar:** Welche Ist-Rate die projektbezogenen Signalgeber im maßgeblichen Jahr hatten oder ob ein vorhandener Prüfbericht die Forderung verbindlich nachweist.
+
+Es wird nicht behauptet, dass ein abgestimmter Nachweisplan, laufende Tests oder ein Pilotprogramm bereits existieren.
+
+## 16. Korrekturregister und Dokumentprüfung
+
+### Rückgenommene Ergänzungen
+
+Die folgenden Zitate stammen aus der bisherigen Berichtsfassung, nicht aus dem Lastenheft. Sie kennzeichnen konkrete korrigierte Stellen.
+
+| Bisherige Stelle / wörtlicher Auszug | Befund | Korrektur |
 | --- | --- | --- |
-| Null Ereignisse in 100 Signalgeberjahren | Etwa 0,02996 | Positiver Hinweis, aber unzureichende Evidenz. |
-| Null Ereignisse in 1.000 Signalgeberjahren | Etwa 0,002996 | Quantitatives Ziel nicht nachgewiesen. |
-| Null Ereignisse in 3.000 Signalgeberjahren | Etwa 0,000999 | Quantitatives Ziel nachgewiesen, sofern die Annahmen gelten. |
+| Kapitel 7: „Der RAM-Nachweisplan muss statistisches Modell, Konfidenzniveau, Stichprobenexposition, Behandlung gemeinsamer Ursachen und Abnahmeregel vor einer Erfüllungsaussage festlegen.“ | Eigene abgeleitete Muss-Anforderung, nicht Quellwortlaut. | Entwurf und eigene Requirement-IDs entfernt; offene Fragen ohne neue Dokumentpflicht. |
+| Kapitel 15.4.1: „Beispielkriterium: **95 % einseitige Konfidenz**, keine Vertragsforderung.“ | Trotz Vorbehalt als Nachweisbasis ausgearbeitet und mit dem Kundenauftrag verwechselt. | Statistisches Abnahmebeispiel entfernt. |
+| Kapitel 15.4.4: „Quantitatives Ziel nicht nachgewiesen.“ | Bewertung bezog sich auf das hinzugefügte Konfidenzkriterium, nicht allein auf die Jahresforderung. | Durch reinen Vergleich des beobachteten Jahreswerts mit FL0806 ersetzt. |
+| Kapitel 15.5: „Wenn vor Lieferung nicht genügend Exposition erreichbar ist, eine **gestufte Abnahme mit dem Kunden vereinbaren**.“ | Nicht belegte zusätzliche Abnahmegestaltung. | Als Vorgabe entfernt. |
+| Kapitel 15.6: „Der quantitative Nachweis der zulässigen Störungsrate erfolgt gemäß dem mit dem AG abgestimmten RAM-Nachweisplan.“ | Existenz eines abgestimmten Plans und vorgesehener Tätigkeiten nicht belegt. | Durch quellenbezogenen Informationsstand ersetzt. |
+| Kapitel 13: „Freigegebener Störungskatalog sowie Zähl- und Expositionsspezifikation.“ | Eigene Dokumentliste unter „Erforderliche Nachweise“, nicht aus LH-SIG-105 belegt. | Nachweisanforderungen nur mit Quellenbezug in Kapitel 13. |
 
-Der Kunde muss festlegen, ob die Abnahme eine Konfidenzgrenze, eine beobachtete Rate oder eine feste jährliche Ereignisobergrenze verwendet. Diese Kriterien sind nicht gleichwertig.
+Auch die ergänzten Stunden-/FIT-/Schaltwahrscheinlichkeitsumrechnungen, modellabhängigen Verfügbarkeitsbeispiele und pauschalen Test-/Aufzeichnungspflichten wurden entfernt. Formeln werden in lesbarer Textform dargestellt.
 
-### 15.5 Praktische gestufte Nachweisstrategie
+### Umfang der Korrektur
 
-| Stufe | Erforderliche Tätigkeit | Ergebnis / zulässige Aussage |
-| --- | --- | --- |
-| **Vor Entwurfsbaseline** | Ereignisdefinition, Exposition, Gültigkeit und Abnahmemethode freigeben. | Anforderung und Nachweisbasis vereinbart. |
-| **Vor Produktfreigabe** | Entwurfsabsicherung und Robustheitstests abschließen; übertragbare Evidenz bisheriger Produkte bewerten. | Entwurf und geprüftes Verhalten abgesichert; quantitative Erfüllung nur bei ausreichender vereinbarter Evidenz. |
-| **Im Pilot-/Regelbetrieb** | Repräsentative Exposition sammeln und vereinbarten statistischen Nachweis führen. | Quantitative Erfüllung gemäß freigegebener Abnahmeregel bewertet. |
+- Beide projektbezogenen Markdown-Berichte wurden inhaltlich angeglichen.
+- Die nummerierte Struktur und das Inhaltsverzeichnis bleiben erhalten.
+- Die Tabellen zum Quellenvergleich bleiben bestehen; ihre Bewertungen sind keine neuen Requirements.
+- Lastenhefte, FL und sonstige Quelldokumente wurden nicht geändert.
+- Früher erzeugte CSV-/Excel-Artefakte außerhalb dieser Markdown-Berichte wurden mit dieser Korrektur nicht überarbeitet. Die dort enthaltenen eigenen Anforderungsentwürfe und statistischen Kriterien sind ebenfalls keine Kundenanforderungen und dürfen nicht als solche verwendet werden.
 
-Daten bestehender Produkte können den Nachweisaufwand nur reduzieren, wenn die Übertragbarkeit auf neue Hardware, Software, Schnittstellen, Einsatzprofil und Erfassungsvollständigkeit belegt ist. Ähnliche Produktnamen oder eine gemeinsame Architektur allein reichen nicht aus.
-
-Wenn vor Lieferung nicht genügend Exposition erreichbar ist, eine **gestufte Abnahme mit dem Kunden vereinbaren**. „Tests bestanden“ nicht ohne diese Vereinbarung anstelle des quantitativen Erfüllungsnachweises verwenden.
-
-### 15.6 Empfohlene Aussage zum aktuellen Erfüllungsstand
-
-Die folgende Formulierung ist nur zu verwenden, wenn die genannten unterstützenden Aktivitäten tatsächlich vorgesehen bzw. eingerichtet sind. Sie behauptet nicht, dass diese bereits abgeschlossen wurden:
-
-> Die Anforderung ist spezifiziert und wird durch konstruktive Maßnahmen sowie Funktions- und Robustheitsprüfungen unterstützt. Der quantitative Nachweis der zulässigen Störungsrate erfolgt gemäß dem mit dem AG abgestimmten RAM-Nachweisplan. Bis zum Vorliegen ausreichender repräsentativer Nachweisdaten bleibt der quantitative Erfüllungsnachweis offen.
-
-**Fazit:** Die Anforderung kann spezifiziert und der Entwurf gegen relevante Störungsmechanismen verifiziert werden. Vollständige quantitative Erfüllung benötigt eine vereinbarte Nachweismethode und ausreichende repräsentative Evidenz.
-
-## 16. Prüfung der Review-Artefakte
-
-Das zugehörige Review-Register und die Berechnungsarbeitsmappe wurden während der ursprünglichen Analyse erzeugt und erneut geöffnet. Geprüft wurden:
-
-- 84 Quelleinträge und vollständige Abdeckung der inhaltlichen RAMS-Kapitelanforderungen.
-- Acht separat abgeleitete LH-SIG-105-Anforderungen.
-- Zwanzig Klärungs-/Maßnahmeneinträge.
-- CSV-Struktur und Existenz vollständig qualifizierter bisheriger Feature-IDs.
-- Berechnungen zu Rate, Exposition und vereinfachter Verfügbarkeit.
-
-Diese Prüfungen betreffen die Review-Artefakte und Berechnungen, **nicht die tatsächliche Produktkonformität**. Die Quelldokumente wurden nicht verändert.
-
-Für die deutsche Fassung bleiben Kennungen, Werte, Nachweisannahmen und Kapitelstruktur der englischen Bezugsfassung erhalten. Die englische Fassung bleibt unverändert verfügbar.
+Die Dokumentprüfung bestätigt keine Produktkonformität. Sie korrigiert die Abgrenzung zwischen Quelleninhalt, Analyse und unbelegten Ergänzungen.

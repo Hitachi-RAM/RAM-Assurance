@@ -1,629 +1,444 @@
 # NextGen_Bahnsignal - RAM Requirements Review
 
-**Review date:** 2026-10-15  
-**Status:** Engineering draft for joint review. Not an approved requirements baseline or a compliance declaration.  
-**Subject:** LH Signalgeber requirements compared with the previous Signal Element feature list, with particular focus on LH-SIG-105.
+**Original analysis date:** 2026-10-15
+
+**Revised:** 2026-10-19 - restricted to existing requirements and documented clarifications.
+
+**Status:** Source-based engineering analysis. Not a new requirements specification, acceptance procedure or declaration of compliance.
+
+**Subject:** Comparison of the Signalgeber customer specification with the previous Signal Element feature list; focus on LH-SIG-105.
+
+**Parallel version:** [German report](./NextGen_Bahnsignal_RAM_Anforderungsreview_DE.md).
+
+**Correction to the previous version:** Assistant-authored requirement drafts, additional evidence obligations and statistical acceptance criteria have been removed. They were not specified by the cited customer requirements. Chapter 16 records the withdrawal. The project source documents have not been changed.
 
 ## Table of Contents
 
 - [1. Executive Summary](#1-executive-summary)
 - [2. Applied Skills](#2-applied-skills)
 - [3. Sources and Review Scope](#3-sources-and-review-scope)
-  - [3.1 Scope and limitations](#31-scope-and-limitations)
+  - [3.1 Scope and Limitations](#31-scope-and-limitations)
 - [4. Findings: RAM Requirements and Legacy Comparison](#4-findings-ram-requirements-and-legacy-comparison)
-  - [4.1 Additional RAM-Relevant Requirements](#41-additional-ram-relevant-requirements)
-  - [4.2 Important Legacy Distinctions](#42-important-legacy-distinctions)
-- [5. LH-SIG-105: Interpretation](#5-lh-sig-105-interpretation)
-  - [5.1 Customer Clarification](#51-customer-clarification)
-  - [5.2 Inputs](#52-inputs)
-  - [5.3 Assumptions](#53-assumptions)
-  - [5.4 Formula and Calculation](#54-formula-and-calculation)
-  - [5.5 Result](#55-result)
-  - [5.6 Conditional Per-Demand Interpretation](#56-conditional-per-demand-interpretation)
-- [6. Why Hardware MTBF Prediction Alone Is Insufficient](#6-why-hardware-mtbf-prediction-alone-is-insufficient)
-- [7. Proposed Project Requirements for LH-SIG-105](#7-proposed-project-requirements-for-lh-sig-105)
-  - [7.1 Performance Wording - Subject to Customer Approval](#71-performance-wording---subject-to-customer-approval)
-  - [7.2 Supporting Requirements](#72-supporting-requirements)
-- [8. Verification and Statistical Demonstration](#8-verification-and-statistical-demonstration)
-  - [8.1 Proposed Evidence Strategy](#81-proposed-evidence-strategy)
-  - [8.2 Statistical Example: Zero Observed Events](#82-statistical-example-zero-observed-events)
-  - [8.3 Rate Target Versus Hard Annual Ceiling](#83-rate-target-versus-hard-annual-ceiling)
-- [9. Availability and Maintainability Boundary](#9-availability-and-maintainability-boundary)
-- [10. Assumptions and Missing Information](#10-assumptions-and-missing-information)
-- [11. Risks](#11-risks)
-- [12. Recommendations](#12-recommendations)
-- [13. Required Evidence](#13-required-evidence)
-- [14. Actions](#14-actions)
-- **[15. LH-SIG-105: Project Requirement Formulation and Fulfillment Strategy](#15-lh-sig-105-project-requirement-formulation-and-fulfillment-strategy)**
-  - [15.1 Proposed Project Requirement](#151-proposed-project-requirement)
-  - [15.2 Accompanying Event Definition](#152-accompanying-event-definition)
-  - [15.3 Three Layers of Fulfillment Evidence](#153-three-layers-of-fulfillment-evidence)
-    - [15.3.1 Required Event and Exposure Records](#1531-required-event-and-exposure-records)
-  - [15.4 Numerical Acceptance Example](#154-numerical-acceptance-example)
-    - [15.4.1 Inputs and Assumptions](#1541-inputs-and-assumptions)
-    - [15.4.2 Formula](#1542-formula)
+  - [4.1 Other RAM-Relevant Requirements](#41-other-ram-relevant-requirements)
+  - [4.2 Important Distinctions](#42-important-distinctions)
+- [5. LH-SIG-105: Sources and Interpretation](#5-lh-sig-105-sources-and-interpretation)
+  - [5.1 Customer Specification](#51-customer-specification)
+  - [5.2 Feature List](#52-feature-list)
+  - [5.3 Documented Customer Clarification](#53-documented-customer-clarification)
+  - [5.4 Annual Basis and Open Interpretation](#54-annual-basis-and-open-interpretation)
+- [6. Distinction from Hardware MTBF](#6-distinction-from-hardware-mtbf)
+- [7. Existing Requirement Rather Than New Requirements](#7-existing-requirement-rather-than-new-requirements)
+- [8. Evidence Without Additional Acceptance Criteria](#8-evidence-without-additional-acceptance-criteria)
+- [9. Availability and Maintainability Boundaries](#9-availability-and-maintainability-boundaries)
+- [10. Missing Information](#10-missing-information)
+- [11. Interpretation Risks](#11-interpretation-risks)
+- [12. Requirements Analysis Result](#12-requirements-analysis-result)
+- [13. Documented Evidence Requirements and Available Evidence](#13-documented-evidence-requirements-and-available-evidence)
+- [14. Open Clarification Questions](#14-open-clarification-questions)
+- **[15. LH-SIG-105: Annual Assessment of the Existing Requirement](#15-lh-sig-105-annual-assessment-of-the-existing-requirement)**
+  - [15.1 Reference Requirement](#151-reference-requirement)
+  - [15.2 Event Scope](#152-event-scope)
+  - [15.3 What Tests Can Establish](#153-what-tests-can-establish)
+  - [15.4 Readable Calculation Example for One Year](#154-readable-calculation-example-for-one-year)
+    - [15.4.1 Example Inputs](#1541-example-inputs)
+    - [15.4.2 Calculation Rule](#1542-calculation-rule)
     - [15.4.3 Calculation](#1543-calculation)
-    - [15.4.4 Result](#1544-result)
-  - [15.5 Practical Staged Verification Strategy](#155-practical-staged-verification-strategy)
-  - [15.6 Recommended Current Compliance Statement](#156-recommended-current-compliance-statement)
-- [16. Review Verification](#16-review-verification)
+    - [15.4.4 Meaning and Limitations](#1544-meaning-and-limitations)
+  - [15.5 Provisions Not Established by the Source](#155-provisions-not-established-by-the-source)
+  - [15.6 Current Evidence Status](#156-current-evidence-status)
+- [16. Correction Register and Document Checks](#16-correction-register-and-document-checks)
 
 ## 1. Executive Summary
 
-**LH-SIG-105 is calculable as a functional disturbance-frequency requirement. It is not directly demonstrable through a conventional hardware MTBF calculation.**
+**LH-SIG-105 contains a quantitative annual disturbance requirement. It is not inherently incalculable merely because it specifies neither MTBF nor availability.**
 
-The recommended position is:
-
-> The numerical target is defined, but its event-counting rules, exposure basis and verification criteria require agreement. A component-based reliability prediction alone cannot demonstrate compliance.
-
-The repository provides the following supporting information:
+The sources distinguish:
 
 - **LH-SIG-94:** availability at least **0.9999**.
 - **LH-SIG-95:** MTBF **100,000 h**.
-- **LH-SIG-105:** one disturbance per **1,000 Signalgeber per year**.
-- The previous feature list treats LH-SIG-105 separately in **SE:FL:FEA:0806**, specifying **0.001 functional disturbances per element-year**.
-- The local clarification email quotes an OBB customer answer dated **12 December 2025**, describing a **non-safety-relevant failed switching operation**, for example a green light remaining dark at switch-on.
+- **LH-SIG-105:** "Pro Jahr darf bei einem von 1000 Signalgebern eine Störung erfolgen."
+- **SE:FL:FEA:0806:** at most **0.001 functional disturbances per element per year**.
 
-**Störungsrate is a RAM KPI**, even though it is neither availability nor necessarily the same failure population used for hardware MTBF.
+The OBB answer quoted in S4 describes a non-safety-relevant failed switching operation, for example a green light remaining dark at switch-on. Its applicability to the project baseline is not established: the email refers to an unavailable LH4.0.
 
-The proposed project requirements must therefore keep technical useful life, hardware reliability, availability, maintainability and functional disturbance frequency separately traceable.
+**The annual basis is retained.** This analysis does not replace it with a multi-year observation period or a statistical average across years. LH-SIG-105 and FL0806 do not, by themselves, fully define an acceptance test.
+
+An observed annual rate can be calculated from suitable data. Accepted feature status or a hardware MTBF calculation alone does not establish the observed annual disturbance rate. Actual compliance evidence is not present in the supplied documents.
 
 ## 2. Applied Skills
 
-The following repository skills were applied:
+The following repository methodologies informed the technical analysis:
 
-- [Railway-RAM](../../../Skills/Railway-RAM.md): railway RAM assurance and lifecycle assessment.
-- [REQ-Review](../../../Skills/REQ-Review.md): clarity, completeness, traceability and verifiability.
-- [RAM-Metrics](../../../Skills/RAM-Metrics.md): metric definitions, exposure, event counting and reporting.
-- [Reliability-Prediction](../../../Skills/Reliability-Prediction.md): distinction between predicted failure rates, observed disturbance frequency and lifetime evidence.
+- [Railway-RAM](../../../Skills/Railway-RAM.md): distinction between RAM measures and review of project sources.
+- [REQ-Review](../../../Skills/REQ-Review.md): separation of requirements, interpretation and missing information.
+- [RAM-Metrics](../../../Skills/RAM-Metrics.md): units and calculation of an observed disturbance rate.
+- [Reliability-Prediction](../../../Skills/Reliability-Prediction.md): limits of comparison with hardware MTBF.
+
+These methodologies do not create additional customer requirements. They are not used to impose a statistical confidence level on the project.
 
 ## 3. Sources and Review Scope
 
-Repository information was used from the following project documents:
-
 | Reference | Source | Use |
 | --- | --- | --- |
-| S1 | [715 LH Signalgeber DSTW V1.1_Kom_SS_20250704.pdf](../715%20LH%20Signalgeber%20DSTW%20V1.1_Kom_SS_20250704.pdf) | Explicit requirement IDs, binding attributes and variant applicability; especially pp. 17-22. |
-| S2 | [LH Signalgeber V2.0 signed.pdf](../LH%20Signalgeber%20V2.0%20signed.pdf) | Conventional and SEA customer requirements; approved 8 May 2024. |
-| S3 | [FL_SignalElement_old_3BU_62200_1001_FLAPQ.docx](../FL_SignalElement_old_3BU_62200_1001_FLAPQ.docx) | Legacy product features; document 3BU 62200 1001 FLAPQ, ED01, change log dated 8 October 2025. |
-| S4 | [RE_ Aufklärungen durch ÖBB bei LED Ausschreibung.msg](../RE_%20Aufkl%C3%A4rungen%20durch%20%C3%96BB%20bei%20LED%20Ausschreibung.msg) | Internal thread dated 8 January 2026 quoting the customer answer dated 12 December 2025. |
-| S5 | [D2.3_Teillastenheft_Allgemeine_Anforderungen_V1.3_Kom_SS_20250704.pdf](../D2.3_Teillastenheft_Allgemeine_Anforderungen_V1.3_Kom_SS_20250704.pdf) | Additional environmental and enclosure-lifetime requirements where applicable. |
-| S6 | [SSDD_iLED_01PD01.docx](../SSDD_iLED_01PD01.docx) | Architecture, diagnostic behaviour and reference to a separate RAM plan; not numerical compliance evidence. |
+| S1 | [715 LH Signalgeber DSTW V1.1_Kom_SS_20250704.pdf](../715%20LH%20Signalgeber%20DSTW%20V1.1_Kom_SS_20250704.pdf) | Customer requirements, IDs, binding attributes and applicability; especially p. 5 and pp. 17-22. |
+| S2 | [LH Signalgeber V2.0 signed.pdf](../LH%20Signalgeber%20V2.0%20signed.pdf) | Conventional and SEA requirements; approved 8 May 2024. |
+| S3 | [FL_SignalElement_old_3BU_62200_1001_FLAPQ.docx](../FL_SignalElement_old_3BU_62200_1001_FLAPQ.docx) | Previous product features; 3BU 62200 1001 FLAPQ ED01, change log dated 8 October 2025. |
+| S4 | [RE_ Aufklärungen durch ÖBB bei LED Ausschreibung.msg](../RE_%20Aufkl%C3%A4rungen%20durch%20%C3%96BB%20bei%20LED%20Ausschreibung.msg) | Internal thread dated 8 January 2026 quoting the answer of 12 December 2025; no separate official answer supplied. |
+| S5 | [D2.3_Teillastenheft_Allgemeine_Anforderungen_V1.3_Kom_SS_20250704.pdf](../D2.3_Teillastenheft_Allgemeine_Anforderungen_V1.3_Kom_SS_20250704.pdf) | Additional environmental and enclosure requirements where applicable. |
+| S6 | [SSDD_iLED_01PD01.docx](../SSDD_iLED_01PD01.docx) | Architecture and diagnostic behaviour; refers to a separate RAM plan but supplies no quantitative LH-SIG-105 demonstration. |
 
-Company governance and repository guidance were also considered:
+[G-PRD_S06000_02_EN.pdf](../../../Knowledge/Process/RAM-Process/G-PRD_S06000_02_EN.pdf) and [Requirements_Lessons.md](../../../Knowledge/Lessons_Learned/Requirements_Lessons.md) provided process and review context. Process guidance and example lessons are not project-specific customer requirements or field data.
 
-- [G-PRD_S06000_02_EN.pdf](../../../Knowledge/Process/RAM-Process/G-PRD_S06000_02_EN.pdf): project requirement analysis, RAM planning, RAM activities and monitoring; RAM demonstration and FRACAS deliverables.
-- [Requirements_Lessons.md](../../../Knowledge/Lessons_Learned/Requirements_Lessons.md): RL-011, restoration boundaries, and RL-012, resolving customer meaning before baselining. These are approved example lessons, not historical project performance evidence.
+### 3.1 Scope and Limitations
 
-### 3.1 Scope and limitations
-
-- The comparison covers all substantive requirements in the RAMS chapter, LH-SIG-84 through LH-SIG-116 and LH-SIG-139, plus selected RAM-relevant definitions, functional acceptance criteria, environmental conditions and evidence requirements.
-- LH-SIG-83 and LH-SIG-117 are section headings, not substantive requirements.
-- This is not a complete functional, electrical, optical, environmental or safety requirements review.
-- Binding and applicability in the comparison follow **S1, DSTW LH V1.1**. The signed V2.0 belongs to a different document stream; version numbers alone do not establish contractual precedence.
-- S4 refers to **LH 4.0**, which is not in the project folder, and quotes a feature-list identifier FLAPC. The supplied comparison file is FLAPQ. The applicable contractual baseline and official clarification record must be confirmed.
-- Source requirements below are engineering summaries, not verbatim transcriptions.
-- Proposed wording and statistical acceptance examples require approval before baselining.
-- Customer-delivered documentation must satisfy LH-SIG-119, including its German-language requirement.
+- The comparison covers LH-SIG-84 through LH-SIG-116 and LH-SIG-139, plus selected RAM-relevant requirements outside the RAMS chapter. LH-SIG-83 and LH-SIG-117 are headings.
+- Tables contain engineering summaries, not full verbatim transcriptions. Only explicitly identified quotations reproduce source wording.
+- Binding attributes and applicability follow S1. S2 is a different document stream; version numbers alone do not establish contractual precedence.
+- S4 refers to LH4.0 and feature-list identifier FLAPC. The available files are the listed LH versions and FLAPQ. The discrepancy remains unresolved.
+- No separate approved project requirements specification defining a binding LH-SIG-105 demonstration method was identified among the six supplied project files. S6 is a system design description.
+- No new requirement IDs, thresholds, test volumes, logging functions or acceptance procedures are specified.
+- Info and Soll entries are not promoted to Muss requirements.
+- This is not a complete functional, electrical, optical or safety requirements review.
 
 ## 4. Findings: RAM Requirements and Legacy Comparison
 
-In the table below, feature numbers abbreviate **SE:FL:FEA:xxxx**.
+Feature numbers abbreviate **SE:FL:FEA:xxxx**. The final column records source comparisons and open points, not additional project requirements.
 
-| LH requirement | Customer requirement / intent | Previous FL | Assessment and project translation |
+| LH requirement | Existing source content | Previous FL | Comparison / open point |
 | --- | --- | --- | --- |
-| **84, 88** | Installation and subsystem replacement using commercially available tools. | 1006; 0316/0317 | Covered in intent. Define the approved tools and maintenance demonstration conditions. |
-| **85** | Replacement of defective front optical part, light source or electronics without housing removal or optical readjustment. | 1005 | Info in V1.1. LRU replacement is related but does not necessarily provide separate component replacement. Record objective disposition. |
-| **86-87** | Housing-independent replaceable light-point or indicator subsystem without optical readjustment. | 1005 | Soll in V1.1. The signed V2.0 uses stronger wording for the light-point subsystem. Resolve the applicable baseline and approve objective disposition. |
-| **89** | Replacement must preserve physical and functional properties. | 1005 | Carry into a measurable post-replacement acceptance requirement. |
-| **90** | Installation or replacement maximum **10 min**, labelled MRT. | 0811; 1005 | 0811 changes maximum to mean repair time and excludes preparation; this is weaker. 1005 uses less than 10 min. Define a **600 s maximum task** with agreed start/end conditions. |
-| **91** | Required visibility retained despite degradation, temperature and partial light-source failures throughout useful life. | 0219; 0810 | Explicit optical lifetime requirements and evidence are needed. Define permitted partial failures without weakening visibility requirements. |
-| **92** | Specified axial intensity range must not be undershot during useful life. | 0808/0810 | 0808 references this ID but its normative text is availability and MTBF. An explicit optical lifetime requirement is needed. |
-| **93** | Technical useful life at least **130,000 operating h**. | 0810; 0808 comments | Legacy **15 calendar years** is not generally equivalent for intermittent operation. Preserve the operating-hour target and address calendar ageing separately. |
-| **94** | Availability at least **0.9999** throughout lifetime. | 0808 | Numeric target matches. Availability class, boundary, downtime inclusions and observation basis remain undefined. |
-| **95** | MTBF **100,000 h**. | 0808: at least **200,000 h** | Legacy target is stronger if scope and operating profile match. Confirm the minimum-target interpretation and retain any binding product commitment separately. |
-| **96** | Freedom to use circuit measures to achieve useful life. | Design principles | Info/design freedom, not an additional numerical target. |
-| **97** | Operating hours stored locally. | 0407 | Accepted feature records powered hours, including dark time. V1.1 applicability is SEA. Define counter accuracy, retention and replacement behaviour. |
-| **98** | Usage visible through an indicator at the signal site without dismantling or extra systems. | 0633 | Gap: feature is Descoped although V1.1 contains a Muss requirement for Conventional/SEA. |
-| **99** | Green to 68% useful life; yellow 68.1-81.1%; red from 81.2%. | 0634 | Gap: feature is Descoped. Agree quantisation and rounding to resolve gaps between the stated percentage intervals. |
-| **100** | Indicator position agreed with customer. | 0633 | A descoped feature does not demonstrate agreement on installation position. |
-| **101** | Wired operating-hour readout after dismantling. | 0643 | Accepted CAN readout supports digital variants; confirm conventional-variant support and the readout configuration. |
-| **102** | Wireless readout without dismantling. | 0644 | Soll objective in V1.1; feature is Descoped. Formal disposition is needed. |
-| **103** | Lifetime boundary includes all necessary parts from the cable-side terminal, including the complete connector. | 0810 | Covered in intent. Do not assess only the electronic board. |
-| **104** | Typical profile: 300 activations/day; 100 blinking sessions/day of 2 min; extremes from continuous use to activation once in two years. | 0810/0812/0813 | Conflicting legacy profiles include 300 sessions of 2 min and 100 sessions of 1 min. Agree variant-specific profiles; typical averages are not universal maxima. |
-| **105** | One disturbance per **1,000 Signalgeber/year**. | 0806 | Numeric target is mapped. Event scope, counting rules, exposure and demonstration criteria are incomplete. |
-| **106** | High impedance at the interlocking interface on disturbance, for conventional variants. | 0805 | Define impedance criteria and reaction times. |
-| **107** | Disturbance disclosure at the interlocking interface for DSTW/SEA. | 0805; 0406 | Define diagnostic messages, coverage, latency and communication-failure behaviour. |
-| **108-109** | No required periodic maintenance over useful life, except specified external cleaning. | 1001 | Broadly covered. Resolve wording about corrective intervention versus repair following random failures. |
-| **110** | Any necessary maintenance/inspection interval at least **2 years**. | 1004 | Legacy ideal of no recurring inspection omits the explicit minimum interval. |
-| **111** | At least **4 years** as maintenance/inspection interval objective. | 1004 | No explicit four-year objective identified. Record satisfaction or approved disposition. |
-| **112** | Safety/application conditions must not require interlocking activation or state changes for inspection/maintenance. | 1003 | Legacy wording is weaker. Preserve the explicit prohibition and check dormant-use diagnostic assumptions. |
-| **113** | SIL4 signalling safety documented in the approval safety case. | 0801/0807 | Safety-linked requirement, not a substitute for RAM evidence. |
-| **114-116** | Applicable THR matrices for small light points, large light points and Signalgeber assemblies. | 0801 | Obtain controlled THR matrices. A generic scalar THR does not replace hazard-specific allocations. |
-| **139** | Illuminated duration stored locally, for conventional variants. | 0407 | Gap: powered operating hours, including dark time, are not the same as illuminated duration. |
+| **84, 88** | Installation and exchange with commercially available tools. | 1006; 0316/0317 | Corresponding intent. This comparison does not specify demonstration conditions. |
+| **85** | Replace front optics, light source or electronics without housing removal or optical readjustment. | 1005 | Info in V1.1. LRU exchange is not necessarily separate component exchange. |
+| **86-87** | Housing-independent light-point/indicator subsystem exchange without optical readjustment. | 1005 | Soll in V1.1; S2 uses stronger light-point wording. Applicability of 87 is blank in S1. |
+| **89** | Exchange without changing physical or functional properties. | 1005 | Corresponding intent; actual implementation not demonstrated. |
+| **90** | Installation/exchange maximum 10 min, labelled MRT. | 0811; 1005 | 0811 uses mean repair time and excludes preparation/follow-up; 1005 requires less than 10 min. Maximum and mean differ. 10 min equals 600 s, without creating a new target. |
+| **91** | Visibility retained despite degradation, temperature and partial failures over useful life. | 0219; 0810 | Partial optical-lifetime coverage; feature text is not complete evidence. |
+| **92** | Axial intensity range not undershot over useful life. | 0808/0810 | 0808 references the ID but its normative text specifies availability/MTBF rather than an explicit optical limit. |
+| **93** | Technical useful life at least 130,000 operating hours. | 0810; 0808 comments | 15 calendar years are not equivalent to 130,000 operating hours for intermittent use. |
+| **94** | Availability at least 0.9999 over life. | 0808 | Same numerical value as 99.99%. Availability class and downtime scope not defined by this wording. |
+| **95** | "Ein Signalgeber muss eine MTBF von 100.000h aufweisen." | 0808: at least 200,000 h | FL explicitly states a minimum; LH wording does not. Comparison also depends on boundary, failure definition and profile. |
+| **96** | Circuit measures to achieve useful life are permitted. | Design principles | Info/design freedom, not a separate numerical target. |
+| **97** | Local operating-hour storage; SEA applicability. | 0407 | Records powered time, including dark time. |
+| **98** | Usage visible at site without dismantling/additional systems. | 0633 | Descoped despite Muss in S1 for Conventional/SEA; no customer waiver evidenced. |
+| **99** | Green to 68%, yellow 68.1-81.1%, red from 81.2% of useful life. | 0634 | Descoped. Treatment of values between stated boundaries not explained in the wording. |
+| **100** | Indicator location agreed with customer. | 0633 | Customer agreement not established by feature status. |
+| **101** | Wired readout after dismantling. | 0643 | CAN readout described; conventional applicability unresolved. |
+| **102** | Wireless readout without dismantling. | 0644 | Soll in S1, Descoped in FL. Descope is not a documented customer waiver. |
+| **103** | Useful-life boundary includes complete system from cable-side terminal, including full connector. | 0810 | Corresponding intent. The statement explicitly concerns useful life. |
+| **104** | Average 300 activations/day or 100 blinking sessions/day of 2 min; continuous through very infrequent use. | 0810/0812/0813 | Different FL profiles include 300 x 2 min and 100 x 1 min. S1 marks this Info; an average is not a universal maximum. |
+| **105** | Per year, a disturbance may occur in one of 1,000 Signalgeber. | 0806 | Annual normalisation of 0.001 functional disturbances per element-year present. Counting and demonstration method not fully described. |
+| **106** | High-impedance interlocking interface on disturbance, Conventional. | 0805 | Related analogue fault response; no new impedance/time threshold from this review. |
+| **107** | Disturbance disclosure at interface, DSTW/SEA. | 0805; 0406 | Diagnostic behaviour described; numerical compliance not established by feature text. |
+| **108-109** | No required prescribed/periodic maintenance except external cleaning. | 1001 | Similar intent. Corrective intervention versus random-failure repair needs interpretation. |
+| **110** | If necessary, maintenance/inspection interval at least 2 years. | 1004 | Ideally no recurring inspection does not explicitly reproduce the two-year limit. |
+| **111** | At least 4 years as interval objective, Soll. | 1004 | No explicit four-year value identified. |
+| **112** | Safety/application conditions cannot require interlocking activation/state changes for maintenance purposes. | 1003 | Not influencing safety/application conditions differs from prohibiting required activation. |
+| **113** | SIL4 safety documented for approval. | 0801/0807 | Safety is distinct from disturbance rate and availability. |
+| **114-116** | THR matrices for small/large light points and Signalgeber. | 0801 | A general FL scalar THR does not replace referenced matrix allocations without mapping. |
+| **139** | Local illuminated-duration storage; Conventional. | 0407 | Powered operating hours, including dark time, are not illuminated duration. |
 
-### 4.1 Additional RAM-Relevant Requirements
+### 4.1 Other RAM-Relevant Requirements
 
-| LH requirement | RAM relevance | Comparison / action |
+| LH requirement | Source content / RAM relevance | Comparison / open point |
 | --- | --- | --- |
-| **5-9** | Define Signalgeber types and complete-system boundaries. | Include the supplied optics, interface, connector, mounting, housing and thermal provisions as applicable. |
-| **10-11** | Define disturbances and unspecified optical behaviour. | LH-SIG-10 is broad: loss of full functionality, optical inadequacy, interface deviations and flicker. Reconcile this definition with the narrower switching clarification. |
-| **12-13** | Require disturbed-state reaction and dark/high-impedance outputs. | 0805 addresses non-recoverable faults; confirm coverage of other unspecified behaviour and digital-interface applicability. |
-| **18** | Applicable standards include EN 50126-1. | Control editions and applicability in the project standards baseline. |
-| **33, 35-36** | Alignment retention, replacement without readjustment and handling mass. | 0317/1005 cover replacement intent. Variant mass features are sometimes stricter. Define measurable installation and exchange acceptance. |
-| **40-48** | Environmental resistance, snow, temperature, EMC, transport/storage, IP and railway pressure/suction loads. | Use the approved full environmental profile and qualification evidence. Legacy IP65 exceeds IP54, but an IP rating alone is not lifetime evidence. |
-| **54-57, 63, 65** | Visibility, viewing angle, light distribution and intensity retention. | Functional failure-classification inputs and optical lifetime evidence, not MTBF targets. |
-| **67-69** | Colour stability under temperature, ageing, supply variation and phantom light. | 0220 covers intent. Informal legacy colour deviations require approved customer agreement. |
-| **71, 74, 81-82** | Fault disclosure, series-connection functionality, voltage-envelope behaviour and absence of flicker on single-pole disconnection. | Include in disturbance and interface verification. Legacy 0317 erroneously references LH-SIG-82 for mounting. |
-| **76-77** | 1 Hz blinking, 1:1 duty ratio and waveform tolerances. | 0502 uses a tighter tolerance. Define whether each blink transition is a counted switching demand. |
-| **118** | Required RAM evidence. | Installation documentation alone does not ensure a complete RAM compliance package. |
-| **119-120** | German customer documentation and editable/noneditable digital delivery. | Generic English product documents do not satisfy the customer delivery requirement alone. |
-| **121-123** | Maintenance manual, diagnostics, spares, measurement procedures and approved tools. | Check completeness and obtain written approval for deviations from the customer tool set. |
-| **124-126** | Identification and machine-readable data support asset and FRACAS traceability. | Link identity, configuration, exposure and disturbance records. |
-| **135** | Small-light-point intensity limits. | 0619 matches the nominal range, but **0624 permits a 21 cd night minimum versus the customer's 40 cd minimum**. Resolve variant-specific coverage and lifetime margins. |
-| **136-138** | Indicator intensity, viewing angles and symbol recognition. | Verify recognition under permitted partial failures; do not import another customer's tolerated-pixel settings as automatic OBB acceptance. |
+| **5-9** | Signalgeber types and complete-system definitions. | Optics, interface, connector, mounting and housing form part of the applicable system definition. |
+| **10-11** | Disturbance definition and unspecified optical behaviour. | Broader than the switching example in S4; relationship unresolved. |
+| **12-13** | Disturbed state, dark/high impedance. | 0805 addresses non-recoverable faults; complete coverage and digital applicability not established. |
+| **18** | Standards including EN 50126-1. | 0108/0701/0807 provide references, not a final contractual edition baseline. |
+| **33, 35-36** | Alignment retention, exchange without readjustment, mass limits. | 0317/1005 and mass features correspond, sometimes with tighter product values. |
+| **40-48** | Environment, snow, temperature, EMC, transport/storage, IP, pressure/suction. | 0703/0706/0707/0314/0803/0301 address these topics. FL IP65 versus LH IP54; temperature references and profiles differ. |
+| **54-57, 63, 65** | Visibility, angles, distribution and intensity retention. | Functional disturbance/lifetime criteria, not additional MTBF targets. |
+| **67-69** | Colour stability under ageing, temperature, voltage and phantom light. | 0220 addresses intent; informal colour deviations do not establish customer approval. |
+| **71, 74, 81-82** | Fault disclosure, series operation, voltage behaviour, no flicker on single-pole disconnection. | Relevant to disturbance interpretation. 0317 incorrectly cites LH-SIG-82 for mounting. |
+| **76-77** | 1 Hz, 1:1 duty ratio, tolerances. | 0502 is tighter; this does not establish an LH-SIG-105 counting rule for blink edges. |
+| **118-120** | RAM evidence, German language, editable/noneditable digital formats. | 0904/0905/0807 partly correspond; generic English documents alone do not meet German delivery wording. |
+| **121-123** | Manual, diagnostics, spares, measurement procedures and tools. | 0904/0905/1006 correspond; complete delivery not evidenced. |
+| **124-126** | Identification and machine-readable information. | 0903; no automatic additional event-logging function follows. |
+| **135** | Small light points: night range 40-300 cd. | 0619 nominally matches; 0624 permits 21 cd rather than 40 cd minimum. Variant-specific discrepancy. |
+| **136-138** | Indicator intensity, angles and recognition. | 0218/0601/0602 correspond. Other customers' pixel-loss limits are not automatically OBB limits. |
 
-### 4.2 Important Legacy Distinctions
+### 4.2 Important Distinctions
 
-- **Accepted feature status is not demonstrated customer compliance.**
-- Legacy **30-year product support/lifetime** in 0809 is separate from **130,000 operating h technical useful life** and failure-free operation.
-- S5 includes a **30-year UV enclosure durability** requirement requiring allocation where applicable.
-- Environmental verification must distinguish **ambient, housing external and internal component temperatures**.
-- S5 specifies **-40 to +70 degrees C ambient in track areas**, where applicable. LH-SIG-42/43 instead specify housing external temperature conditions.
-- A legacy calculation assumption of **20 degrees C** is not a complete mission profile.
+- Accepted records feature acceptance, not demonstrated implementation or customer compliance.
+- Descoped records a product decision, not demonstrated customer waiver.
+- 30-year product support/product lifetime in 0809 is not 130,000 operating hours of technical useful life.
+- The potentially applicable 30-year enclosure UV resistance in S5 does not automatically apply to every component.
+- Ambient, external housing and internal component temperatures differ. S5 includes potentially applicable track-area ambient -40 to +70 degrees C; LH-SIG-42/43 concern the housing.
+- A 20 degrees C FL assumption does not represent every environmental requirement.
 
-## 5. LH-SIG-105: Interpretation
+## 5. LH-SIG-105: Sources and Interpretation
 
-### 5.1 Customer Clarification
+### 5.1 Customer Specification
 
-S4 supports treating LH-SIG-105 as a requirement concerning **failed switching operations**, rather than simply applying the hardware failure rate from LH-SIG-95.
+**Verbatim S1, LH-SIG-105, p. 19:**
 
-However:
+> Die zulässige Störungsrate ist wie folgt definiert und darf nicht überschritten werden:
+>
+> Pro Jahr darf bei einem von 1000 Signalgebern eine Störung erfolgen.
 
-1. The quoted answer calls LH-SIG-95 "availability"; technically it specifies **MTBF**. LH-SIG-94 is the separate availability requirement.
-2. The thread refers to **LH 4.0**, which is not supplied. Applicability to this project requires confirmation.
-3. A failed switching operation can have a hardware cause. **Do not exclude hardware-caused failed switching or safe-dark nuisance shutdowns without customer agreement.**
-4. V1.1 assigns LH-SIG-105 to **Conventional and SEA**, not DSTW. Any extension to DSTW must be explicit.
-5. The original annual allowance, the clarification's switching example and the broad LH-SIG-10 definition must be reconciled in an approved event catalogue.
-6. "One event" and "one affected unit" are different metrics if the same unit experiences repeated disturbances.
+Binding: **Muss**. Applicability: **Konventionell, SEA**. DSTW is not listed for this row.
 
-### 5.2 Inputs
+### 5.2 Feature List
 
-| Parameter | Value | Source / status |
+**Verbatim S3, SE:FL:FEA:0806:**
+
+> Die Störungsrate (Anzahl von Störungen je Element und Jahr) für Funktionsstörungen (fallweise Einschaltversagen, fallweise Toleranzüberschreitungen, etc.) eines Signalelements darf nicht mehr als 0.001 betragen.
+
+The feature lists LH-SIG105 as its origin and Accepted as its status. It explicitly normalises per element per year and provides functional disturbance examples.
+
+### 5.3 Documented Customer Clarification
+
+The answer dated 12 December 2025, quoted in S4, describes a permitted non-safety-relevant failed switching operation among 1,000 Signalgeber; example: a green light remains dark at switch-on.
+
+The answer calls LH-SIG-95 availability. The LH text instead specifies MTBF there; availability is separately specified by LH-SIG-94. The terminology discrepancy does not itself amend the requirement texts.
+
+The answer is quoted in an internal email. Whether and with what precedence it clarifies the available LH versions is not established.
+
+### 5.4 Annual Basis and Open Interpretation
+
+"Pro Jahr" in the LH and "je Element und Jahr" in the FL establish the annual basis. No longer observation duration or averaging across years is derived from them.
+
+Repeated disturbances of the same unit, fixed versus rolling years, changing fleets and observation gaps are not fully explained. These are open analysis questions, not additional provisions set by this report.
+
+## 6. Distinction from Hardware MTBF
+
+LH-SIG-95 specifies a time in hours. LH-SIG-105/FL0806 concern functional disturbance counts per element per year. Their event populations are not established as identical.
+
+A hardware prediction alone does not provide an observed annual count of intermittent activation failures or tolerance exceedances. A switching failure is not automatically unrelated to hardware either.
+
+This review derives **no hardware MTBF target, FIT target or per-switching failure probability** from LH-SIG-105. Previous conversions have been removed from the current analysis because they depended on additional exposure and event assumptions.
+
+An actual FIDES, IEC 61709 or MIL-HDBK-217 prediction is outside this review.
+
+## 7. Existing Requirement Rather Than New Requirements
+
+The existing mapping is:
+
+```text
+LH-SIG-105 -> SE:FL:FEA:0806
+```
+
+No additional project requirement IDs or expanded shall-statements are introduced.
+
+Previous obligations concerning an approved event catalogue, exposure specification, logging, statistical demonstration plan and test scenarios were assistant proposals. They are not contractual requirements established by LH-SIG-105 and have been withdrawn as requirement drafts.
+
+Unclear terms can be recorded as clarification questions. They do not automatically require an additional customer document or device function.
+
+## 8. Evidence Without Additional Acceptance Criteria
+
+LH-SIG-105 and FL0806 state the annual basis and numerical target. Their quoted wording specifies no particular test fleet size, confidence level or complete acceptance procedure.
+
+**Assessment of evidence, not an additional test requirement:**
+
+| Available or possible evidence | Potential conclusion | What does not follow from it alone |
 | --- | --- | --- |
-| Allowed disturbance frequency | One disturbance per 1,000 Signalgeber-years | LH-SIG-105, interpreted as an event-rate target pending agreement. |
-| Hardware MTBF | 100,000 h | LH-SIG-95; minimum-target interpretation requires confirmation. |
-| Availability | At least 0.9999 | LH-SIG-94; measure and downtime boundary unresolved. |
-| Typical activation count for illustration | 300 activations/day | LH-SIG-104; not a universal maximum or a complete demand definition. |
+| Feature text marked Accepted | Requirement is included in the FL. | Actual annual disturbance rate is met. |
+| Functional test | Behaviour was checked under the recorded conditions. | Quantitative annual rate if results lack a traceable annual basis. |
+| Switching/endurance test | Can provide event counts and test time or switching counts. | Automatic equivalence between cycles/laboratory hours and an operating year. |
+| Annual operational record | Can provide an observed rate for the fleet and year considered. | Guarantee for other years or automatic formal customer acceptance. |
+| Hardware MTBF prediction | Result for the modelled hardware reliability. | Complete evidence for every FL0806 functional disturbance. |
 
-### 5.3 Assumptions
+"Passing functional tests alone does not establish a rate of 0.001 per Signalgeber-year" describes a **limit of inference**, not an obligation to perform a particular extra test or achieve statistical confidence.
 
-The following assumptions apply only to the calculations explicitly identified below:
+The binding project demonstration method is not conclusively identifiable from the supplied documents. This report does not invent one.
 
-- A year is taken as **365 days**.
-- Continuous exposure is **8,760 h/year**.
-- A reciprocal mean event interval assumes a stationary event process.
-- Per-demand conversion assumes the annual event frequency is driven solely by the specified switching demands.
-- Statistical examples assume independent rare events, homogeneous representative exposure, a constant event frequency and complete observation.
-- None of these assumptions creates a customer-approved acceptance criterion.
+## 9. Availability and Maintainability Boundaries
 
-### 5.4 Formula and Calculation
+- LH-SIG-94 specifies availability of at least 0.9999.
+- LH-SIG-90 specifies maximum 10 min for installation/exchange.
+- FL0811 describes mean repair time and excludes preparation/follow-up.
 
-Define the measured disturbance frequency:
+A maximum exchange activity is not mean complete downtime. The source comparison identifies this distinction without assigning additional downtime terms or budgets.
 
-$$
-r_D = \frac{K_D}{E}
-$$
+Previous illustrative MDT limits and availability calculations have been removed. They were model-dependent additions, not existing requirements.
 
-where:
+## 10. Missing Information
 
-- $K_D$ is the number of qualifying disturbance events;
-- $E$ is accumulated eligible exposure in Signalgeber-years.
-
-The proposed numerical interpretation is:
-
-$$
-r_D \leq \frac{1}{1000}
-= 0.001\ \text{disturbances/(Signalgeber year)}
-$$
-
-This is directly calculable from event and exposure records.
-
-Under the continuous-exposure assumptions:
-
-$$
-\nu_D = \frac{0.001}{8760}
-= 1.142 \times 10^{-7}\ \text{events/h}
-$$
-
-$$
-\text{Equivalent FIT units}
-= \nu_D \times 10^9
-= 114.2
-$$
-
-$$
-\text{Mean event interval}
-= \frac{1}{\nu_D}
-= 8{,}760{,}000\ \text{h}
-$$
-
-### 5.5 Result
-
-| Conditional result | Value | Interpretation |
-| --- | --- | --- |
-| Disturbance-frequency target | 0.001 events/(Signalgeber year) | Proposed annual rate interpretation. |
-| Time-normalised disturbance frequency | $1.142 \times 10^{-7}$ events/h | Conditional on continuous exposure. |
-| Equivalent FIT units | 114.2 FIT | Unit equivalence only, not a hardware prediction. |
-| Reciprocal mean event interval | 8,760,000 h | Not automatically the hardware MTBF required by LH-SIG-95. |
-
-If both requirements count exactly the same events, LH-SIG-105 is much stricter:
-
-$$
-\frac{8{,}760{,}000}{100{,}000} = 87.6
-$$
-
-This is not necessarily a logical contradiction with a minimum MTBF requirement, but it is a substantial feasibility and verification issue.
-
-### 5.6 Conditional Per-Demand Interpretation
-
-If there are 300 switch-on demands per day and all counted disturbances arise from those demands:
-
-$$
-D = 300 \times 365 = 109{,}500\ \text{demands/(Signalgeber year)}
-$$
-
-$$
-p_D = \frac{0.001}{109{,}500}
-= 9.13 \times 10^{-9}\ \text{failures/demand}
-$$
-
-This is an illustration, **not a customer-specified per-demand requirement**. Actual demand profiles, blinking transitions and dormant use must be defined before such a conversion is used.
-
-## 6. Why Hardware MTBF Prediction Alone Is Insufficient
-
-A component-based prediction does not normally quantify all:
-
-- intermittent activation failures;
-- software, timing or interface faults;
-- transient immunity problems;
-- nuisance diagnostic shutdowns;
-- optical performance excursions;
-- repeated failed demands and recovery behaviour.
-
-Use the company-approved reliability method for LH-SIG-95, and a **dedicated disturbance assessment, functional verification and operational evidence** for LH-SIG-105.
-
-No FIDES, IEC 61709 or MIL-HDBK-217 prediction has been performed in this review. The calculations above are unit conversions and illustrative event-rate analysis.
-
-The two-channel architecture described in S6 does not justify independent-channel assumptions without analysis. Common-cause supply, environmental, communication and systematic faults can produce multiple disturbances and invalidate naive statistical pooling.
-
-## 7. Proposed Project Requirements for LH-SIG-105
-
-### 7.1 Performance Wording - Subject to Customer Approval
-
-> **NGB-RAM-DST-105-01:** Die Häufigkeit der gemäß dem freigegebenen Störungskatalog als LH-SIG-105-Ereignisse klassifizierten Störungen darf unter dem freigegebenen Einsatzprofil **0,001 Ereignisse je Signalgeberjahr** nicht überschreiten. Die Exposition ist gemäß der freigegebenen Expositionsdefinition zu bestimmen.
-
-This wording retains the annual rate target without silently substituting hardware MTBF or a probability per switching demand.
-
-### 7.2 Supporting Requirements
-
-The following are **proposed derived verification and evidence requirements**, not additional quoted customer requirements.
-
-| Draft ID | Proposed requirement | Verification / approval |
-| --- | --- | --- |
-| **NGB-RAM-DST-105-02** | The approved event catalogue shall identify the non-safety-relevant failed switching operations covered by the customer clarification and their relationship to the broader LH-SIG-10 definition. | Joint classification review; confirm applicability of the quoted LH4.0 clarification. |
-| **NGB-RAM-DST-105-03** | The counting specification shall define distinct events, repeated failed commands, persistent failures, recovery, restart events, blinking transitions and attribution at the agreed Signalgeber boundary. | Review with representative scenarios; no blanket exclusion of hardware-caused or safe-dark events. |
-| **NGB-RAM-DST-105-04** | The exposure specification shall define accumulation of eligible Signalgeber-years, including installation, removal, powered time, illuminated time, dormant periods and incomplete observation. | Approve calendar versus powered versus in-service exposure and treatment of downtime. |
-| **NGB-RAM-DST-105-05** | The demonstration system shall retain disturbance records linked to unit identity, configuration, event time, commanded state, observed state, recovery and associated exposure. | Logging and FRACAS data-quality verification; allocate data sources between device, interlocking, tools and FRACAS. |
-| **NGB-RAM-DST-105-06** | The RAM demonstration plan shall define the statistical model, confidence level, sample exposure, common-cause treatment and acceptance rule before compliance is claimed. | Customer-approved demonstration plan. |
-| **NGB-RAM-DST-105-07** | Verification shall exercise switching sequences under approved electrical, environmental, timing and mission conditions, including startup, restart, dormant use and blinking where applicable. | Robustness and interface tests; these do not alone prove the numerical annual rate. |
-| **NGB-RAM-DST-105-08** | The RAM compliance matrix shall report MTBF, availability and LH-SIG-105 disturbance-frequency compliance separately using approved event classes and boundaries. | Traceability review; events may contribute to multiple KPIs. |
-
-## 8. Verification and Statistical Demonstration
-
-### 8.1 Proposed Evidence Strategy
-
-1. Approve the event catalogue, counting rules and exposure definition.
-2. Analyse relevant failure modes and design contributors, including transient and systematic causes.
-3. Verify functional robustness under the approved mission and environmental profiles.
-4. Assess whether historical fleet evidence is representative of the new hardware, software, interfaces and environment.
-5. Define the agreed field demonstration and FRACAS reporting.
-6. Keep compliance open until sufficient agreed evidence is available.
-
-### 8.2 Statistical Example: Zero Observed Events
-
-**Illustrative assumptions only:** homogeneous independent Poisson events, complete observation and a **95% one-sided confidence criterion**. This is not a customer-specified acceptance rule.
-
-With zero observed events:
-
-$$
-r_{D,U} = \frac{-\ln(0.05)}{E}
-$$
-
-To demonstrate $r_{D,U} \leq 0.001$:
-
-$$
-E \geq \frac{-\ln(0.05)}{0.001}
-= 2995.7\ \text{Signalgeber-years}
-$$
-
-| Observation / example criterion | Result |
+| Item | Finding |
 | --- | --- |
-| Zero events in 1,000 Signalgeber-years | Upper rate approximately 0.002996 events/(Signalgeber year); insufficient for the example confidence criterion. |
-| Zero events with upper rate at most 0.001 | Approximately **2,996 full Signalgeber-years** required, rounded upward. |
-| One event with upper rate at most 0.001 | Approximately **4,744 full Signalgeber-years** required, rounded upward. |
+| Contractual precedence | Relationship between S1, S2 and the quoted LH4.0 clarification unresolved. |
+| Disturbance scope | Broad LH-SIG-10 definition, FL examples and switching clarification not conclusively reconciled. |
+| Repeated events | Event count versus affected-unit count not fully explained for repeated disturbances. |
+| Year boundaries | Fixed or rolling year not explicitly specified. |
+| Changing population | Partial years, replacements and reporting gaps not resolved by the wording. |
+| Demonstration method | No complete project-specific acceptance rule identified in the supplied documents. |
+| Performance evidence | No annual disturbance records or associated test results supplied for this assessment. |
+| Other RAM evidence | Complete separate RAM plan, calculations, maintainability demonstration and controlled THR allocations unavailable in the reviewed file selection. |
 
-For one event, the upper Poisson mean is obtained from:
+These gaps identify missing review information, not necessarily missing project activities or noncompliance.
 
-$$
-e^{-\mu_U}(1+\mu_U) = 0.05
-$$
+## 11. Interpretation Risks
 
-$$
-\mu_U = 4.7438645,\qquad
-E \geq \frac{\mu_U}{0.001} = 4743.9\ \text{Signalgeber-years}
-$$
-
-Common-cause disturbances, ageing, incomplete observation and configuration differences can invalidate simple pooling.
-
-### 8.3 Rate Target Versus Hard Annual Ceiling
-
-A statistical rate target and a hard limit of one event in every fleet-year are not equivalent.
-
-At an expected Poisson count of one:
-
-$$
-P(K \geq 2) = 1-e^{-1}(1+1) = 0.2642
-$$
-
-There is therefore a **26.4% probability of two or more events** even when the expected count is one. The customer must confirm the intended acceptance semantics.
-
-## 9. Availability and Maintainability Boundary
-
-LH-SIG-90's replacement time is not automatically the downtime used for LH-SIG-94.
-
-For a simplified uptime/downtime model:
-
-$$
-A = \frac{\text{MTBF}}{\text{MTBF}+\text{MDT}}
-$$
-
-Using MTBF = 100,000 h and $A = 0.9999$:
-
-$$
-\text{MDT} \leq 100{,}000
-\left(\frac{1}{0.9999}-1\right)
-= 10.001\ \text{h}
-$$
-
-This is conditional on the agreed availability measure and the simplified renewal model. It does not establish an approved downtime budget.
-
-Using only a 10 min active replacement time would give:
-
-$$
-A = \frac{100{,}000}{100{,}000+10/60}
-= 0.99999833
-$$
-
-That result excludes detection, mobilisation, access, spare logistics, testing and return to service. It is **not demonstrated operational availability**.
-
-## 10. Assumptions and Missing Information
-
-| Item | Status / consequence |
+| Risk | Potential incorrect conclusion |
 | --- | --- |
-| Contractual document hierarchy | Not confirmed. Different LH document streams and the quoted LH4.0 clarification must be reconciled. |
-| LH-SIG-105 event catalogue | Not approved. Switching examples and the broad disturbance definition must be aligned. |
-| Exposure denominator | Undefined. Calendar, powered, illuminated and in-service exposure are not interchangeable. |
-| Repeated-event counting | Undefined. Affected-unit count differs from event count. |
-| Statistical acceptance | Undefined. Confidence, sample, period and hard-ceiling interpretation need agreement. |
-| BOM and component reliability inputs | Not supplied for a numerical hardware reliability prediction. |
-| Mission and thermal profiles | Not approved. Continuous, intermittent, blinking and dormant use require separate consideration. |
-| Field disturbance and exposure data | Not supplied. No actual rate or compliance conclusion can be established. |
-| Maintenance demonstration | Not supplied. Maximum task time and full restoration boundary remain open. |
-| RAM plan and numerical analyses | S6 refers to a separate RAM plan, but the complete project evidence was not supplied. |
-| THR matrices | Controlled matrix values and allocations are required; no values are inferred here. |
-| Informal PDF comments | A comment claiming current MTBF above 400,000 h has no supporting calculation in the supplied evidence and is not treated as demonstrated performance. |
+| Adding statistical rules | Additional obligations are presented as customer requirements. |
+| Replacing annual basis with multi-year averaging | An adverse year can be obscured by other years; source wording does not establish such averaging. |
+| Confusing normalisation with test volume | Per 1,000 becomes exactly 1,000 mandatory test units without a source. |
+| Inventing counting rules | Repeated disturbances are excluded or counted repeatedly without a basis. |
+| Excluding every safe-dark reaction | Non-safety-relevant functional disturbances can be wrongly omitted. |
+| Treating Accepted/Descoped as customer evidence | Compliance or waiver assumed without evidence. |
+| Equating MTBF, useful life and disturbance rate | Different measures and event populations are conflated. |
+| Ignoring existing FL differences | Maximum/mean time, counter types, inspection intervals and optical limits remain incorrectly mapped. |
 
-## 11. Risks
+## 12. Requirements Analysis Result
 
-| Risk | Engineering consequence | Recommended control |
+**Source-based conclusion:**
+
+> LH-SIG-105 contains an annual disturbance requirement. FL0806 represents it as at most 0.001 functional disturbances per element per year. Counting and demonstration details are not fully described in the supplied documents. Actual compliance cannot be assessed from the supplied performance data.
+
+The requirement is not inherently incalculable. The missing elements are the basis for a specific assessment and its evidence, not the numerical target.
+
+This version contains no new requirement drafts or binding acceptance wording.
+
+## 13. Documented Evidence Requirements and Available Evidence
+
+| Source | Documented requirement / statement | Review evidence status |
 | --- | --- | --- |
-| Treating LH-SIG-105 as not calculable | Quantitative customer target is lost during requirement translation. | Retain the rate target; identify unresolved verification conditions explicitly. |
-| Claiming compliance from FL0806 Accepted status | Feature allocation is mistaken for implementation and performance evidence. | Require a separate compliance disposition and evidence reference. |
-| Treating LH-SIG-105 as hardware MTBF without event agreement | Unsupported conversion can overstate or misrepresent the design obligation. | Agree the event population and keep metric evidence separate. |
-| Excluding safe-dark or hardware-caused events without approval | Under-counting disturbances and misleading compliance reporting. | Record cause, safety status and KPI membership separately. |
-| Ignoring common-cause disturbances | Multiple units can fail together; independent-event assumptions become invalid. | Evaluate environmental, supply, communication and systematic contributors. |
-| Copying maximum replacement time as mean repair time | Maintainability requirement is weakened. | Define a maximum task duration and an approved demonstration procedure. |
-| Treating 15 calendar years as 130,000 operating h | Intermittent use and calendar degradation are not properly addressed. | Separate operating-hour life, calendar ageing and product support. |
-| Retaining legacy descopes as implicit customer waivers | Mandatory indicators or counters may remain unimplemented. | Obtain a controlled customer disposition or implement the requirement. |
-| Using inconsistent blinking or temperature profiles | Prediction and lifetime evidence may not represent actual deployment. | Approve a single traceable profile per applicable variant. |
-| Legacy small-light-point night minimum below customer minimum | Optical noncompliance and potential disturbance classification. | Resolve the 21 cd versus 40 cd discrepancy and verify lifetime margins. |
+| LH-SIG-118 | Delivery documentation includes RAM evidence. | Does not establish a specific confidence level or test programme for LH-SIG-105. |
+| LH-SIG-119 | German customer documentation. | Existing delivery requirement, not a review addition. |
+| LH-SIG-120 | Editable and noneditable digital documentation. | Existing format requirement. |
+| LH-SIG-121-123 | Manual, measurement/test documentation where measurements are required, and defined tools. | Subject to respective applicability; no blanket additional LH-SIG-105 test obligation. |
+| S6 | Reference to a separate RAM plan. | Reference is not available quantitative compliance evidence. |
+| S3, FL0806 | Requirement marked Accepted. | Establishes inclusion in FL, not achieved rate. |
 
-## 12. Recommendations
+The previous general Required Evidence list has been replaced with this source mapping. Other potentially useful RAM analyses are not declared additional customer deliverables.
 
-**Do not mark LH-SIG-105 "not calculable", and do not claim it is fulfilled merely because FL0806 is Accepted.**
+## 14. Open Clarification Questions
 
-Recommended disposition:
+These are **questions about existing requirements**, not newly assigned work packages or requirements.
 
-> **Quantitative target understood; event classification, exposure definition and verification criteria unresolved; compliance not yet demonstrated.**
-
-Keep distinct project requirements and evidence for:
-
-1. Technical useful life and optical degradation.
-2. Hardware MTBF.
-3. Availability.
-4. Maintainability and restoration.
-5. Functional disturbance frequency.
-6. Safety and fault-response obligations.
-
-Baseline LH-SIG-105 only after agreeing the target interpretation, scope and event population. Do not declare numerical compliance until the agreed demonstration evidence is available.
-
-## 13. Required Evidence
-
-- Controlled contractual requirement baseline and official customer clarification.
-- Approved variant applicability and RAM boundary.
-- Approved disturbance catalogue, event-counting specification and exposure definition.
-- Approved mission and environmental profiles, including thermal modelling.
-- RAM plan and customer-approved demonstration plan.
-- Company-method hardware prediction, with component sources and failure-mode mapping.
-- Optical degradation, lifetime and mechanical durability substantiation.
-- Availability model with agreed downtime terms.
-- Timed maintainability demonstration.
-- Functional robustness and interface verification reports.
-- FRACAS records, configuration-controlled exposure data and representative field evidence.
-- Safety case and controlled THR allocations.
-- German customer RAM and maintenance deliverables with complete bidirectional traceability.
-
-## 14. Actions
-
-| Priority | Action | Responsible roles | Closure evidence |
-| --- | --- | --- | --- |
-| 1 | Confirm contractual LH baseline and applicability of the quoted OBB clarification. | Project / Requirements / Customer | Controlled baseline and clarification record. |
-| 1 | Approve disturbance catalogue, counting rules and exposure basis. | RAM / Systems / Safety / Customer | Approved specifications with representative scenarios. |
-| 1 | Agree acceptance semantics, feasible observation exposure and evidence strategy. | RAM / V&V / Customer | Approved RAM demonstration plan. |
-| 2 | Separate useful life, MTBF, availability and disturbance-rate requirements. | RAM / Requirements | Reviewed requirement and evidence matrix. |
-| 2 | Confirm minimum MTBF interpretation and any continuing 200,000 h product commitment. | Product / RAM / Requirements | Approved target allocation. |
-| 2 | Resolve counter and indicator descopes and threshold rounding. | Product / Systems / Customer | Implementation plan or written customer disposition. |
-| 2 | Define maximum 600 s exchange task and full restoration boundary. | Maintenance / V&V / Customer | Approved demonstration procedure. |
-| 2 | Reconcile blinking and environmental profiles. | Engineering / RAM / Customer | Approved variant-specific profiles. |
-| 2 | Resolve the small-light-point 21 cd versus 40 cd night-intensity discrepancy. | Product / Optics / Requirements | Approved optical specification and qualification evidence. |
-| 2 | Check maintenance-free and dormant-use safety assumptions. | Maintenance / Safety / RAM | Approved maintenance concept and safety assumptions. |
-| 2 | Obtain THR matrices and complete RAM evidence allocation. | Safety / RAM / V&V | Controlled allocations and evidence matrix. |
-| 3 | Correct legacy origin references, including missing LH-SIG-94 origin in 0808 and erroneous LH-SIG-82 mounting reference. | Requirements / Product | Reviewed bidirectional traceability. |
-| 3 | Reuse the agreed disturbance taxonomy, counting rules and demonstration approach in the review-comment library and RAM templates. | RAM process owner | Reviewed reusable guidance after customer agreement. |
-
-## 15. LH-SIG-105: Project Requirement Formulation and Fulfillment Strategy
-
-**Added:** 2026-10-16. This chapter consolidates the proposed requirement and the practical fulfillment approach. It supplements the preceding analysis; it does not establish customer approval or demonstrated compliance.
-
-The recommended approach is to formulate a **quantitative functional-disturbance requirement**, supported by an agreed verification specification, rather than another hardware MTBF requirement.
-
-> The requirement specifies the permissible disturbance frequency. The verification specification defines what counts, how exposure is measured, and when the evidence is sufficient.
-
-### 15.1 Proposed Project Requirement
-
-> **NGB-RAM-DST-105-01 - Zulässige funktionale Störungsrate**  
-> Die funktionale Störungsrate des Signalgebers darf unter dem freigegebenen Einsatz- und Umgebungsprofil **0,001 Störungsereignisse je Signalgeberjahr** nicht überschreiten. Als Störungsereignisse gelten die im freigegebenen Störungskatalog für LH-SIG-105 definierten Ereignisse. Die Ermittlung der Exposition erfolgt gemäß der freigegebenen Nachweisspezifikation.
-
-**Traceability:** LH-SIG-105 -> SE:FL:FEA:0806 -> NGB-RAM-DST-105-01.
-
-This wording refines the same draft requirement identified earlier in this report; it is not a second independent requirement. It is a **proposed event-rate interpretation**, not an agreed contractual clarification. It must not silently replace the number of affected units with the number of events if the customer intended the former.
-
-### 15.2 Accompanying Event Definition
-
-Based on the customer clarification quoted in S4, the following definition is proposed for approval:
-
-> Ein LH-SIG-105-Störungsereignis liegt vor, wenn ein gültiger Schaltauftrag unter spezifizierten Betriebsbedingungen nicht zum geforderten funktionalen Verhalten des Signalgebers führt und das Ereignis dem vereinbarten, nicht-sicherheitsrelevanten Ereignisumfang zugeordnet ist.
-
-**Example:** A valid switch-on command is issued, but the green light remains dark beyond the specified response time.
-
-The response time must come from the applicable functional/interface specification. No new time limit is introduced by this definition.
-
-| Topic | Decision required before baselining |
+| Source | Open question |
 | --- | --- |
-| Event scope | Only failed switching, or also flicker, temporary intensity deviations and other LH-SIG-10 disturbances? |
-| Repetition | Does a persistent dark state count once, or does every unsuccessful command count? |
-| Recovery | When does a recovered unit become eligible for a new event? |
-| Exposure | Calendar in-service time, powered time or another agreed basis? |
-| Attribution | How are external supply/interface disturbances and hardware-caused switching failures treated? |
-| Applicability | Does the quoted LH4.0 clarification apply to this project? V1.1 assigns LH-SIG-105 to Conventional/SEA, not DSTW. |
+| S1/S2/S4 | Which document and customer clarification apply contractually to NextGen_Bahnsignal? |
+| LH-SIG-10 / LH-SIG-105 / FL0806 | How does the broad disturbance definition relate to switching and tolerance examples? |
+| LH-SIG-105 | How are repeated disturbances on one device counted? |
+| LH-SIG-105 / FL0806 | Which year and fleet population govern a particular assessment? |
+| LH-SIG-118 / S6 | Does an existing binding demonstration method appear in project documents not supplied here? |
+| LH-SIG-90 / FL0811 | Has maximum exchange time versus mean repair time been resolved? |
+| LH-SIG-93 / FL0810 | How is operating-hour versus calendar-year life treated for the actual use case? |
+| LH-SIG-98-102 / FL0633/0634/0644 | Are documented decisions available for descoped indicators and readout options? |
+| LH-SIG-104 / FL0812/0813 | Which of the differing profiles applies to each variant? |
+| LH-SIG-135 / FL0624 | How is the 21 cd versus 40 cd discrepancy resolved for the relevant variant? |
 
-Do not automatically exclude a disturbance because it is safe, self-recovering or hardware-caused.
+## 15. LH-SIG-105: Annual Assessment of the Existing Requirement
 
-### 15.3 Three Layers of Fulfillment Evidence
+This chapter replaces previous assistant-authored requirements and acceptance drafts. It explains only the existing requirement and its numerical normalisation.
 
-| Evidence layer | Method | What it demonstrates |
-| --- | --- | --- |
-| **Design substantiation** | Failure-mode analysis, interface/timing review, diagnostic assessment and evaluation of common causes. | Relevant disturbance mechanisms have been identified and addressed. |
-| **Functional verification** | Switching, startup/restart, blinking, dormant-use, supply-envelope, temperature and EMC tests. | Required behaviour is achieved under the tested conditions. |
-| **Quantitative demonstration** | Representative field records or justified equivalent evidence, with complete exposure accounting. | Whether the numerical disturbance-frequency target has been demonstrated. |
+### 15.1 Reference Requirement
 
-**Passing functional tests alone does not establish a rate of 0.001 per Signalgeber-year.** A hardware MTBF calculation also does not cover all intermittent, software, timing and interface disturbances.
+The reference texts are LH-SIG-105 and SE:FL:FEA:0806 in Chapter 5. No additional shall-statement is created.
 
-#### 15.3.1 Required Event and Exposure Records
+```text
+LH:     Pro Jahr darf bei einem von 1000 Signalgebern eine Störung erfolgen.
+FL0806: At most 0.001 functional disturbances per element per year.
+```
 
-For each event, retain:
+The FL line above is a summary; section 5.2 contains its full original wording.
 
-- Unit identity and hardware/software configuration.
-- Command, expected response and observed response.
-- Timestamp and operating conditions.
-- Duration, recovery and corrective action.
-- Event classification and attribution.
+### 15.2 Event Scope
 
-For the denominator, retain each unit's eligible observation period, including installation/removal and gaps in monitoring.
+LH-SIG-10 describes loss of full functionality, including unacceptable optical properties, interface behaviour and flicker. FL0806 mentions intermittent activation failures and tolerance exceedances. S4 describes a non-safety-relevant failed switching operation.
 
-Allocate data collection between the Signalgeber, interlocking, service tools and FRACAS. The complete recording function need not be implemented inside the Signalgeber.
+No new definition with added response time, reset conditions or cause-based exclusions is formulated. The relationship between the statements remains an interpretation issue.
 
-### 15.4 Numerical Acceptance Example
+### 15.3 What Tests Can Establish
 
-#### 15.4.1 Inputs and Assumptions
+A functional test establishes the recorded behaviour under its test conditions. Whether it also substantiates the annual value depends on the available evidence and its relationship to the annual requirement.
 
-- Target: $r_D \leq 0.001$ events/(Signalgeber year).
-- Illustrative acceptance criterion: **95% one-sided confidence**, not a contractual criterion.
-- Homogeneous Poisson event process, representative exposure and complete observation.
-- Independence and constant frequency require justification; common-cause events require special treatment.
+The quoted LH-SIG-105/FL0806 wording specifies neither statistical confidence nor a particular endurance, switching, field or accelerated test. Such methods are not imposed here.
 
-#### 15.4.2 Formula
+### 15.4 Readable Calculation Example for One Year
 
-The observed rate is:
+#### 15.4.1 Example Inputs
 
-$$
-\hat r_D = \frac{K}{E}
-$$
+- **One year** is considered, retaining the source's annual basis.
+- **1,000 Signalgeber** illustrate the numerical normalisation.
+- For this example, all 1,000 units belong to the population for the year and the counted disturbances are known.
+- These are calculation assumptions, not a prescribed sample size or acceptance procedure.
 
-where $K$ is the number of qualifying events and $E$ is eligible exposure in Signalgeber-years.
+#### 15.4.2 Calculation Rule
 
-For zero observed events, the upper confidence bound is:
+```text
+For the same population over one year:
 
-$$
-r_{D,U} = \frac{-\ln(0.05)}{E}
-$$
+Observed annual disturbance rate =
+Number of counted functional disturbances in the year / Number of Signalgeber
+
+Unit: disturbances per Signalgeber per year
+FL0806 limit: at most 0.001
+```
 
 #### 15.4.3 Calculation
 
-$$
-E \geq \frac{-\ln(0.05)}{0.001}
-= 2995.7\ \text{Signalgeber-years}
-$$
+```text
+0 disturbances among 1,000 Signalgeber in one year:
+0 / 1,000 = 0
 
-#### 15.4.4 Result
+1 disturbance among 1,000 Signalgeber in one year:
+1 / 1,000 = 0.001
 
-| Observation | Upper rate bound, events/(Signalgeber year) | Interpretation under the illustrative criterion |
+2 disturbances among 1,000 Signalgeber in one year:
+2 / 1,000 = 0.002
+```
+
+Three observation years are not needed to calculate these annual values. The previous statistical multi-year exposure calculation was not part of the customer requirement and has been removed.
+
+#### 15.4.4 Meaning and Limitations
+
+| Example annual observation | Comparison with the FL0806 number |
+| --- | --- |
+| 0 disturbances among 1,000 Signalgeber | Observed value below 0.001. |
+| 1 disturbance among 1,000 Signalgeber | Observed value equals 0.001. |
+| 2 disturbances among 1,000 Signalgeber | Observed value above 0.001. |
+
+This is a numerical comparison for the year and assumed event scope. It does not replace an unresolved contractual acceptance rule or guarantee future-year rates.
+
+No new conversion rule is established here for changing populations, partial years or unclear counting.
+
+### 15.5 Provisions Not Established by the Source
+
+The quoted wording alone does not establish:
+
+- a mandatory test of exactly 1,000 units;
+- a statistical confidence level or Poisson model;
+- multi-year failure-free observation;
+- a particular number of laboratory hours or switching cycles;
+- additional Signalgeber logging;
+- staged customer acceptance;
+- a new hardware MTBF/FIT target or per-switching failure probability.
+
+The annual basis exists. It is distinct from specifying how the demonstration is performed.
+
+### 15.6 Current Evidence Status
+
+**Established by the supplied documents:** The requirement is documented in the LH and FL0806.
+
+**Not established:** The achieved annual rate of the project devices or whether an existing test report provides binding evidence of compliance.
+
+This report does not assert that an agreed demonstration plan, ongoing tests or pilot programme already exist.
+
+## 16. Correction Register and Document Checks
+
+### Withdrawn Additions
+
+The following quotations come from the previous report, not the customer specification. They identify specific corrected passages.
+
+| Previous passage / exact quotation | Finding | Correction |
 | --- | --- | --- |
-| Zero events in 100 Signalgeber-years | Approximately 0.02996 | Encouraging, but insufficient evidence. |
-| Zero events in 1,000 Signalgeber-years | Approximately 0.002996 | Numerical target not demonstrated. |
-| Zero events in 3,000 Signalgeber-years | Approximately 0.000999 | Numerical target demonstrated if the assumptions are valid. |
+| Chapter 7: "The RAM demonstration plan shall define the statistical model, confidence level, sample exposure, common-cause treatment and acceptance rule before compliance is claimed." | Assistant-derived shall-statement, not source wording. | Draft and assistant requirement IDs removed; questions do not impose new document obligations. |
+| Chapter 15.4.1: "Illustrative acceptance criterion: **95% one-sided confidence**, not a contractual criterion." | Despite the caveat, elaborated as a demonstration basis and confused with the customer request. | Statistical acceptance example removed. |
+| Chapter 15.4.4: "Numerical target not demonstrated." | Assessment concerned added confidence criterion, not solely the annual requirement. | Replaced with a numerical comparison of observed annual value against FL0806. |
+| Chapter 15.5: "If sufficient exposure cannot be obtained before delivery, agree a **staged acceptance arrangement with the customer**." | Unsupported additional acceptance arrangement. | Removed as a prescribed course of action. |
+| Chapter 15.6: "Der quantitative Nachweis der zulässigen Störungsrate erfolgt gemäß dem mit dem AG abgestimmten RAM-Nachweisplan." | Agreed plan and planned activities not evidenced. | Replaced with source-based information status. |
+| Chapter 13: "Approved disturbance catalogue, event-counting specification and exposure definition." | Assistant document list under Required Evidence, not established by LH-SIG-105. | Chapter 13 now maps evidence requirements to sources. |
 
-The customer must agree whether acceptance uses a confidence bound, a simple observed rate or a hard annual event ceiling. These are not equivalent.
+Additional hourly/FIT/per-demand conversions, model-based availability examples and general test/logging obligations have also been removed. Calculations use readable plain text.
 
-### 15.5 Practical Staged Verification Strategy
+### Correction Scope
 
-| Stage | Required activity | Result / permitted conclusion |
-| --- | --- | --- |
-| **Before design baseline** | Approve the event definition, exposure basis, applicability and acceptance method. | Requirement and verification basis agreed. |
-| **Before product release** | Complete design substantiation and functional robustness tests; assess transferable evidence from previous products. | Design and tested behaviour substantiated; numerical compliance only where sufficient agreed evidence exists. |
-| **During pilot/operation** | Accumulate representative exposure and perform the agreed statistical demonstration. | Numerical compliance assessed against the approved acceptance rule. |
+- Both project Markdown reports have been aligned.
+- Numbered chapters and a table of contents remain.
+- Source comparison tables remain; assessments are not new requirements.
+- Customer specifications, FL and other source documents were not changed.
+- Earlier CSV/Excel artefacts outside these Markdown reports were not revised in this correction. Their assistant-authored requirement drafts and statistical criteria are likewise not customer requirements and must not be used as such.
 
-Existing-product data may reduce the demonstration burden only after showing relevance to the new hardware, software, interfaces, mission profile and reporting completeness. Similar product names or a shared architecture alone are insufficient.
-
-If sufficient exposure cannot be obtained before delivery, agree a **staged acceptance arrangement with the customer**. Do not substitute "tests passed" for numerical fulfillment without that agreement.
-
-### 15.6 Recommended Current Compliance Statement
-
-The following wording is proposed for use when the stated supporting activities are actually in place; it does not assert that those activities have already been completed:
-
-> Die Anforderung ist spezifiziert und wird durch konstruktive Maßnahmen sowie Funktions- und Robustheitsprüfungen unterstützt. Der quantitative Nachweis der zulässigen Störungsrate erfolgt gemäß dem mit dem AG abgestimmten RAM-Nachweisplan. Bis zum Vorliegen ausreichender repräsentativer Nachweisdaten bleibt der quantitative Erfüllungsnachweis offen.
-
-**Conclusion:** The project can specify the requirement and verify the design against relevant disturbance mechanisms. Full numerical fulfillment requires an agreed demonstration method and sufficient representative evidence.
-
-## 16. Review Verification
-
-The associated review register and calculation workbook were generated and reopened during the original analysis. Checks covered:
-
-- 84 source entries and complete substantive RAMS chapter coverage.
-- Eight separately derived LH-SIG-105 requirements.
-- Twenty clarification/action entries.
-- CSV structure and fully qualified legacy-feature ID existence.
-- Numerical rate, exposure and simplified availability calculations.
-
-These checks verify the review artefacts and calculations, **not actual product compliance**. Source documents were not modified.
+These document checks do not certify product compliance. They correct the separation between source content, analysis and unsupported additions.
