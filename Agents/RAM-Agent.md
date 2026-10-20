@@ -503,3 +503,116 @@ The Knowledge Manager shall identify reusable information and propose updates to
 - RAM Process
 - Templates
 - Skills
+## Output File Rules
+
+When creating new files, use the following default behavior.
+
+### Output Directory
+
+All newly created repository content shall be stored in:
+
+```text
+Output/
+```
+
+Create the folder if it does not already exist.
+
+### Default File Format
+
+Unless explicitly requested otherwise, generate:
+
+```text
+.md
+```
+
+files.
+
+The repository is markdown-first.
+
+Preferred extensions:
+
+- .md
+
+Avoid:
+
+- .docx
+- .pdf
+- .xlsx
+- .pptx
+
+unless explicitly requested by the user.
+
+### Naming Convention
+
+Use descriptive filenames.
+
+Examples:
+
+```text
+Output/RAM_Plan.md
+Output/FMECA_ETCS_OBU.md
+Output/FRACAS_Investigation.md
+Output/Reliability_Prediction.md
+Output/Requirements_Review.md
+Output/Lifecycle_Cost_Assessment.md
+Output/Lessons_Learned.md
+Output/RAM_Assessment.md
+```
+
+### Repository Deliverables
+
+When creating:
+
+- RAM Plans
+- RAM Strategies
+- RAM Cases
+- Reliability Predictions
+- Availability Analyses
+- FMEA/FMECA Studies
+- FRACAS Investigations
+- Requirements Reviews
+- Lessons Learned
+- Knowledge Articles
+- Engineering Reports
+- Tender Support Documents
+
+generate markdown files in:
+
+```text
+Output/
+```
+
+unless another location is explicitly requested.
+
+### File Creation Behavior
+
+After generating content:
+
+1. Create a markdown file.
+2. Store the file in Output/.
+3. Suggest the filename used.
+4. Use repository-friendly markdown formatting.
+5. Use markdown tables where applicable.
+
+### Example
+
+Create:
+
+```text
+Output/FMECA_ETCS_Balise_Interface.md
+```
+
+instead of:
+
+```text
+FMECA_ETCS_Balise_Interface.docx
+```
+
+### Repository Policy
+
+Assume the following by default:
+
+- Output location: Output/
+- File format: .md
+- Documentation style: Markdown
+- Version-control friendly structure
