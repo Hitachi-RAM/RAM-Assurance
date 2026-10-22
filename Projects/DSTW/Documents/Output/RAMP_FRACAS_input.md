@@ -65,6 +65,8 @@ X is the section number of the FRACAS chapter in the respective plan (see the ta
 > | 6 | External causes | Outages of SiDiNet, power supply, data-centre infrastructure, DDSP and other customer supplies with start and end times | Customer | Correct attribution of down time |
 > | 7 | Changes and updates | Date and scope of SW updates, patches, configuration changes, HW replacements | Hitachi Rail; customer (activation) | Separation of planned from unplanned down time; reliability growth |
 >
+> **Outdoor equipment from other suppliers:** Where the outdoor equipment, in particular the Object Controllers, is not supplied by Hitachi Rail, the data required for the FRACAS (installed base, operating time, failure and fault events, fault clearance records and failure causes of these units) are requested from ÖBB. ÖBB obtains them from the responsible supplier and provides them in the same uniform way as described in Section X.3. These data are used for the monitoring of the overall system as system integrator; Hitachi Rail does not assume product responsibility for equipment of other suppliers.
+>
 > #### X.3 Uniform data access
 >
 > A meaningful availability evaluation is only possible if the input data are complete, consistent and comparable across all stations. The following conditions shall therefore be met and are agreed with the customer in a data-exchange specification:
@@ -216,6 +218,8 @@ Ein FRACAS kann die Verfügbarkeit nur nachweisen, wenn es vollständige Betrieb
 > | 5 | Befundung rückgelieferter Teile | Fehler bestätigt oder ohne Befund, Fehlerursache, Fehlermodus | Hitachi-Rail-Reparaturzentrum; Teilsystemlieferanten | Grundursache, Korrekturmaßnahmen, Fehlermodenstatistik |
 > | 6 | Externe Ursachen | Ausfälle von SiDiNet, Stromversorgung, Rechenzentrumsinfrastruktur, DDSP und anderen Kundenbeistellungen mit Beginn und Ende | Kunde | Korrekte Zuordnung der Ausfallzeit |
 > | 7 | Änderungen und Updates | Datum und Umfang von SW-Updates, Patches, Konfigurationsänderungen, HW-Tausch | Hitachi Rail; Kunde (Aktivierung) | Trennung geplanter von ungeplanter Ausfallzeit; Zuverlässigkeitswachstum |
+>
+> **Außenanlage anderer Lieferanten:** Wird die Außenanlage, insbesondere die Object Controller, nicht von Hitachi Rail geliefert, werden die für das FRACAS erforderlichen Daten (installierte Basis, Betriebszeit, Ausfall- und Störungsereignisse, Entstörprotokolle und Ausfallursachen dieser Einheiten) bei der ÖBB eingefordert. Die ÖBB beschafft sie beim zuständigen Lieferanten und stellt sie in derselben einheitlichen Form bereit, wie in Abschnitt 5.2.7.3 beschrieben. Diese Daten werden für die Überwachung des Gesamtsystems als Systemintegrator verwendet; Hitachi Rail übernimmt keine Produktverantwortung für Einrichtungen anderer Lieferanten.
 >
 > ##### 5.2.7.3 Einheitlicher Datenzugang
 >
