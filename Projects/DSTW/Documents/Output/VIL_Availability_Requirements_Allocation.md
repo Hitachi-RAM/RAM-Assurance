@@ -3,7 +3,7 @@
 | Attribute | Value |
 | --- | --- |
 | Task | ELFOUR-1730: analyse 3BU_17300_1257_DTAPA, chapter 3.1.4.3.2, and allocate VIL availability requirements to SW components |
-| Analysis date | 2026-10-13 |
+| Analysis date | 2026-11-03 |
 | Classification | Hitachi Rail - Internal |
 | Status | Engineering proposal for review; not an approved requirements baseline or a compliance demonstration |
 | Primary baseline | SSS_DIL_RAMS_3BU_17300_1257_DTAPA_Ed02PD01.docx |
@@ -17,7 +17,7 @@
 
 The DPR assessment [S2] provides a useful initial allocation to Core/MUX and relevant SSS_VIL requirements. It is not sufficient to close the task because:
 
-1. **The manual restoration input changed:** current REQ-00569 specifies **6 h**, whereas the DPR uses **0.5 h**. The RAM plan also contains different restoration figures.
+1. **The manual restoration basis is inconsistent:** the original customer D2.2 Teillastenheft assumes **0.5 h** for manual correction of a disturbance (02_195); the DPR uses 0.5 h, the current SSS RAMS text states **6 h**, and the RAM plan Table 9 gives **225 min**. D2.2 separately assumes **1 h** for manual correction of an error without operational impact (02_196).
 2. **Hot-hot redundancy does not mask every SW failure:** SSS_VIL REQ-01155 restarts the affected application on **all redundant nodes**, including both diverse SW channels where applicable. REQ-00229 limits collateral restart between CC, RCU and DGP, but does not remove the interruption of the affected application.
 3. **Patch continuity is not proven by redundancy alone:** version compatibility, CDS authorization, continued interface operation and sequential reintegration must work together. Related requirements have later target releases than the parent RAMS requirements.
 4. **The DPR CN calculation is not a complete VIL availability model:** it does not establish the contributions of ECMUX, systematic SW failures, application-wide restart, common infrastructure dependencies or end-to-end service recovery.
@@ -41,8 +41,9 @@ Recommended disposition: retain the parent requirements, establish the component
 | S6 | [SSS DIL Central Unit Part 1, Ed02PD01](../SSS_CU_Part1_3BU_17300_1255_DTAPA_Ed02PD01.docx) | REQ-00443, 00439, 00991; software actualization REQ-01302, 01294, 01298 and associated release/status fields |
 | S7 | [Preliminary RAM estimation, Ed02, 20260910](<../../Split Brain/Prelim_RAM_Estimation_DSTW_Ed02_20260910.xlsx>) | Limited contextual check: sheet "4.1 Calculations 2x(2oo2)", CN rows 20-23, availability units and explicit geo-link/router CCF considerations |
 | S8 | [Manage Project RAMS and Independent Validation Activities, draft with comments](<../../../../Knowledge/Process/RAM-Process/G-PRC_S06001_03_EN_d02 Manage Project RAMS and Independent Validation Activities_comments_RAM-AT.docx>) | Sections concerning RAM plans, system allocation, traceability, test specification review and validation of system/subsystem RAM reports |
+| S9 | [D2.2 Teillastenheft RAMS, V1.3](../D2.2_Teillastenheft_RAMS_V1.3.pdf) | Customer clauses 5.4.0-1 to 5.4.0-7; availability equation 02_98; automatic-correction definition 02_111; manual MRT assumptions 02_195 and 02_196 |
 
-For this analysis, **S1 is the controlling supplied input for parent wording and numbers**. S2 is an assessment of an earlier input, not a replacement specification. S3 provides existing candidate child requirements, but their individual statuses include Draft and In negotiation. S5 is a released plan with inconsistent or older inputs; approval of a plan does not resolve those inconsistencies.
+For the current system-requirement inventory, **S1 is the source for the accepted parent wording and numbers**. S9 is the supplied customer Teillastenheft baseline and reveals a material difference in the manual disturbance restoration input: S9 gives MRT = 0.5 h, while S1 states MTTR = 6 h. The sources do not establish that MRT and MTTR have identical start/end points, so their definitions must be aligned before comparison. S2 is an assessment of an earlier input, not a replacement specification. S3 provides existing candidate child requirements, but their individual statuses include Draft and In negotiation. S5 is a released plan with inconsistent inputs; approval of a plan does not resolve those inconsistencies. The project must confirm the approved requirement hierarchy and calculation input before claiming compliance.
 
 The S1 edition has a provisional change-log date, and its verification fields are still placeholders. Its approval/current-baseline status must be confirmed by configuration management. No source was modified.
 
@@ -69,8 +70,8 @@ Requirement content below is a concise engineering synopsis, not a verbatim repl
 | Parent | Status / category in S1 | Required outcome | Allocation interpretation | Principal verification gap |
 | --- | --- | --- | --- | --- |
 | EL4-DIL-SSS-REQ-00587 | Accepted / DPR | Class 2 overall VIL-instance availability >= 99.995% | Joint VIL service objective covering the required Core, ECMUX and interface paths; shared failures count once | Service boundary, observation period, downtime rules and complete dependency model |
-| EL4-DIL-SSS-REQ-00569 | Accepted / DPR | Class 2 availability distribution: >= 99.9979% for MTTR 6 h; >= 99.999% for 10 min; >= 99.9996% for 2 min | Separate failure/recovery scenarios; allocate detection, safe reaction, restart and complete service restoration to affected components | Recovery classification, maximum versus mean times, event-rate evidence and TBD component timings |
-| EL4-DIL-SSS-REQ-00570 | Accepted / DPR | >= 99.7154% for outages without operational impact, identified as FK4 | Monitor degraded/redundancy-loss conditions and restore them; distinguish these from operational service loss | Definition and measurement of FK4, especially loss of one redundancy partner |
+| EL4-DIL-SSS-REQ-00569 | Accepted / DPR | Class 2 availability distribution: >= 99.9979% for manually corrected disturbances (D2.2 assumes MRT 0.5 h; S1 states 6 h); >= 99.999% for 10 min; >= 99.9996% for 2 min | Separate failure/recovery scenarios; allocate detection, safe reaction, restart and complete service restoration to affected components | Approved manual MRT, recovery classification, maximum versus mean times, event-rate evidence and TBD component timings |
+| EL4-DIL-SSS-REQ-00570 | Accepted / DPR | >= 99.7154% for errors without operational impact; current SSS comment associates these with FK4 | Monitor and restore the no-operational-impact error state; distinguish its exposure from operational service loss | Definition and measurement of FK4, especially loss of one redundancy partner; D2.2 assumes 1 h MRT to correct an error |
 | EL4-DIL-SSS-REQ-00573 | Accepted / MCR | Minor VIL SW patches **or HW changes** without operational restrictions | Core, ECMUX, communication and lifecycle functions must support the approved compatible rolling-maintenance procedure; IPS owns supporting HW actions | Version compatibility, maintained service, update coordination and release coverage |
 | EL4-DIL-SSS-REQ-00818 | Accepted / MCR | Major VIL SW upgrades, especially safety-relevant changes, **or HW changes**, during operational breaks | Controlled shutdown/activation/restart across Core and ECMUX with operational authorization | Approved update procedure, break definition and acceptance of the source's additional handover expectations |
 | EL4-DIL-SSS-REQ-00574 | Accepted / MCR | Operational downtime no longer than affected-component restart plus reintegration time | Bound and measure the end-to-end restoration path; do not invent an absolute maximum from this relative wording | Numeric restart/reintegration limits, clock boundaries and multi-component critical path |
@@ -102,19 +103,20 @@ MUT is mean up time; MDT is mean downtime from loss of required service to resto
 | Manual, EL4-DIL-SSS-REQ-00569 | 0.999979 | 2.1e-5 | 662.256 | 11.0376 |
 | Automatic, 10 min, EL4-DIL-SSS-REQ-00569 | 0.999990 | 1.0e-5 | 315.360 | 5.2560 |
 | Automatic, 2 min, EL4-DIL-SSS-REQ-00569 | 0.999996 | 4.0e-6 | 126.144 | 2.1024 |
-| FK4, EL4-DIL-SSS-REQ-00570 | 0.997154 | 2.846e-3 | 89751.456 | 1495.8576 |
+| No-impact error state (current SSS associates with FK4), EL4-DIL-SSS-REQ-00570 | 0.997154 | 2.846e-3 | 89751.456 | 1495.8576 |
 
-The FK4 duration represents exposure to the defined **non-operational-impact condition**, not permitted operational service downtime. The 120 s or 600 s event-restoration criteria are not annual downtime budgets.
+The no-operational-impact duration represents exposure to the defined **error state**, not permitted operational service downtime. D2.2 assumption 02_196 gives 1 h MRT to correct such an error. If used as the mean duration in this simplified alternating-state model, the 99.7154% target corresponds to about 350.37 h between entries into that error state. This is not a service-outage MTBF or a stated event-frequency target. The 120 s or 600 s event-restoration criteria are not annual downtime budgets.
 
 | EL4-DIL-SSS-REQ-00569 scenario | Assumed MDT [s] | Conditional required MUT [h] | Conditional required MUT [365 d years] | Equivalent rate [FIT] |
 | --- | --- | --- | --- | --- |
-| Manual, current S1 input | 21600 | 285708.286 | 32.6151 | 3500.074 |
+| Manual, original D2.2 assumption 02_195 | 1800 | 23809.024 | 2.718 | 42000.882 |
+| Manual, current S1 text | 21600 | 285708.286 | 32.6151 | 3500.074 |
 | Automatic, 10 min | 600 | 16666.500 | 1.90257 | 60000.600 |
 | Automatic, 2 min | 120 | 8333.300 | 0.95129 | 120000.480 |
 
-These are **calculated scenario equivalents, not proposed SW component failure-rate budgets**. The rates correspond respectively to approximately 3.500e-6, 6.000e-5 and 1.200e-4 failures/h under the stated model.
+These are **calculated scenario equivalents, not proposed SW component failure-rate budgets**. The equivalent rates are approximately 4.2001e-5 failures/h for the original D2.2 manual assumption, 3.5001e-6 failures/h for the current S1 manual input, 6.0001e-5 failures/h for the 10-minute scenario and 1.2000e-4 failures/h for the 2-minute scenario under this simplified model.
 
-Changing the manual input from 0.5 h to 6 h increases the conditional required MUT from 23809.024 h to 285708.286 h, a **factor of 12** at unchanged availability. The input discrepancy is therefore material.
+Changing the manual disturbance input from the original D2.2 assumption of 0.5 h to the current S1 text of 6 h increases the conditional required MUT from 23809.024 h to 285708.286 h, a **factor of 12** at unchanged availability. The input discrepancy is therefore material.
 
 S5 states that recovery classes concern scenarios/fault categories and are not subcomponents of overall downtime. Do not mechanically add their targets or use them as Core/MUX budget shares. If agreed measured categories are mutually exclusive, observed downtime can be aggregated once; if categories overlap, a disjoint counting rule is required. The overall target must still be demonstrated separately.
 
@@ -207,8 +209,8 @@ For example, Core service continuity after a CN failure is checked by fault inje
 | # | Requirement ID | Title | Requirement text (S1, shortened where noted) | Value / class | Parent allocation (S1) |
 | --- | --- | --- | --- | --- | --- |
 | 1 | EL4-DIL-SSS-REQ-00587 | Availability - [VIL-Instance] - Overall | The [VIL-Instance] shall have a class 2 overall availability of at least 99.995 %. | A >= 0.99995 (class 2) | DIL, VIL |
-| 2 | EL4-DIL-SSS-REQ-00569 | Availability distribution of [VIL-Instance] | The distribution of the availability of a [VIL-Instance] must correspond to class 2. This means in particular an availability of 99.9979 % (MTTR = 6 h), 99.999 % (MTTR = 10 min), 99.9996 % (MTTR = 2 min). | 0.999979 / 0.99999 / 0.999996 | DIL, VIL |
-| 3 | EL4-DIL-SSS-REQ-00570 | Availability - [VIL-Instance] - Outages with no operational Impact | Outages of a [VIL-Instance] with no operational impact shall have an availability of at least 99.7154 % (defect class FK4). | A >= 0.997154 | DIL, VIL |
+| 2 | EL4-DIL-SSS-REQ-00569 | Availability distribution of [VIL-Instance] | The current SSS RAMS text gives 99.9979 % (MTTR = 6 h), 99.999 % (MTTR = 10 min), and 99.9996 % (MTTR = 2 min). The original D2.2 source gives 0.5 h as the manual disturbance MRT assumption (02_195). | 0.999979 / 0.99999 / 0.999996 | DIL, VIL |
+| 3 | EL4-DIL-SSS-REQ-00570 | Availability - [VIL-Instance] - Outages with no operational Impact | The current SSS wording says outages without operational impact shall have availability of at least 99.7154 %; the original D2.2 clause describes errors with no operational impact. The current SSS comment associates this with FK4. Original D2.2 assumption 02_196 gives 1 h MRT for manual correction of an error. | A >= 0.997154 | DIL, VIL |
 | 4 | EL4-DIL-SSS-REQ-00573 | Availability - VIL - Minor SW/HW Change | Minor changes of the [VIL] [SW] (= Patches) or the [HW] shall be carried out without operational restrictions. | No operational restriction | DIL, VIL, IPS |
 | 5 | EL4-DIL-SSS-REQ-00818 | Availability - VIL - Major SW/HW Change | Major changes of the [VIL] [SW], especially with safety impact, (= Upgrades) or the [HW] shall be carried out during operational breaks. | Execution in operational breaks | DIL, VIL, IPS |
 | 6 | EL4-DIL-SSS-REQ-00574 | Availability - VIL - Operational Downtime | The operational downtime shall not be longer than the restart time of the affected component, as well as the time for the re-integration into the overall system. | Downtime <= restart + re-integration | DIL, VIL, IPS |
@@ -223,7 +225,7 @@ Component columns follow Section 5.1: **CC / RCU / DGP** = ELEKTRA Core applicat
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | EL4-DIL-SSS-REQ-00587 Overall | Supporting | Supporting | Supporting | Supporting | Lead | Supporting | Supporting | Lead | Supporting | Supporting |
 | EL4-DIL-SSS-REQ-00569 Distribution | Supporting | Supporting | Supporting | Supporting | Lead | Supporting | Supporting | Lead | Supporting | Supporting |
-| EL4-DIL-SSS-REQ-00570 No-impact outages | Not allocated | Not allocated | Lead | Not allocated | Lead | Not allocated | Supporting | Lead | Supporting | Not allocated |
+| EL4-DIL-SSS-REQ-00570 No-impact error state | Not allocated | Not allocated | Lead | Not allocated | Lead | Not allocated | Supporting | Lead | Supporting | Not allocated |
 | EL4-DIL-SSS-REQ-00573 Minor change | Supporting | Supporting | Supporting | Supporting | Supporting | Supporting | Supporting | Supporting | Supporting | Lead |
 | EL4-DIL-SSS-REQ-00818 Major change | Supporting | Supporting | Supporting | Not allocated | Supporting | Supporting | Supporting | Supporting | Not allocated | Lead |
 | EL4-DIL-SSS-REQ-00574 Operational downtime | Supporting | Supporting | Supporting | Not allocated | Lead | Supporting | Supporting | Lead | Supporting | Lead |
@@ -251,7 +253,7 @@ Component columns follow Section 5.1: **CC / RCU / DGP** = ELEKTRA Core applicat
 | EL4-DIL-SSS-REQ-00569 | RaSTA | Supporting | Reconnect after restart; failed path must not block other paths | EL4-VIL-SSS-REQ-00221, 00244, 00245 | Communication-path continuity, recovery and status reporting |
 | EL4-DIL-SSS-REQ-00569 | CDS | Supporting | Authorization on restart must not delay or block valid recovery | EL4-VIL-SSS-REQ-01458 | VM/application configuration authorization and compatibility |
 | EL4-DIL-SSS-REQ-00569 | VIL lifecycle and update coordination | Supporting | Controlled/synchronized (re)start of redundant nodes; numeric detection times (TBD in EL4-VIL-SSS-REQ-01462; EL4-VIL-SSS-REQ-01463; EL4-VIL-SSS-REQ-01464) | EL4-VIL-SSS-REQ-00220, 01155, 01462-01464 | Operational service restoration within 120 s, Operational service restoration within 600 s, Numeric failure detection/reaction limits |
-| EL4-DIL-SSS-REQ-00570 | DGP | Lead | Provide application diagnosis; record redundancy loss events with start/end | EL4-VIL-SSS-REQ-00285, 00288, 00294-00297 | Application diagnosis continuity, Redundancy-loss and FK4 recording |
+| EL4-DIL-SSS-REQ-00570 | DGP | Lead | Provide application diagnosis; record no-operational-impact error states and their restoration | EL4-VIL-SSS-REQ-00285, 00288, 00294-00297 | Application diagnosis continuity, Redundancy-loss and FK4 recording |
 | EL4-DIL-SSS-REQ-00570 | NMR | Lead | Detect redundancy loss of a CN, report it, restore full redundancy | EL4-DIL-SSS-REQ-00439, EL4-VIL-SSS-REQ-00181 | DPR recommendation: full-redundancy restoration in less than 600 s, Redundancy-loss and FK4 recording |
 | EL4-DIL-SSS-REQ-00570 | J4S | Lead | Detect redundancy loss of an ECMUX node, report it, restore full redundancy | EL4-DIL-SSS-REQ-00439, EL4-VIL-SSS-REQ-00227 | DPR recommendation: full-redundancy restoration in less than 600 s, Redundancy-loss and FK4 recording |
 | EL4-DIL-SSS-REQ-00570 | ECMUX application | Supporting | Feed diagnosis to DGP via the internal diagnosis interface | EL4-VIL-SSS-REQ-00564, 01006 | Redundancy-loss and FK4 recording |
@@ -443,7 +445,7 @@ Statistical verification shall combine reviewed RAM models, justified HW inputs,
 
 | ID | Priority | Finding and evidence | RAM / requirements impact | Required disposition |
 | --- | --- | --- | --- | --- |
-| F01 | High | EL4-DIL-SSS-REQ-00569: S1 manual MTTR 6 h; S2 0.5 h; S5 Table 9 manual 225 min and section 4.1 manual MRT 0.5 h | Material model/input conflict; factor 12 in conditional MUT between S1/S2 | RAM + requirements owner to confirm approved manual restoration basis and update DPR/plan/model |
+| F01 | High | EL4-DIL-SSS-REQ-00569: original customer D2.2 assumption 02_195 and S2 use 0.5 h; S1 states 6 h; S5 Table 9 gives 225 min (while other plan text gives 0.5 h). D2.2 assumption 02_196 separately sets 1 h for manual correction of an error without operational impact | Material model/input conflict; factor 12 in conditional MUT between the 0.5 h and 6 h disturbance assumptions; no-impact errors have a separate restoration assumption | RAM + requirements owner to confirm the approved requirement hierarchy and restoration inputs, then update DPR/plan/model |
 | F02 | High | S5 Table 9 shows 99.9999% for VIL 10 min, whereas S1/S2 specify 99.999% | Factor 10 discrepancy in unavailability | Reconcile to the approved parent baseline; do not silently select the stricter figure |
 | F03 | High | S1 EL4-DIL-SSS-REQ-00573 targets 1.0.x; S3 EL4-VIL-SSS-REQ-00221; EL4-VIL-SSS-REQ-01445 target 1.1.0; S6 EL4-DIL-SSS-REQ-01302 targets 2.0.0 | Patch continuity/reintegration evidence may not cover the delivery of the parent requirement | Resolve release allocation, implementation evidence or formally approved deviation |
 | F04 | High | EL4-VIL-SSS-REQ-01155 restarts the affected application on all nodes; Core isolation is defined by EL4-VIL-SSS-REQ-00229 | A systematic SW fault can defeat availability replication | Model/test application-wide service loss; do not claim HW redundancy masks it |
@@ -452,7 +454,7 @@ Statistical verification shall combine reviewed RAM models, justified HW inputs,
 | F07 | High | S1 main EL4-DIL-SSS-REQ-00818 text requires breaks; associated LH asks for redundancy takeover; PH describes a no-operational-VSTW interval of 3-4 min. S2 claims seamless takeover | Conflicting expectations for safety-relevant updates | Obtain an approved update concept and clarify hierarchy of main requirement versus supporting LH/PH text |
 | F08 | High | S6 EL4-DIL-SSS-REQ-01294 describes node-by-node activation but is In negotiation and notes a mismatch to customer requirements. EL4-VIL-SSS-REQ-01156 cites it while shutting down the entire instance | Maintenance/update sequencing is not reconciled | Review serial/parallel activation, whole-instance shutdown and patch/upgrade variants together |
 | F09 | Medium | EL4-DIL-SSS-REQ-00574 is relative to undefined restart/reintegration durations | An arbitrarily long restart could appear compliant | Add approved numeric limits and service-readiness endpoints; treat PH 3-4 min as a clarification input, not a universal agreed limit |
-| F10 | Medium | EL4-DIL-SSS-REQ-00570 describes "outages" without operational impact. FK4 ("Minor") is defined by the customer as a severity class (RAMS chapter, definitions; technical concept, table of fault classes), and the customer assigns events to classes, but no measurable rule or clock (start/end of the condition) is given; it is not stated whether a lost redundancy partner is FK4 or FK2 | FK4 and service-loss accounting can be mixed | Agree which events count as FK4 and the degraded-state measurement and transition rules |
+| F10 | Medium | Original D2.2 clause 5.4.0-5 (02_117) applies to errors with no operational impact and assumes 1 h MRT for manual error correction (02_196). Current SSS REQ-00570 calls these outages and its comment associates them with FK4. No measurable rule or clock (start/end of the condition) is given; it is not stated whether a lost redundancy partner is FK4 or FK2 | FK4 exposure and service-loss accounting can be mixed | Agree which events count, the degraded-state measurement/transition rules, and whether the 1 h D2.2 assumption is retained |
 | F11 | Medium | S1/S2 comment refers to "equal availabilities", but VIL 2 min and 10 min values are unequal | Ambiguous rationale/event-frequency interpretation | Correct explanatory text and define mutually exclusive or overlapping recovery scenarios |
 | F12 | Medium | S3 geo EL4-VIL-SSS-REQ-00219; EL4-VIL-SSS-REQ-00182 target 2.0.0; ECMUX EL4-VIL-SSS-REQ-00228 is In negotiation with a standby concept | Basic compliance cannot demonstrate geo compliance | Keep separate configuration/release evidence and approve ECMUX geo design |
 | F13 | Medium | EL4-DIL-SSS-REQ-00330, EL4-DIL-SSS-REQ-00439 and EL4-DIL-SSS-REQ-00991 remain In negotiation; network status is not complete location diagnosis | Recovery/diagnosis traceability has open upstream conditions | Close detection/recovery methods and IPS/ADM diagnostic coverage |

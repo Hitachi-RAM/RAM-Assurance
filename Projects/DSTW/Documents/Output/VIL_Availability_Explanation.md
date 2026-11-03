@@ -19,6 +19,20 @@ The availability requirements are best understood as **service-level requirement
 - availability values should **not** simply be copied to each SW component
 - the model must account for dependencies, recovery, and shared failure modes
 
+## What the original D2.2 source changes
+
+The newly supplied document is **LASTENHEFT DSTW - D2.2 TEILLASTENHEFT RAMS, V1.3, dated 21.05.2025**. It is the customer requirement source, rather than a Pflichtenheft. It gives important context for the three VIL availability requirements:
+
+- Clause **5.4.0-4** (requirement 02_116) sets at least **99.9979%** availability for manually corrected disturbances, but does **not** state a 6-hour MTTR.
+- Assumption **02_195** says to use a manual MRT of **0.5 h** when calculating availability for a disturbance.
+- Clause **5.4.0-5** (02_117) sets at least **99.7154%** for errors without operational impact. Assumption **02_196** gives a manual MRT of **1 h** for correcting an error.
+- Clause **5.4.0-6** (02_118) sets **99.999%** for disturbances automatically corrected by the VSTW within 10 minutes; clause **5.4.0-7** (02_119) sets **99.9996%** for automatic correction within 2 minutes.
+- Assumption **02_111** defines automatic correction: after detecting a disturbance, the safe computing unit enters a safe state, performs a self-test, and automatically recommissions the disturbed module after a successful test. The document says this definition applies to the other availability requirements in the chapter as well.
+
+The current SSS RAMS requirement text gives **MTTR = 6 h** for the manual scenario, while the original D2.2 calculation assumption and DPR use **MRT = 0.5 h**. The RAM plan also has **225 min** in one table. Treat these as conflicting calculation inputs until their definitions and clock boundaries are compared: the source documents do not establish that MRT and MTTR have identical start/end points. Do not describe 6 h as the original D2.2 input. For the no-operational-impact error scenario, D2.2 separately specifies a 1 h manual MRT.
+
+The VIL clauses refer to a “Tabelle 2” for event categories, but the supplied 19-page D2.2 document does not include a populated VSTW availability table mapping events to these scenarios. Therefore, the thresholds and calculation assumptions are available, but a definitive list of classified fault scenarios is not.
+
 ## The six VIL availability requirements (short summary)
 
 A detailed explanation of each requirement follows in "Detailed meaning of the requirements".
@@ -35,7 +49,7 @@ The source document states that chapter 3.1.4.3.2 contains **six active requirem
 
 - **Text:** The availability of a VIL instance must correspond to class 2.
 - The requirement gives example restoration-time cases:
-  - **99.9979%** for **MTTR = 6 h**
+  - **99.9979%** for manually corrected disturbances (D2.2 calculation assumption: MRT = 0.5 h; current SSS RAMS text says MTTR = 6 h)
   - **99.999%** for **MTTR = 10 min**
   - **99.9996%** for **MTTR = 2 min**
 - **Meaning:** Availability is strongly dependent on the assumed restoration time.
@@ -43,8 +57,8 @@ The source document states that chapter 3.1.4.3.2 contains **six active requirem
 
 ### 3. EL4-DIL-SSS-REQ-00570 — Outages with no operational impact
 
-- **Text:** Outages of a VIL instance with no operational impact shall have an availability of at least **99.7154%**.
-- **Meaning:** This covers faults that have **no operational impact**; the requirement's own comment names this defect class **FK4**. It limits how long the VIL may run with such a fault present (see the detailed section below).
+- **Text:** The current SSS RAMS requirement says that outages of a VIL instance with no operational impact shall have an availability of at least **99.7154%**.
+- **Meaning:** The original D2.2 customer clause describes **errors without operational impact**; the current SSS comment associates the scenario with **FK4**. It limits time in the defined no-impact error state, not service-outage time (see the detailed section below).
 - **Value:** $A \ge 0.997154$
 
 ### 4. EL4-DIL-SSS-REQ-00573 — Minor SW/HW changes
@@ -68,7 +82,7 @@ The source document states that chapter 3.1.4.3.2 contains **six active requirem
 
 This section explains what each of the six requirements means in practice, which customer wording it comes from, what the requirement does **not** define, and what it implies for the VIL design.
 
-Sources: chapter 3.1.4.3.2 of SSS RAMS 3BU_17300_1257_DTAPA Ed02PD01 (requirement text, customer text "LH" and Hitachi response text "PH"); the DPR Requirements [VIL-Instance]; the RAM plan 3BU_17300_1209_DUAPA, section 3.4 (Table 9). Where this section **interprets** instead of quoting, it says so. Annual figures use a 365-day year (525,600 min) and continuous required service; the requirements themselves do not state an observation period.
+Sources: chapter 3.1.4.3.2 of SSS RAMS 3BU_17300_1257_DTAPA Ed02PD01 (requirement text, customer text "LH" and Hitachi response text "PH"); LASTENHEFT DSTW - D2.2 TEILLASTENHEFT RAMS V1.3, clauses 5.4.0-1 to 5.4.0-7 and assumptions 02_111, 02_195 and 02_196; the DPR Requirements [VIL-Instance]; the RAM plan 3BU_17300_1209_DUAPA, section 3.4 (Table 9). Where this section **interprets** instead of quoting, it says so. Annual figures use a 365-day year (525,600 min) and continuous required service; the requirements themselves do not state an observation period.
 
 ### Vocabulary used by the requirements
 
@@ -97,8 +111,8 @@ Sources: chapter 3.1.4.3.2 of SSS RAMS 3BU_17300_1257_DTAPA Ed02PD01 (requiremen
 | Requirement | Question it answers | Kind |
 | --- | --- | --- |
 | EL4-DIL-SSS-REQ-00587 | How available must the VIL be in total? | Overall target (99.995 %) |
-| EL4-DIL-SSS-REQ-00569 | How is that availability distributed over the ways a disturbance is cleared? | Three scenario targets (manual, 10 min, 2 min) |
-| EL4-DIL-SSS-REQ-00570 | How much time may the VIL spend with a fault that does not affect operation? | Target for the FK4 (no operational impact) condition |
+| EL4-DIL-SSS-REQ-00569 | How is that availability distributed over the ways a disturbance is cleared? | Three scenario targets (manual, 10 min, 2 min); the original D2.2 manual MRT assumption is 0.5 h |
+| EL4-DIL-SSS-REQ-00570 | How much time may the VIL spend with an error that does not affect operation? | Target for the no-operational-impact error condition; the current SSS comment associates it with FK4 |
 | EL4-DIL-SSS-REQ-00573 | May a patch or small hardware change restrict operation? | Process requirement: no restriction |
 | EL4-DIL-SSS-REQ-00818 | How are major changes carried out? | Process requirement: only in operational breaks |
 | EL4-DIL-SSS-REQ-00574 | How long may operation be interrupted when a component is restarted? | Relative limit: restart time plus re-integration time |
@@ -121,7 +135,7 @@ Sources: chapter 3.1.4.3.2 of SSS RAMS 3BU_17300_1257_DTAPA Ed02PD01 (requiremen
 
 | Scenario | Customer clause | Required availability | Unavailability U | Equivalent downtime per 365 days |
 | --- | --- | --- | --- | --- |
-| Disturbance that needs **manual** correction (MTTR 6 h in the current requirement text) | 5.4.0-4 | 99.9979 % | $2.1\times10^{-5}$ | 11.0 min |
+| Disturbance that needs **manual** correction (D2.2 calculation assumption: MRT 0.5 h; current SSS RAMS text says MTTR 6 h) | 5.4.0-4 | 99.9979 % | $2.1\times10^{-5}$ | 11.0 min |
 | Disturbance corrected **automatically within 10 min** | 5.4.0-6 | 99.999 % | $1.0\times10^{-5}$ | 5.3 min |
 | Disturbance corrected **automatically within 2 min** | 5.4.0-7 | 99.9996 % | $4.0\times10^{-6}$ | 2.1 min |
 
@@ -134,17 +148,17 @@ the allowed outage frequency follows from the required availability and the rest
 
 | Scenario | Assumed restoration time | Outage frequency that just meets the target |
 | --- | --- | --- |
-| Manual, current requirement text | 6 h | about once per 32.6 years |
+| Manual, original D2.2 assumption 02_195 and DPR | 0.5 h | about once per 2.7 years |
+| Manual, current SSS RAMS text | 6 h | about once per 32.6 years |
 | Manual, RAM plan Table 9 | 225 min | about once per 20.4 years (Table 9 shows 20 years) |
-| Manual, DPR | 0.5 h | about once per 2.7 years |
 | Automatic 10 min | 10 min | about once per 1.9 years (Table 9 shows 2 years) |
 | Automatic 2 min | 2 min | about once per 0.95 years (Table 9 shows 1 year) |
 
-  This is exactly what the requirement's comment says: "outages with MTTR = 2 min may occur more often per N years than outages with MTTR = 10 min". In practice **a 2-minute outage about once a year is tolerated, a 6-hour outage only about once in 33 years**. The comment speaks of "equal availabilities", but the three values are not equal.
+  This illustrates why restoration time matters: under the simplified model, a 2-minute disturbance can occur about once per year, while a manual disturbance with the original 0.5 h assumption corresponds to about once per 2.7 years. Using 6 h instead changes the result to about once per 32.6 years. These are mathematical equivalents, not specified event frequencies or promises that a particular number of failures is acceptable. The requirement comment refers to how shorter disturbances may occur more often; the numerical targets are not equal.
 - **What "automatic" asks of the design:** the system must detect the fault, bring the affected part to a safe state, restart or reintegrate it and restore operation by itself within 2 or 10 minutes. This is a requirement on failure detection, restart and reintegration of the SW components, not only on hardware. The earlier separate requirements EL4-DIL-SSS-REQ-00571 (10 min) and 00572 (2 min) were merged into this one.
-- **Interpretation:** if the redundancy hides a fault completely (the other node keeps the service running), no service is lost and the event belongs to EL4-DIL-SSS-REQ-00570 instead. EL4-DIL-SSS-REQ-00569 becomes relevant when service is actually interrupted: for example a restart of an application on all redundant nodes (EL4-VIL-SSS-REQ-01155) or a failure that affects both nodes. Concrete examples follow in the sub-section "What can a 2-minute or a 10-minute disturbance be?" below.
+- **Interpretation:** if the redundancy hides a fault completely, no service is lost. Such an event may be counted under EL4-DIL-SSS-REQ-00570 only if the customer classifies it as an error without operational impact; loss of redundancy alone does not establish that classification. EL4-DIL-SSS-REQ-00569 concerns the automatic/manual disturbance scenarios, particularly when required operation is restricted. Concrete examples follow in the sub-section "What can a 2-minute or a 10-minute disturbance be?" below.
 - **Open points:**
-  - The manual restoration time is 6 h in the requirement text, 0.5 h in the DPR and 225 min in the RAM plan. With one availability value the allowed outage frequency differs by a factor of 12 between 6 h and 0.5 h.
+  - The original D2.2 assumption 02_195 and the DPR use 0.5 h for manual correction of a disturbance; current SSS RAMS text says 6 h and the RAM plan Table 9 gives 225 min. The same availability target yields substantially different event-frequency equivalents for each input. D2.2 assumption 02_196 separately gives 1 h for manual correction of an error without operational impact.
   - The three scenario budgets add up to about 18.4 min per year, less than the overall 26.3 min per year. The documents do not say how the remainder is used or whether the figures are meant to be added.
   - The table in the RAM plan appears to print 99.9999 % for the 10-minute case, but its own 5 min per year and 2-year MTBF correspond to 99.999 %. This looks like a typing error and should be corrected in the RAM plan.
   - Whether "within 2 / 10 minutes" is a maximum per event or an average is not stated; the customer wording ("within") suggests a maximum.
@@ -196,7 +210,7 @@ The 2- and 10-minute classes cover **transient** faults. The documents show wher
 | Permanent fault | Platform safety concept: the safety reaction either cures the fault or a permanent stop is triggered because of a permanent fault | The unit stays stopped; a technician is needed |
 | Recurrent software error | Platform safety concept: "Q-values" for the application supervision would stop an application in case of **recurrent** software errors; when they are exhausted the "Stopped" state is entered and the CE no longer communicates. **Caution:** the same document lists the use of the Q-values as an open issue ("not yet defined if the following TAS Platform functions will be used", edition 01 proposal 01) | If the function is used, the system stops by design after repeated restarts and manual correction follows; whether it is used is not confirmed |
 | Wrong or incompatible versions, rejected authorization | EL4-VIL-SSS-REQ-01458: a VM whose authorization is rejected performs a permanent shutdown; EL4-VIL-SSS-REQ-01460: incompatible application versions lead to a permanent shutdown | Manual correction |
-| Hardware replacement and restart by staff | Technical concept: every maintenance activity (for example restarts of services or subcomponents) is performed only by the customer's service staff; spare material is stored on site | The manual class (MTTR 6 h in the requirement text) |
+| Hardware replacement and restart by staff | Technical concept: every maintenance activity (for example restarts of services or subcomponents) is performed only by the customer's service staff; spare material is stored on site | Manual correction; D2.2 assumes MRT 0.5 h for a disturbance, while the current SSS RAMS text says 6 h |
 
 ##### 4. Where the 2-minute or 10-minute budget is spent
 
@@ -227,7 +241,7 @@ $$D_{budget} = (1 - A)\cdot 525{,}600\ \mathrm{min}$$
 | 10 minutes | 99.999 % | 5.26 min = 315 s | 3 min | 1.75 |
 | | | | 4 min | 1.31 |
 | | | | 10 min | 0.53 |
-| Manual | 99.9979 % | 11.04 min | 6 h (360 min) | 0.03 (once in 32.6 years) |
+| Manual | 99.9979 % | 11.04 min | 0.5 h (30 min), D2.2 assumption | 0.37 (about once in 2.7 years) |
 
 The durations in the table are **illustrations of the arithmetic, not predictions**.
 
@@ -236,7 +250,7 @@ What follows (interpretation):
 - A short application or connection restart (examples 1 and 2) can occur a few times per year in the 2-minute class. The shorter the restart, the more events fit.
 - A full restart of the instance (example 5) lasts about 3 to 4 minutes according to the technical concept. It belongs to the 10-minute class and fits about once or at most twice per year.
 - It follows that the **restart isolation** of EL4-VIL-SSS-REQ-00229 is what makes the 2-minute class attainable: frequent disturbances must stay at application or connection level, and whole-instance restarts must remain rare.
-- A manual outage of 6 hours exceeds the annual budget of 11 minutes by a factor of 33. It is only acceptable if it almost never happens.
+- With the original D2.2 mean restoration assumption of 0.5 h, the 11.04 min annual unavailability equivalent implies a low event rate under the simplified model. The current SSS RAMS input of 6 h would imply a much lower rate; that discrepancy must be resolved rather than treated as the original D2.2 basis.
 - The budgets are per class. How the three class budgets and the overall 26.3 min per year (EL4-DIL-SSS-REQ-00587) are combined is not stated (open point above).
 
 ##### 6. How an event would be assigned to a class (interpretation)
@@ -244,7 +258,7 @@ What follows (interpretation):
 1. Operation continues uninterrupted on a redundant partner: **not** an event of EL4-DIL-SSS-REQ-00569. It is an error without operational impact (EL4-DIL-SSS-REQ-00570), or a more severe fault class if the remaining redundancy is critical (customer assignment).
 2. Operation is restricted and the VIL restores it by itself within 2 minutes: the **2-minute** class.
 3. Restored automatically within 10 minutes: the **10-minute** class.
-4. Not restored automatically within 10 minutes, or a permanent fault: the **manual** class (MTTR 6 h).
+4. Not restored automatically within 10 minutes, or a permanent fault: the **manual** class. The original D2.2 calculation assumption is MRT = 0.5 h; this is a mean calculation input, not a per-event maximum. The current SSS RAMS text instead states 6 h.
 
 It is not stated whether an event restored in 90 seconds is counted only in the 2-minute class or also in the 10-minute class, and whether "within" is a maximum per event or a mean.
 
@@ -259,13 +273,13 @@ It is not stated whether an event restored in 90 seconds is counted only in the 
 | Maximum number of automatic restarts before the "Stopped" state | Defines where the automatic classes end and the manual class begins; the platform's Q-value function for this is an open issue in the safety concept |
 | Treatment of an event shorter than 2 minutes | Whether it also counts in the 10-minute class |
 
-### EL4-DIL-SSS-REQ-00570 - Outages with no operational impact (FK4)
+### EL4-DIL-SSS-REQ-00570 - Errors with no operational impact (FK4 association in the current SSS)
 
-- **Requirement:** outages of a VIL instance with no operational impact shall have an availability of at least 99.7154 %; the comment identifies this as defect class FK4. Customer clause 5.4.0-5 gives 0.997154.
-- **In plain terms:** the VIL may be in such a "fault but no operational effect" condition for at most **0.2846 % of the time = about 1,496 min = 24.9 h per year**. This is a limit on how long the system may run with a fault present, for example **with one redundant partner failed while the other keeps operating** (interpretation: the technical concept states that a single failure of a server, switch or router has no effect on operation, so this is the typical case of an error without operational impact). Caution: the customer's own table lists "loss of redundancy that risks total failure" as FK2, so the customer may classify a lost redundancy more severely, depending on how much redundancy remains.
-- **Example (workbook assumption, not a requirement):** the project RAM workbook assumes 8 h for the manual exchange of a faulty component "with no impact on operation". At 8 h per event, 24.9 h per year corresponds to about three such events per year. The allowed time is $U = 1 - 0.997154 = 2.846\times10^{-3}$ of the year, i.e. $2.846\times10^{-3}\cdot 525{,}600\ \mathrm{min} \approx 1{,}496\ \mathrm{min}$.
+- **Requirement:** errors of a VIL instance with no operational impact shall have an availability of at least 99.7154 %; the current SSS comment associates this with defect class FK4. Customer clause 5.4.0-5 gives 0.997154.
+- **In plain terms:** this measures the time spent in the defined **error-without-operational-impact condition**, not time when the VIL service is unavailable. At 99.7154%, the complementary state occupancy is about **1,496 min = 24.9 h per continuous 365-day year**. D2.2 assumption 02_196 gives a 1 h manual MRT for correcting an error. If that is used as the mean duration in a simple alternating state model, the target corresponds to roughly 350 h between entries into that error state. This is only a mathematical interpretation; it is not an event-frequency requirement, and the actual event categories and clock rules are not supplied.
+- **Example (workbook assumption, not the D2.2 baseline):** the project RAM workbook assumes 8 h for manual exchange of a faulty component with no operational impact. Do not substitute that model input for D2.2's 1 h manual-error MRT without an approved rationale.
 - **What it implies:** it is not a service-loss figure and must not be mixed with the 99.995 %. It is the reason why failed redundancy must be detected, reported and restored in reasonable time: while one partner is out, the service has no protection against a second failure.
-- **Open points:** FK4 is defined (class 4 "Minor", see the table in the section on EL4-DIL-SSS-REQ-00569), but only as a description of severity, not as a measurable condition. The customer assigns events to the classes, and it is not stated whether a lost redundancy partner is FK4 or FK2. When the condition starts and ends (detection or failure), and which events count (for example a node that is out for a planned patch), has to be agreed.
+- **Open points:** D2.2 describes the scenario as an error without operational impact; the current SSS comment associates it with FK4, whose original D2.2 definition is only "other errors" in the DSTW central unit or field equipment. Neither source defines measurable start/end rules or a complete event list. The customer assigns events to fault classes, and the documents do not establish whether a lost redundancy partner is FK4 or FK2. Agree which events count and whether a planned maintenance state is included.
 
 ### EL4-DIL-SSS-REQ-00573 - Minor SW/HW changes
 
@@ -298,7 +312,7 @@ It is not stated whether an event restored in 90 seconds is counted only in the 
 
 1. What is the exact definition of "service unavailable" (complete loss, partial restriction) and over which period is availability measured?
 2. Do planned operational breaks (EL4-DIL-SSS-REQ-00818) and update windows count as downtime?
-3. Which manual restoration time is authoritative: 6 h, 225 min or 0.5 h?
+3. Which manual disturbance MRT is authoritative: original D2.2 / DPR 0.5 h, current SSS RAMS 6 h, or RAM plan Table 9 225 min? Is D2.2's 1 h MRT for correcting a no-impact error still applicable?
 4. How do the three scenario figures of EL4-DIL-SSS-REQ-00569 relate to the overall figure: added, overlapping or independent?
 5. Which events does the customer assign to FK4 (is a single lost redundancy partner FK4 or FK2), and when does an FK4 condition start and end?
 6. Which numeric limits apply to restart and re-integration in EL4-DIL-SSS-REQ-00574?
@@ -468,7 +482,7 @@ The value 2 % is only the factor the workbook uses for the router pair in the sp
 | --- | --- | --- |
 | EL4-DIL-SSS-REQ-00587 Overall | Block diagram for the service structure, fault tree for shared causes, Markov model for redundancy and recovery | Needs the full service boundary |
 | EL4-DIL-SSS-REQ-00569 Distribution | Markov model with detection, restart and reintegration times; measured recovery times from fault injection | The 2 min and 10 min limits are time limits of the SW recovery, not only hardware rates |
-| EL4-DIL-SSS-REQ-00570 FK4 | State model: time spent in the one-partner-out state; repair and exchange times | The result depends mainly on the restoration time of failed redundancy |
+| EL4-DIL-SSS-REQ-00570 no-impact error state (current SSS associates with FK4) | State model: time spent in customer-agreed no-impact error states; repair and exchange times | The result depends on the state definition, occurrence data and restoration time |
 | EL4-DIL-SSS-REQ-00573 Minor changes | Procedure and timeline analysis, test with rolling update | No prediction model; it is a pass/fail behaviour with a measured reduced-redundancy window |
 | EL4-DIL-SSS-REQ-00818 Major changes | Timeline analysis of the activation, measured duration | Planned break; also decides whether it counts as downtime |
 | EL4-DIL-SSS-REQ-00574 Operational downtime | Critical-path timing of restart plus re-integration, measured | Needs numeric restart and re-integration limits |
@@ -478,8 +492,9 @@ The value 2 % is only the factor the workbook uses for the router pair in the sp
 | Input | Status in the supplied files |
 | --- | --- |
 | Definition of "service unavailable", observation period, treatment of planned breaks | Not defined |
-| Definition of FK4 and its start and end | Not defined in the chapter |
-| Authoritative manual restoration time (6 h, 225 min, 0.5 h) | Conflicting |
+| Definition of FK4/no-impact error states and their start/end | D2.2 says FK4 is "other errors"; no measurable event or clock rules are supplied |
+| Manual disturbance MRT (D2.2 0.5 h; SSS RAMS 6 h; RAM plan Table 9 225 min) | Conflicting; resolve against approved requirement baseline |
+| Manual no-impact error MRT (D2.2 1 h) | Explicit in original D2.2; confirm whether retained in the current VIL calculation |
 | Failure rates of the ECMUX nodes and of the interface/connection paths | Not found |
 | Mapping of Core and ECMUX nodes to servers and availability zones | Described only in general terms |
 | Probability that automatic recovery succeeds within 2 min / 10 min (coverage) | Not found |
@@ -570,4 +585,3 @@ The repository’s position is that **VIL availability is a system/service-level
 - dependency-aware modelling
 - consistent recovery timing assumptions
 - traceable verification evidence
-
