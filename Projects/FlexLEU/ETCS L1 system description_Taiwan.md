@@ -108,6 +108,8 @@ TABLE OF CONTENT
 
 [14	Contact	40
 
+[15	RAM	41
+
 TABLE OF FIGURES
 
 [Figure 1: ETCS L1 system overview	7
@@ -949,3 +951,31 @@ Contact
 For technical questions contact:
 
 Roland.stadlbauer@urbanandmainlines.com
+
+RAM
+
+FlexLEU RAM performance has been assessed for representative small and large reference setups. The RAM Analysis calculates setup failure rates by combining the failure rates of the included hardware items. The MTBF and availability values below are calculated results, not field-measured performance.
+
+| **Setup** | **Configuration** | **Calculated MTBF, indoor (GB 40 °C)** | **Calculated MTBF, outdoor (GF 40 °C)** |
+| --- | --- | --- | --- |
+| Small | FS-PSU + FS-CPU + FS-2C + one current-sensing or voltage-sensing slice + 2 slice controllers | 26.0 years | 10.8 years |
+| Large | FS-PSU + FS-CPU + 2 x FS-2C + current-sensing slice + voltage-sensing slice + digital input slice + digital output slice + 6 slice controllers | 11.0 years | 4.7 years |
+
+The same analysis reports the following calculated failure rates and availability. Availability assumes a mean repair time (MTTR) of 1 hour; it is an analytical result and not a guarantee of operational availability.
+
+| **Setup** | **Failure rate, indoor (GB 40 °C)** | **Failure rate, outdoor (GF 40 °C)** | **Availability, indoor** | **Availability, outdoor** |
+| --- | ---: | ---: | ---: | ---: |
+| Small | 4 393 FIT | 10 619 FIT | 99.9996% | 99.9989% |
+| Large | 10 386 FIT | 24 250 FIT | 99.9990% | 99.9976% |
+
+Aggregated field data indicates an observed MTBF of 681 390 h per Hitachi balise.
+
+| **Equipment** | **Measure** | **Observed value** |
+| --- | --- | ---: |
+| Hitachi balise | MTBF per balise | 681 390 h |
+
+This is an observed field value, not a prediction or an MTBF for the FlexLEU or complete encoder configuration. Source: internal field monitoring summary, 2 November 2026.
+
+GB (Ground Benign) and GF (Ground Fixed) are the environmental categories used in the analysis, both evaluated at 40 °C. These are reference setups; confirm the actual project configuration and operating environment before applying the results.
+
+Source: *RAM Analysis – FlexLEU 1.0*, 3BU 80811 1515 DUAPA, Ed. 02, Tables 5, 11 and 12.
